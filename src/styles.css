@@ -1,0 +1,474 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~codemirror/lib/codemirror.css";
+@import "~codemirror/addon/hint/show-hint.css";
+@import "~codemirror/addon/dialog/dialog.css";
+@import "~codemirror/addon/search/matchesonscrollbar.css";
+@import "~codemirror/addon/fold/foldgutter.css";
+
+
+/* Hide spinners for number fields */
+input[type='number'] {
+  -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+/*
+  -webkit-appearance: none;
+*/
+}
+
+
+/* @import "~codemirror/addon/display/fullscreen.css"; */
+.CodeMirror-fullscreen {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  height: auto;
+  z-index: 12000;
+}
+
+
+/*
+
+    <link rel="stylesheet" href="/gstatic/css/smarthomeng.css" type="text/css"/>
+
+*/
+
+
+:root {
+  --shng-blue: #709cc2;
+  --shng-red: #c40808;
+  --shng-green: green;
+  --shng-warning: #e3d304;
+  --shng-orange: #FF8000;
+
+  --shng-disabled: #bbb;
+/*  älter: --shng-border: #d9d9d9; */
+/*  --shng-border: #f9f9f9; */
+  --shng-border: #dee2e5;
+  --shng-secondary-button: #e0e0e0;
+  --shng-toggle-off: #a9a9a9;
+}
+/*
+  --shng-secondary-button2: #f5f5f5;
+*/
+
+
+textarea {
+  white-space: pre;
+  overflow-wrap: normal;
+  overflow-x: scroll;
+  font-family: monospace !important;
+}
+
+/* for PrimeNG */
+
+.ui-state-highlight {
+  background-color: var(--shng-blue) !important; }
+
+
+/* TurboTable */
+
+.ui-table .ui-table-thead > tr {
+  background-color: #f0f0f0 !important;
+  border: 0px solid var(--shng-border) !important;
+  border-bottom-color: var(--shng-border) !important;
+}
+
+.ui-table .ui-table-thead > tr > th,
+.ui-table .ui-table-tfoot > tr > td {
+  background-color: #ffffff !important;
+  border: 0px solid var(--shng-border) !important;
+  border-bottom-color: var(--shng-border) !important;
+  color: #1b1d1f !important; }
+
+.ui-table .ui-table-tbody > tr {
+  background-color: #f0f0f0 !important;
+  border-top: 1px solid var(--shng-border) !important;
+  border-bottom: 1px solid var(--shng-border) !important;
+  border-bottom-color: var(--shng-border) !important;
+  }
+/*
+.ui-table .ui-table-tbody > tr {
+  background-color: #f0f0f0 !important;
+  border-top: 1px solid var(--shng-border) !important;
+  border-bottom: 1px solid var(--shng-border) !important;
+  color: #222222 !important; }
+*/
+.ui-table .ui-table-tbody > tr > td {
+  border: 0px solid var(--shng-border) !important;
+  border-top: 1px solid var(--shng-border) !important;
+  border-bottom: 1px solid var(--shng-border) !important;
+  background-color: inherit;
+  border-top-color: var(--shng-border) !important;
+  border-bottom-color: var(--shng-border) !important; }
+
+.ui-table .ui-table-tbody > tr.ui-state-highlight {
+  background-color: #186ba0 !important;
+  color: #FFFFFF !important; }
+
+.ui-table .ui-sortable-column.ui-state-highlight {
+  background-color: #ffffff !important;
+  border-bottom-color: var(--shng-border) !important;
+  color: #1b1d1f !important; }
+
+.ui-table .ui-table-tbody > tr:nth-child(even) {
+  background-color: #ffffff !important; }
+
+.ui-table .ui-sortable-column .ui-sortable-column-icon {
+  color: var(--shng-blue) !important; }
+
+.ui-button.ui-state-active {
+  background-color: var(--shng-blue) !important;
+}
+
+.ui-button.ui-state-passive {
+  background-color: #444444 !important;
+}
+
+.btn-primary {
+  font-weight: 900;
+  background-color: var(--shng-blue) !important;
+}
+
+.ui-button-success {
+  font-weight: 900;
+  background-color: var(--shng-blue) !important;
+}
+
+.ui-button-secondary {
+  background-color: var(--shng-secondary-button) !important;
+  border-color: #cccccc !important;
+  color: #555555 !important;
+}
+
+.ui-button-danger {
+  background-color: var(--shng-red) !important;
+  border-color: #cccccc !important;
+}
+
+.ui-button-secondary2 {
+  background-color: #f0f0f0 !important;
+  border-color: #f5f5f5 !important;
+  color: #555555 !important;
+}
+
+.ui-button-secondary.ui-state-focus {
+  background-color: var(--shng-red) !important; }
+
+.ui-fileupload-buttonbar .ui-button {
+  font-weight: 900;
+  background-color: var(--shng-blue) !important;
+}
+
+ui-inputswitch {
+  color: var(--shng-blue) !important; }
+
+.fa-icon-grey {
+  color: #888888;
+}
+
+/* TurboTable */
+
+.ui-table .ui-table-tbody > tr.ui-state-highlight {
+  background-color: #186ba0;
+  color: #FFFFFF; }
+.ui-table .ui-table-tbody > tr.ui-contextmenu-selected {
+  background-color: var(--shng-blue);
+  color: #FFFFFF; }
+.ui-table .ui-sortable-column.ui-state-highlight .ui-sortable-column-icon {
+  color: #FFFFFF; }
+.ui-table .ui-sortable-column:not(.ui-state-highlight):hover {
+  background-color: #eeeeee;
+  border-bottom-color: var(--shng-border) !important;
+  color: #212121; }
+.ui-table .ui-sortable-column:not(.ui-state-highlight):hover .ui-sortable-column-icon {
+  border-bottom-color: var(--shng-border) !important;
+  color: #212121; }
+.ui-table.ui-table-hoverable-rows .ui-table-tbody > tr:not(.ui-state-highlight):not(.ui-contextmenu-selected):hover {
+  cursor: pointer;
+  border-bottom-color: var(--shng-border) !important;
+  background-color: #eeeeee;
+  color: #212121; }
+
+
+
+
+
+
+
+
+/* for modal vertical align */
+
+.vertical-alignment-helper {
+  display:table;
+  height: 100%;
+  width: 100%;
+  pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+  /* To center vertically */
+  display: table-cell;
+  vertical-align: middle;
+  pointer-events:none;
+}
+.modal-content {
+  /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+  width:inherit;
+  max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+  height:inherit;
+  /* To center horizontally */
+  margin: 0 auto;
+  pointer-events: all;
+}
+
+
+/* from backend plugin */
+
+plusIconlist-group-item.py-2.node-tree.node-selected {
+  background-color: #c3daee;
+}
+
+.table.table-striped.pluginList>tbody>tr:nth-child(even) {
+  background-color:#fff;
+}
+
+.table.table-striped.logicsList>tbody>tr:nth-child(4n+3) {
+  background-color:#fff;
+}
+
+.table-hover>tbody>tr:hover>td,
+.table-hover>tbody>tr:hover>th {
+  background-color: #ecf3f8;
+}
+
+.minusIcon {
+  position: relative;
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+  background-image: url("/gstatic/img/minus.png");
+}
+
+.plusIcon {
+  position: relative;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-image: url("/gstatic/img/plus.png");
+}
+
+.navBorder {
+  border-top: 1px solid #dee2e6;
+  padding-top: 10px;
+}
+
+.cardOverlay {
+  position: absolute;
+  background: black;
+  display: none;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.CodeMirror {
+  border: 1px solid #ddd;
+  height: auto;
+}
+
+.CodeMirror-scroll {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.python-tabs .cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.item-box {
+  float:left;
+  border: 1px solid rgba(0,0,0,.125);
+  background-color: rgba(0,0,0,.03);
+  border-radius: .25rem;
+}
+
+.text-shng {
+  color: #337ab7 !important;
+}
+a.text-shng:focus, a.text-shng:hover {
+  color: #286090 !important;
+}
+
+.text-shng-bold {
+  color: #337ab7 !important;
+  font-weight: bold !important;
+}
+
+.btn-shng {
+  color: #fff;
+  background-color: var(--shng-blue);
+  /* border-color: #2e6da4; */
+}
+.btn-shng:disabled,
+.btn-shng[disabled]{
+  color: #fff;
+  background-color: #a6c1d9;
+  /* border-color: #2e6da4; */
+}
+.btn-shng:hover:enabled {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+.btn-shng-default {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn-shng-default:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
+}
+
+.btn-shng-secondary {
+  color: #fff;
+  background-color: #e0e0e0;
+  /* border-color: #2e6da4; */
+}
+/*
+.btn-shng2 {
+    color: #000;
+    background-color: #609dd2;
+    /* border-color: #2e6da4; * /
+}
+.btn-shng2:hover {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+*/
+
+
+.btn-shng-outline-secondary {
+  color: #868e96;
+  background-color: transparent;
+  background-image: none;
+  border-color: #c8ccd0;
+}
+
+.btn-shng-outline-secondary:hover {
+  color: #fff;
+  background-color: #868e96;
+  border-color: #868e96;
+}
+
+.btn-shng-outline-secondary:focus, .btn-shng-outline-secondary.focus {
+  /*
+    box-shadow: 0 0 0 0.2rem rgba(134, 142, 150, 0.5);
+  */
+}
+
+.btn-shng-outline-secondary.disabled, .btn-shng-outline-secondary:disabled {
+  color: #c8ccd0;
+  background-color: transparent;
+}
+
+.btn-shng-outline-secondary:not([disabled]):not(.disabled):active, .btn-shng-outline-secondary:not([disabled]):not(.disabled).active,
+.show > .btn-shng-outline-secondary.dropdown-toggle {
+  color: #212529;
+  background-color: #c8ccd0;
+  border-color: #c8ccd0;
+  /*
+    box-shadow: 0 0 0 0.2rem rgba(134, 142, 150, 0.5);
+  */
+}
+
+.btn-shng-success {
+  color: #fff;
+  background-color: #408000;
+  border-color: #408000;
+}
+
+.btn-shng-success:hover {
+  color: #fff;
+  background-color: #1f601f;
+  border-color: #1f601f;
+}
+
+.btn-shng-success:focus, .btn-success.focus {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+/*
+.btn-shng-success.disabled, .btn-shng-success:disabled {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-shng-success:not([disabled]):not(.disabled):active, .btn-shng-success:not([disabled]):not(.disabled).active,
+.show > .btn-shng-success.dropdown-toggle {
+  color: #fff;
+  background-color: #1e7e34;
+  border-color: #1c7430;
+}
+
+.btn-shng-success:not([disabled]):not(.disabled):active:focus, .btn-shng-success:not([disabled]):not(.disabled).active:focus,
+.show > .btn-shng-success.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+*/
+
+.btn-shng-danger {
+  color: #fff;
+  background-color: var(--shng-red);
+  border-color: var(--shng-red);
+}
+
+.btn-shng-danger:hover {
+  color: #fff;
+  background-color: #b34700;
+  border-color: #b34700;
+}
+/*
+.btn-shng-danger:focus, .btn-shng-danger.focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+
+.btn-shng-danger.disabled, .btn-shng-danger:disabled {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-shng-danger:not([disabled]):not(.disabled):active, .btn-shng-danger:not([disabled]):not(.disabled).active,
+.show > .btn-shng-danger.dropdown-toggle {
+  color: #fff;
+  background-color: #bd2130;
+  border-color: #b21f2d;
+}
+
+.btn-shng-danger:not([disabled]):not(.disabled):active:focus, .btn-shng-danger:not([disabled]):not(.disabled).active:focus,
+.show > .btn-shng-danger.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+}
+*/
+
+.shng_headline {
+  color: #808080;
+  font-size: 150%;
+  font-weight: bold;
+}
+
+.shng_heading {
+  color: #4d4d4d;
+  font-weight: bold;
+  border-top: 0;
+}
+
