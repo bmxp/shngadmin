@@ -21,7 +21,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ### --> ng build --prod --aot --base-href /admin/
 
-afterwards copy the content (files and subdirectories) of dist/shngadmin to the admin module of SmartHomeNG. Clear all existing files and 
+afterwards copy the content (files and subdirectories) of shngadmin/dist (the directory **static**) to the admin module of SmartHomeNG in the directory **webif**. Clear all existing files and 
 folders within modules/admin/webif/static and copy the files that were just created by ng build to the modules/admin/webif/static folder.
 
 Afterwards commint and push the changes you just made to the admin module to the smarthome repository.

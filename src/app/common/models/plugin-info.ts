@@ -20,6 +20,8 @@ export interface PlugininfoType {
   parameters: PluginParameter[];
   arttibutes: PluginItemAttribute[];
   metadata: PluginMetadata;
+  documentation_config_doc: string;
+  documentation_user_doc: string;
   stoppable: boolean;
   stopped: boolean;
   triggers: string[];

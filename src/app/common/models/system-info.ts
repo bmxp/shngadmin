@@ -20,6 +20,7 @@ export interface SystemInfo {
   uptime: number;
   sh_uptime: number;
   pyversion: string;
+  pyvirtual: string;
   pypath: string;
   ip: string;
   ipv6: string;

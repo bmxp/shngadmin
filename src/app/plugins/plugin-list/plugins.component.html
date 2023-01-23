@@ -77,18 +77,28 @@
               <a style="padding-right: 35px;"></a>
             </ng-container>
           </td>
-
           <td class="py-1">
-            <ng-container *ngIf="plugin.smartplugin === true">
-              <button name="webif" class="btn btn-outline-dark btn-sm mr-1" (click)="goToLink('https://www.smarthomeng.de/user/plugins_doc/config/'+plugin.pluginname+'.html');"><i class="fas fa-info fa-icon-grey" aria-hidden="true" title="{{'PLUGIN.OPEN_CONFIGINFO'|translate}}"></i></button>
+            <ng-container *ngIf="plugin.documentation_config_doc !== undefined && plugin.documentation_config_doc !== ''">
+              <!-- configuration information -->
+              <button name="configdoc" class="btn btn-outline-dark btn-sm mr-1" (click)="goToLink(plugin.documentation_config_doc);"><i class="fas fa-info fa-lg fa-icon-grey" aria-hidden="true" title="{{'PLUGIN.OPEN_CONFIGINFO'|translate}}"></i></button>
               <!--
-              <a href="https://www.smarthomeng.de/user/plugins_doc/config/{{plugin.pluginname}}.html" target="_blank">
-                <img src="assets/img/info-button.svg" style="width: 35px; padding-right: 10px; cursor: pointer;"/>
+              <a href="{{plugin.metadata.documentation}}" target="_blank">
+                <img src="assets/img/read-manual.svg" style="width: 35px; padding-right: 10px; cursor: pointer;"/>
+              </a>
+              -->
+            </ng-container>
+            <ng-container *ngIf="plugin.documentation_user_doc !== undefined && plugin.documentation_user_doc !== ''">
+              <!-- plugin documentation (user_doc) -->
+              <button name="plugindoc" class="btn btn-outline-dark btn-sm mr-1" (click)="goToLink(plugin.documentation_user_doc);"><i class="fas fa-book fa-lg fa-icon-grey" aria-hidden="true" title="{{'PLUGIN.OPEN_DOC'|translate}}"></i></button>
+              <!--
+              <a href="{{plugin.metadata.documentation}}" target="_blank">
+                <img src="assets/img/read-manual.svg" style="width: 35px; padding-right: 10px; cursor: pointer;"/>
               </a>
               -->
             </ng-container>
             <ng-container *ngIf="plugin.metadata.documentation !== undefined && plugin.metadata.documentation !== ''">
-              <button name="webif" class="btn btn-outline-dark btn-sm mr-1" (click)="goToLink(plugin.metadata.documentation);"><i class="fas fa-book fa-lg fa-icon-grey" aria-hidden="true" title="{{'PLUGIN.OPEN_DOC'|translate}}"></i></button>
+              <!-- Additional information -->
+              <button name="additionaldoc" class="btn btn-outline-dark btn-sm mr-1" (click)="goToLink(plugin.metadata.documentation);"><i class="fas fa-file-alt fa-lg fa-icon-grey" aria-hidden="true" title="{{'PLUGIN.OPEN_ADDITIONAL'|translate}}"></i></button>
               <!--
               <a href="{{plugin.metadata.documentation}}" target="_blank">
                 <img src="assets/img/read-manual.svg" style="width: 35px; padding-right: 10px; cursor: pointer;"/>
@@ -96,7 +106,7 @@
               -->
             </ng-container>
             <ng-container *ngIf="plugin.metadata.support !== undefined && plugin.metadata.support !== ''">
-              <button name="webif" class="btn btn-outline-dark btn-sm mr-1" (click)="goToLink(plugin.metadata.support);"><i class="fas fa-comment-dots fa-lg fa-icon-grey" aria-hidden="true" title="{{'PLUGIN.OPEN_SUPPORT_THREAD'|translate}}"></i></button>
+              <button name="support" class="btn btn-outline-dark btn-sm mr-1" (click)="goToLink(plugin.metadata.support);"><i class="fas fa-comment-dots fa-lg fa-icon-grey" aria-hidden="true" title="{{'PLUGIN.OPEN_SUPPORT_THREAD'|translate}}"></i></button>
               <!--
               <a href="{{plugin.metadata.support}}" target="_blank">
                 <img src="assets/img/forum_chat2.svg" style="width: 25px; cursor: pointer;"/>
