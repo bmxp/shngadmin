@@ -263,6 +263,7 @@ ngOnInit() {
     this.rowclicked_foredit = rowdata;
 
     const conf = this.pluginconflist.plugin_config[rowdata.confname];
+    console.log({conf});
     const meta = this.pluginconflist.plugin_config[rowdata.confname]['_meta'];
     let desc = null;
     this.classic = true;
@@ -372,6 +373,7 @@ ngOnInit() {
             'value': conf[param],
             'desc': paramdesc
           };
+
           if (paramdata['type'] === 'list') {
             paramdata['default'] = this.listToString(meta['parameters'][param]['default']);
           }
@@ -393,6 +395,8 @@ ngOnInit() {
             }
           } else if (paramdata.type === 'list') {
             paramdata.value = this.listToString(<string>conf[param]);
+          } else if (paramdata.type === 'int') {
+            paramdata.value = parseInt(conf[param], 10);
           } else {
             paramdata.value = <string>conf[param];
           }
@@ -403,6 +407,8 @@ ngOnInit() {
         }
       }
     }
+
+/*
     // Add an entry for the 'instance' attribute at the end, if it is a multi-instance plugin
     const multiinstance = meta['plugin']['multi_instance'];
     if (multiinstance) {
@@ -418,6 +424,7 @@ ngOnInit() {
       };
       this.parameters.push(paramdata);
     }
+*/
 
 /*
     // find out, if instance parameter is defined
