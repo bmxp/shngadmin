@@ -237,6 +237,8 @@ export class ItemTreeComponent implements OnInit {
             details.previous_value = ItemTreeComponent.htmlDecode(details.previous_value);
 
             details.eval = ItemTreeComponent.htmlDecode(details.eval);
+            details.on_change = ItemTreeComponent.htmlDecode(details.on_change);
+            details.on_update = ItemTreeComponent.htmlDecode(details.on_update);
             details.crontab = ItemTreeComponent.htmlDecode(details.crontab);
 
             if (details.type === 'bool') {
