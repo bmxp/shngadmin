@@ -24,7 +24,13 @@
 
             <span><img src="assets/img/python.png"></span>
             <span>{{ 'SYSTEM.PYTHON VERSION'|translate }}:</span>
-            <span>{{ systeminfo.pyversion }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ({{ systeminfo.pypath }})</span>
+
+            <ng-container *ngIf="systeminfo.pyvirtual">
+              <span>{{ systeminfo.pyversion }} (virtual environment) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ({{ systeminfo.pypath }})</span>
+            </ng-container>
+            <ng-container *ngIf="!systeminfo.pyvirtual">
+              <span>{{ systeminfo.pyversion }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ({{ systeminfo.pypath }})</span>
+            </ng-container>
 
             <span><img src="assets/img/terminal-server.svg"></span>
             <span>{{ 'SYSTEM.HOST'|translate }}:</span>
@@ -33,12 +39,18 @@
               <span *ngIf="systeminfo.ipv6 !== '::1'"> &nbsp; &nbsp; - &nbsp; &nbsp; IPv6: {{ systeminfo.ipv6 }}</span>
             </span>
 
-            <ng-container *ngIf="['linux','debian','raspbian','macos','windows'].includes(systeminfo.ostype)">
-              <span><img src="assets/img/{{systeminfo.ostype}}.svg"></span>
+            <ng-container *ngIf="['debian','raspbian'].includes(systeminfo.osflavor)">
+              <span><img src="assets/img/{{systeminfo.osflavor}}.svg"></span>
             </ng-container>
-            <ng-container *ngIf="!(['linux','debian','raspbian','macos','windows'].includes(systeminfo.ostype))">
-              <span><img src="assets/img/os.png"></span>
+            <ng-container *ngIf="!(['debian','raspbian'].includes(systeminfo.osflavor))">
+              <ng-container *ngIf="['linux','macos','windows'].includes(systeminfo.ostype)">
+                <span><img src="assets/img/{{systeminfo.ostype}}.svg"></span>
+              </ng-container>
+              <ng-container *ngIf="!(['linux','macos','windows'].includes(systeminfo.ostype))">
+                <span><img src="assets/img/os.png"></span>
+              </ng-container>
             </ng-container>
+
             <span>{{ 'SYSTEM.OS'|translate }}:</span>
             <!--
             <span>{{ systeminfo.vers }}&nbsp;&nbsp;-&nbsp;&nbsp;{{ 'SYSTEM.ARCHITECTURE'|translate }}:&nbsp;{{ systeminfo.arch }}</span>
@@ -65,7 +77,12 @@
                 <span><img src="assets/img/terminal-server.svg"></span>
               </ng-container>
               <span>{{ 'SYSTEM.HARDWARE'|translate }}:</span>
-              <span>{{ systeminfo.hardware }}</span>
+              <ng-container *ngIf="!systeminfo.hwspeed">
+                <span>{{ systeminfo.hardware }}</span>
+              </ng-container>
+              <ng-container *ngIf="systeminfo.hwspeed">
+                <span>{{ systeminfo.hardware }} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ({{ 'SPEEDCLASS.'+systeminfo.hwspeed|translate }})</span>
+              </ng-container>
             </ng-container>
 
             <span><img src="assets/img/clock.svg"></span>

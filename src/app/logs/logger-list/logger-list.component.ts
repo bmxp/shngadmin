@@ -26,6 +26,9 @@ export class LoggerListComponent implements OnInit {
     {label: 'WARNING', value: 'WARNING'},
     {label: 'NOTICE', value: 'NOTICE'},
     {label: 'INFO', value: 'INFO'},
+    {label: 'DBGHIGH', value: 'DBGHIGH'},
+    {label: 'DBGMED', value: 'DBGMED'},
+    {label: 'DBGLOW', value: 'DBGLOW'},
     {label: 'DEBUG', value: 'DEBUG'}
   ];
   levelDefault: string = 'WARNING';
