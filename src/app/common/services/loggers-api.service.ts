@@ -81,4 +81,53 @@ export class LoggersApiService {
       );
   }
 
+
+    addLogger(logger) {
+        const apiUrl = sessionStorage.getItem('apiUrl');
+        let url = apiUrl + 'loggers/' + logger + '/';
+        if (apiUrl.includes('localhost')) {
+            url += 'default.json';
+        }
+        if (apiUrl.includes('localhost')) {
+          return of({'result': 'error', 'description': 'unable to simulate addition of logger in dev environment'});
+        }
+
+        return this.http.post(url, 'xxx')
+            .pipe(
+                map(response => {
+                    const result = response;
+                    return result;
+                }),
+                catchError((err: HttpErrorResponse) => {
+                    console.error('LoggersApiService.deleteLogger(): Could not delete logger' + ' - ' + err.error.error);
+                    return of({});
+                })
+            );
+    }
+
+
+    deleteLogger(logger) {
+        const apiUrl = sessionStorage.getItem('apiUrl');
+        let url = apiUrl + 'loggers/' + logger + '/';
+        if (apiUrl.includes('localhost')) {
+            url += 'default.json';
+        }
+        if (apiUrl.includes('localhost')) {
+            return of({'result': 'error', 'description': 'unable to simulate deletion of logger in dev environment'});
+        }
+
+        return this.http.delete(url)
+            .pipe(
+                map(response => {
+                    const result = response;
+                    return result;
+                }),
+                catchError((err: HttpErrorResponse) => {
+                    console.error('LoggersApiService.deleteLogger(): Could not delete logger' + ' - ' + err.error.error);
+                    return of({});
+                })
+            );
+    }
+
+
 }

@@ -18,6 +18,8 @@ import {ServerApiService} from '../../common/services/server-api.service';
 export class LoggerListComponent implements OnInit {
 
   loggers: LoggersType;
+  active_plugins: any[];
+  active_logics: any[];
   loggersList: any[];
 
   loggerList: any[];
@@ -31,7 +33,20 @@ export class LoggerListComponent implements OnInit {
     {label: 'DBGLOW', value: 'DBGLOW'},
     {label: 'DEBUG', value: 'DEBUG'}
   ];
+
   levelDefault: string = 'WARNING';
+
+  loggerOptions: {}[] = [];
+
+  newlogger_display: boolean = false;
+  newlogger_name: string = '';
+  newlogger_filename: string = '';
+  newlogger_add_enabled: boolean = false;
+  noLoggerToAdd: boolean = false;
+  confirmdelete_display: boolean = false;
+  loggerToDelete: string = '';
+  delete_param: {};
+
 
   constructor(private dataService: LoggersApiService,
               private dataServiceServer: ServerApiService,
@@ -55,10 +70,11 @@ export class LoggerListComponent implements OnInit {
               this.dataService.getLoggers()
                   .subscribe(
                       (response2: LoggersType) => {
-                        this.loggers = response2;
-                        this.loggersList = Object.keys(this.loggers);
+                        this.loggers = response2.loggers;
+                        this.active_plugins = response2.active_plugins;
+                        this.active_logics = response2.active_logics;
+                        this.loggersList = Object.keys(response2.loggers);
                         this.loggersList = this.loggersList.sort();
-                        console.log('getLoggers', {response2});
                       }
                   );
             }
@@ -80,7 +96,7 @@ export class LoggerListComponent implements OnInit {
       // console.log('Setting to default');
       this.loggers[logger].active.level = this.levelDefault;
     }
-    console.log({logger}, {level}, this.loggers[logger]);
+    console.log('levelChanged: ' + logger + ' from ', this.loggers[logger].level + ' to ' + level);
     this.dataService.setLoggerLevel(logger, level)
       .subscribe(
         (response) => {
@@ -90,4 +106,123 @@ export class LoggerListComponent implements OnInit {
     this.loggers[logger].level = this.loggers[logger].active.level;
   }
 
+  plugin_loaded(logger) {
+
+    if (logger === 'plugins') {
+      return true;
+    }
+    if (logger.startsWith('plugins.')) {
+      if (this.active_plugins.includes(logger.slice(8))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  newLogger() {
+    console.log('newLogger');
+
+    this.loggerOptions = [{label: '', value: ''}];
+    for (let i = 0; i < this.active_plugins.length; i++) {
+      const lg = 'plugins.' + this.active_plugins[i];
+      if (!this.loggersList.includes(lg)) {
+        this.loggerOptions.push({label: lg, value: lg});
+      }
+    }
+
+    this.newlogger_name = '';
+    this.newlogger_filename = '';
+    this.newlogger_display = true;
+    this.noLoggerToAdd = (this.loggerOptions.length === 1);
+  }
+
+
+  plugins
+
+  newLoggerSelected(loggerOption) {
+    this.newlogger_add_enabled = (loggerOption !== '');
+  }
+
+
+  createLogger() {
+    this.newlogger_display = false;
+
+    this.dataService.addLogger(this.newlogger_name)
+        .subscribe(
+            (response) => {
+              const result = response['result'];
+              const description = response['description'];
+              if (result === 'error') {
+                console.warn('dataService.addLogger ERROR', {description});
+              }
+
+              if (result === 'ok') {
+                this.dataService.getLoggers()
+                    .subscribe(
+                        (response2: LoggersType) => {
+                          this.loggers = response2.loggers;
+                          this.active_plugins = response2.active_plugins;
+                          this.active_logics = response2.active_logics;
+                          this.loggersList = Object.keys(response2.loggers);
+                          this.loggersList = this.loggersList.sort();
+                        }
+                    );
+
+              }
+            }
+        );
+  }
+
+
+  loggerIsDeletable(logger) {
+
+    if (logger === 'plugins') {
+      return false;
+    }
+    if (logger.startsWith('plugins.')) {
+      if (this.loggersList.includes(logger)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  deleteLogger(logger) {
+    // console.log('deleteLogic', {logicName});
+
+    this.loggerToDelete = logger;
+    this.delete_param = {'config': logger};
+    this.confirmdelete_display = true;
+  }
+
+
+  deleteLoggerConfirm() {
+    this.confirmdelete_display = false;
+
+    this.dataService.deleteLogger(this.loggerToDelete)
+        .subscribe(
+            (response) => {
+              const result = response['result'];
+              const description = response['description'];
+              if (result === 'error') {
+                console.warn('dataService.deleteLogger ERROR', {description});
+              }
+
+              if (result === 'ok') {
+                const index = this.loggersList.indexOf(this.loggerToDelete, 0);
+                if (index > -1) {
+                  this.loggersList.splice(index, 1);
+                }
+              }
+            }
+        );
+  }
+
+  deleteLoggerAbort() {
+    this.confirmdelete_display = false;
+    this.loggerToDelete = '';
+  }
+
 }
+
