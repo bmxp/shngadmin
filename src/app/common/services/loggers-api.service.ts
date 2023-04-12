@@ -89,7 +89,7 @@ export class LoggersApiService {
             url += 'default.json';
         }
         if (apiUrl.includes('localhost')) {
-          return of({'result': 'error', 'description': 'unable to simulate addition of logger in dev environment'});
+          return of({'result': 'error', 'description': 'unable to simulate addition of logger \'' + logger + '\' in dev environment'});
         }
 
         return this.http.post(url, 'xxx')
@@ -99,7 +99,7 @@ export class LoggersApiService {
                     return result;
                 }),
                 catchError((err: HttpErrorResponse) => {
-                    console.error('LoggersApiService.deleteLogger(): Could not delete logger' + ' - ' + err.error.error);
+                    console.error('LoggersApiService.addLogger(): Could not add logger \'' + logger + '\' - ' + err.error.error);
                     return of({});
                 })
             );
@@ -113,7 +113,7 @@ export class LoggersApiService {
             url += 'default.json';
         }
         if (apiUrl.includes('localhost')) {
-            return of({'result': 'error', 'description': 'unable to simulate deletion of logger in dev environment'});
+            return of({'result': 'error', 'description': 'unable to simulate deletion of logger \'' + logger + '\' in dev environment'});
         }
 
         return this.http.delete(url)
@@ -123,7 +123,7 @@ export class LoggersApiService {
                     return result;
                 }),
                 catchError((err: HttpErrorResponse) => {
-                    console.error('LoggersApiService.deleteLogger(): Could not delete logger' + ' - ' + err.error.error);
+                    console.error('LoggersApiService.deleteLogger(): Could not delete logger \'' + logger + '\' - ' + err.error.error);
                     return of({});
                 })
             );

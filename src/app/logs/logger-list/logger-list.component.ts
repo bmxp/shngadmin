@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 
 import { LoggersType } from '../../common/models/loggers-info';
 import { LoggersApiService } from '../../common/services/loggers-api.service';
-import {LogsApiService} from '../../common/services/logs-api.service';
 import {TranslateService} from '@ngx-translate/core';
 import {Title} from '@angular/platform-browser';
 import {ServerApiService} from '../../common/services/server-api.service';
@@ -22,20 +21,6 @@ export class LoggerListComponent implements OnInit {
   active_logics: any[];
   loggersList: any[];
 
-  loggerList: any[];
-
-  levelOptions: {}[] = [{label: 'ERROR', value: 'ERROR'},
-    {label: 'WARNING', value: 'WARNING'},
-    {label: 'NOTICE', value: 'NOTICE'},
-    {label: 'INFO', value: 'INFO'},
-    {label: 'DBGHIGH', value: 'DBGHIGH'},
-    {label: 'DBGMED', value: 'DBGMED'},
-    {label: 'DBGLOW', value: 'DBGLOW'},
-    {label: 'DEBUG', value: 'DEBUG'}
-  ];
-
-  levelDefault: string = 'WARNING';
-
   loggerOptions: {}[] = [];
 
   newlogger_display: boolean = false;
@@ -43,10 +28,11 @@ export class LoggerListComponent implements OnInit {
   newlogger_filename: string = '';
   newlogger_add_enabled: boolean = false;
   noLoggerToAdd: boolean = false;
-  confirmdelete_display: boolean = false;
-  loggerToDelete: string = '';
-  delete_param: {};
+//  confirmdelete_display: boolean = false;
+//  delete_param: {};
 
+
+  levelDefault: string = '?';
 
   constructor(private dataService: LoggersApiService,
               private dataServiceServer: ServerApiService,
@@ -93,10 +79,11 @@ export class LoggerListComponent implements OnInit {
 
   levelChanged(logger, level) {
     if (level === null) {
-      // console.log('Setting to default');
       this.loggers[logger].active.level = this.levelDefault;
     }
-    console.log('levelChanged: ' + logger + ' from ', this.loggers[logger].level + ' to ' + level);
+    console.log('levelChanged: Logger \'' + logger + '\' from ', this.loggers[logger].level + ' to ' + level);
+    this.loggers[logger].level = this.loggers[logger].active.level;
+
     this.dataService.setLoggerLevel(logger, level)
       .subscribe(
         (response) => {
@@ -105,6 +92,46 @@ export class LoggerListComponent implements OnInit {
 
     this.loggers[logger].level = this.loggers[logger].active.level;
   }
+
+
+  // ------------------------------------------------------------------------------
+  //   Logic-logger specific functions
+  // ------------------------------------------------------------------------------
+
+  logic_loaded(logger) {
+
+    if (logger === 'logics') {
+      return true;
+    }
+    if (logger.startsWith('logics.')) {
+      if (this.active_logics.includes(logger.slice(7))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  newLogicLogger() {
+
+    this.loggerOptions = [{label: '', value: ''}];
+    for (let i = 0; i < this.active_logics.length; i++) {
+      const lg = 'logics.' + this.active_logics[i];
+      if (!this.loggersList.includes(lg)) {
+        this.loggerOptions.push({label: lg, value: lg});
+      }
+    }
+
+    this.newlogger_name = '';
+    this.newlogger_filename = '';
+    this.newlogger_display = true;
+    this.noLoggerToAdd = (this.loggerOptions.length === 1);
+  }
+
+
+  // ------------------------------------------------------------------------------
+  //   Plugin-logger specific functions
+  // ------------------------------------------------------------------------------
 
   plugin_loaded(logger) {
 
@@ -120,13 +147,12 @@ export class LoggerListComponent implements OnInit {
   }
 
 
-  newLogger() {
-    console.log('newLogger');
+  newPluginLogger() {
 
     this.loggerOptions = [{label: '', value: ''}];
     for (let i = 0; i < this.active_plugins.length; i++) {
       const lg = 'plugins.' + this.active_plugins[i];
-      if (!this.loggersList.includes(lg)) {
+      if (!this.loggersList.includes(lg) || this.loggers[lg].not_conf === true) {
         this.loggerOptions.push({label: lg, value: lg});
       }
     }
@@ -138,7 +164,79 @@ export class LoggerListComponent implements OnInit {
   }
 
 
-  plugins
+  pluginLoggerIsDeletable(logger) {
+
+    if (logger === 'plugins') {
+        return false;
+    }
+    if (logger.startsWith('plugins.')) {
+      if (this.loggersList.includes(logger)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  // ------------------------------------------------------------------------------
+  //   Item-logger specific functions
+  // ------------------------------------------------------------------------------
+
+  newItemLogger() {
+    console.log('newItemLogger');
+
+    this.loggerOptions = [{label: '', value: ''}];
+    for (let i = 0; i < this.loggersList.length; i++) {
+      if (this.loggersList[i].startsWith('items.') ) {
+        const lg = this.loggersList[i];
+        if (this.loggers[lg].level === undefined) {
+          this.loggerOptions.push({label: lg, value: lg});
+        }
+      }
+    }
+
+    this.newlogger_name = '';
+    this.newlogger_filename = '';
+    this.newlogger_display = true;
+    this.noLoggerToAdd = (this.loggerOptions.length === 1);
+  }
+
+
+  // ------------------------------------------------------------------------------
+  //   Advanced-logger specific functions
+  // ------------------------------------------------------------------------------
+
+  newAdvancedLogger() {
+    console.log('newAdvancedLogger');
+
+    this.loggerOptions = [{label: '', value: ''}];
+    for (let i = 0; i < this.loggersList.length; i++) {
+      if (this.loggersList[i].startsWith('functions.') || this.loggersList[i].startsWith('lib.') ||
+          this.loggersList[i].startsWith('modules.')) {
+        const lg = this.loggersList[i];
+        if (this.loggers[lg].level === undefined) {
+          this.loggerOptions.push({label: lg, value: lg});
+        }
+      }
+    }
+
+    this.newlogger_name = '';
+    this.newlogger_filename = '';
+    this.newlogger_display = true;
+    this.noLoggerToAdd = (this.loggerOptions.length === 1);
+  }
+
+
+  // ------------------------------------------------------------------------------
+  //   Functions for all loggers
+  // ------------------------------------------------------------------------------
+
+  getParent(logger) {
+    const parts = logger.split('.');
+    parts.pop();
+    return parts.join('.');
+  }
+
 
   newLoggerSelected(loggerOption) {
     this.newlogger_add_enabled = (loggerOption !== '');
@@ -175,54 +273,37 @@ export class LoggerListComponent implements OnInit {
   }
 
 
-  loggerIsDeletable(logger) {
+  loggerDelete(loggerName) {
+    // console.log('list: loggerDelete', loggerName);
 
-    if (logger === 'plugins') {
-      return false;
-    }
-    if (logger.startsWith('plugins.')) {
-      if (this.loggersList.includes(logger)) {
-        return true;
-      }
-    }
-    return false;
-  }
+    this.dataService.deleteLogger(loggerName)
+      .subscribe(
+        (response) => {
+          const result = response['result'];
+          const description = response['description'];
+          if (result === 'error') {
+            console.warn('dataService.deleteLogger ERROR', {description});
+          }
 
-  deleteLogger(logger) {
-    // console.log('deleteLogic', {logicName});
-
-    this.loggerToDelete = logger;
-    this.delete_param = {'config': logger};
-    this.confirmdelete_display = true;
-  }
-
-
-  deleteLoggerConfirm() {
-    this.confirmdelete_display = false;
-
-    this.dataService.deleteLogger(this.loggerToDelete)
-        .subscribe(
-            (response) => {
-              const result = response['result'];
-              const description = response['description'];
-              if (result === 'error') {
-                console.warn('dataService.deleteLogger ERROR', {description});
-              }
-
-              if (result === 'ok') {
-                const index = this.loggersList.indexOf(this.loggerToDelete, 0);
-                if (index > -1) {
-                  this.loggersList.splice(index, 1);
+          if (result === 'ok') {
+            // const index = this.loggersList.indexOf(loggerName, 0);
+            // if (index > -1) {
+            //   this.loggersList.splice(index, 1);
+            // }
+            this.dataService.getLoggers()
+              .subscribe(
+                (response2: LoggersType) => {
+                  this.loggers = response2.loggers;
+                  this.active_plugins = response2.active_plugins;
+                  this.active_logics = response2.active_logics;
+                  this.loggersList = Object.keys(response2.loggers);
+                  this.loggersList = this.loggersList.sort();
                 }
-              }
-            }
-        );
-  }
+              );
 
-  deleteLoggerAbort() {
-    this.confirmdelete_display = false;
-    this.loggerToDelete = '';
+          }
+        }
+      );
   }
-
 }
 

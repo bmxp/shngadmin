@@ -1,0 +1,90 @@
+
+    <ng-container *ngIf="loggerActive">
+        <td class="py-1">{{ loggerName }}</td>
+
+        <td class="py-1">
+            <ng-container *ngIf="loggerName !== 'root'">
+                <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="logger.active.level" (ngModelChange)="levelChanged(loggerName, $event)"></p-dropdown>
+            </ng-container>
+            <ng-container *ngIf="loggerName === 'root'">
+                <a><b>{{ logger.active.level }}</b></a>
+            </ng-container>
+        </td>
+
+        <td class="py-1">
+            <ng-container *ngFor="let h of logger.handlers; let i = index">
+                <a>{{ h }}</a>
+                <ng-container *ngIf="h !== '' && i < logger.handlers.length - 1">,<br></ng-container>
+            </ng-container>
+            <ng-container *ngIf="logger.handlers === undefined || logger.handlers.length === 0">
+                <a>( --> {{ getParent(loggerName) }} )</a>
+            </ng-container>
+        </td>
+
+        <td class="py-1">
+            <ng-container *ngFor="let ah of logger.active.handlers; let i = index">
+                <a>{{ ah }}</a>
+                <ng-container *ngIf="ah !== '' && i < logger.active.handlers.length - 1">,<br></ng-container>
+            </ng-container>
+        </td>
+    </ng-container>
+
+    <ng-container *ngIf="!loggerActive">
+        <td class="py-1" style="color:darkgrey">{{ loggerName }}</td>
+        <td class="py-1" style="color:darkgrey">
+            <a>{{ logger.active.level }}</a>
+            <!--
+            <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
+            -->
+        </td>
+
+        <td class="py-1" style="color:darkgrey">
+            <ng-container *ngFor="let h of logger.handlers; let i = index">
+                <a>{{ h }}</a>
+                <ng-container *ngIf="h !== '' && i < logger.handlers.length - 1">,<br></ng-container>
+            </ng-container>
+            <ng-container *ngIf="logger.handlers === undefined">
+                <a>( --> {{ getParent(loggerName) }} )</a>
+            </ng-container>
+        </td>
+        <td class="py-1" style="color:darkgrey">
+            <ng-container *ngFor="let ah of logger.active.handlers; let i = index">
+                <a>{{ ah }}</a>
+                <ng-container *ngIf="ah !== '' && i < logger.active.handlers.length - 1">,<br></ng-container>
+            </ng-container>
+        </td>
+    </ng-container>
+
+    <td class="py-1">
+        <ng-container *ngFor="let fn of logger.active.logfiles; let i = index">
+            <a class="text-shng" [routerLink]="['/logs/display', this.baseName(fn)]">{{ this.baseName(fn) }}</a>
+            <ng-container *ngIf="fn !== '' && i < logger.active.logfiles.length - 1 && logger.active.logfiles[i+1] !=''">,<br></ng-container>
+        </ng-container>
+    </td>
+
+    <td class="py-1">
+        <ng-container *ngIf="loggerIsDeletable(loggerName)">
+            <button name="delete" title="{{ 'LOGGER.DELETE'|translate }}" class="btn btn-outline-danger btn-sm" (click)="deleteLogger(loggerName);"><i class="far fa-trash-alt" aria-hidden="true" style="color: var(--shng-red);"></i></button>
+        </ng-container>
+    </td>
+
+
+
+<!--
+-- Confirm dialog vor configuration deletion
+-->
+<p-dialog header="" [(visible)]="confirmdelete_display" [modal]="true" blockScroll="true">
+    <p-header>
+        {{'LOGGERS.DELETE_LOGGER'|translate}}
+    </p-header>
+    <br>
+    {{'LOGGERS.DELETE_LOGGER_TEXT'|translate:delete_param}}
+    <br>
+    <br>
+    <p-footer>
+        <button pButton type="button" icon="fa fa-trash-alt" (click)="deleteLoggerConfirm()" label="{{'BUTTON.DELETE'|translate}}" class="ui-button-danger"></button>
+        <button pButton type="button" icon="fa fa-times" (click)="deleteLoggerAbort()" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+
+

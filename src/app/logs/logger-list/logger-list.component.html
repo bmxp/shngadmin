@@ -7,6 +7,7 @@
   <tabset #staticTabs>
     <tab customClass="tab-shng" heading="{{ 'LOGGERS.LOGICS'|translate }}">
       <div class="tab-content-services">
+        <button pButton type="button" style="margin-left: 0px; margin-top: 5px; font-size: medium;" id="newLoggerButtonL" [disabled]="false" (click)="newLogicLogger();" icon="fa fa-plus" label="{{ 'BUTTON.NEW_LOGGER'|translate }}" class="ui-button-success float-sm-left"></button>
         <table class="table table-striped table-hover loggerList">
           <thead border="0">
             <tr class="shng_heading">
@@ -22,35 +23,13 @@
               <ng-container *ngIf="l.startsWith('logics.') || l === 'logics'">
                 <ng-container *ngIf="loggers[l].level !== undefined">
                   <tr>
-                    <td class="py-1">{{ l }}</td>
-                    <td class="py-1">
-                      <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
-                    </td>
-                    <td class="py-1">
-                      <ng-container *ngIf="loggers[l].handlers !== undefined">
-                        <ng-container *ngFor="let h of loggers[l].handlers; let i = index">
-                          <a>{{ h }}</a>
-                          <ng-container *ngIf="h !== '' && i < loggers[l].handlers.length - 1">,<br></ng-container>
-                        </ng-container>
-                      </ng-container>
-                      <ng-container *ngIf="loggers[l].handlers === undefined">
-                        <a>( --> {{ l.split('.')[0] }} )</a>
-                      </ng-container>
-                    </td>
-
-                    <td class="py-1">
-                      <ng-container *ngFor="let ah of loggers[l].active.handlers; let i = index">
-                        <a>{{ ah }}</a>
-                        <ng-container *ngIf="h !== '' && i < loggers[l].active.handlers.length - 1">,<br></ng-container>
-                      </ng-container>
-                    </td>
-
-                    <td class="py-1">
-                      <ng-container *ngFor="let fn of loggers[l].active.logfiles; let i = index">
-                        <a class="text-shng" [routerLink]="['/logs/display', this.baseName(fn)]">{{ this.baseName(fn) }}</a>
-                        <ng-container *ngIf="fn !== '' && i < loggers[l].active.logfiles.length - 1 && loggers[l].active.logfiles[i+1] !=''">,<br></ng-container>
-                      </ng-container>
-                    </td>
+                    <logger-line
+                            [loggerName]=l
+                            [logger]="loggers[l]"
+                            [loggerActive]=logic_loaded(l)
+                            (levelChange)="levelChanged(l, $event)"
+                            (loggerDelete)="loggerDelete(l)"
+                    ></logger-line>
                   </tr>
                 </ng-container>
               </ng-container>
@@ -66,7 +45,7 @@
 
     <tab customClass="tab-shng" heading="{{ 'LOGGERS.PLUGINS'|translate }}">
       <div class="tab-content-services">
-        <button pButton type="button" style="margin-left: 0px; margin-top: 5px; font-size: medium;" id="newLoggerButton" [disabled]="false" (click)="newLogger();" icon="fa fa-plus" label="{{ 'BUTTON.NEW_LOGGER'|translate }}" class="ui-button-success float-sm-left"></button>
+        <button pButton type="button" style="margin-left: 0px; margin-top: 5px; font-size: medium;" id="newLoggerButtonP" [disabled]="false" (click)="newPluginLogger();" icon="fa fa-plus" label="{{ 'BUTTON.NEW_LOGGER'|translate }}" class="ui-button-success float-sm-left"></button>
         <table class="table table-striped table-hover loggerList">
         <thead>
           <tr class="shng_heading">
@@ -83,66 +62,13 @@
             <ng-container *ngIf="l.startsWith('plugins.') || l === 'plugins'">
               <ng-container *ngIf="loggers[l].level !== undefined">
                 <tr>
-                  <ng-container *ngIf="plugin_loaded(l)">
-                    <td class="py-1">{{ l }}</td>
-                    <td class="py-1">
-                      <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
-                    </td>
-                    <td class="py-1">
-                      <ng-container *ngFor="let h of loggers[l].handlers; let i = index">
-                        <a>{{ h }}</a>
-                        <ng-container *ngIf="h !== '' && i < loggers[l].handlers.length - 1">,<br></ng-container>
-                      </ng-container>
-                      <ng-container *ngIf="loggers[l].handlers === undefined">
-                        <a>( --> {{ l.split('.')[0] }} )</a>
-                      </ng-container>
-                    </td>
-                    <td class="py-1">
-                      <ng-container *ngFor="let ah of loggers[l].active.handlers; let i = index">
-                        <a>{{ ah }}</a>
-                        <ng-container *ngIf="h !== '' && i < loggers[l].active.handlers.length - 1">,<br></ng-container>
-                      </ng-container>
-                    </td>
-
-                  </ng-container>
-                  <ng-container *ngIf="!plugin_loaded(l)">
-                    <td class="py-1" style="color:darkgrey">{{ l }}</td>
-                    <td class="py-1" style="color:darkgrey">
-                      <a>{{ loggers[l].active.level }}</a>
-                      <!--
-                      <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
-                      -->
-                    </td>
-                    <td class="py-1" style="color:darkgrey">
-                      <ng-container *ngFor="let h of loggers[l].handlers; let i = index">
-                        <a>{{ h }}</a>
-                        <ng-container *ngIf="h !== '' && i < loggers[l].handlers.length - 1">,<br></ng-container>
-                      </ng-container>
-                      <ng-container *ngIf="loggers[l].handlers === undefined">
-                        <a>( --> {{ l.split('.')[0] }} )</a>
-                      </ng-container>
-                    </td>
-                    <td class="py-1" style="color:darkgrey">
-                      <ng-container *ngFor="let ah of loggers[l].active.handlers; let i = index">
-                        <a>{{ ah }}</a>
-                        <ng-container *ngIf="h !== '' && i < loggers[l].active.handlers.length - 1">,<br></ng-container>
-                      </ng-container>
-                    </td>
-                  </ng-container>
-
-
-                  <td class="py-1">
-                    <ng-container *ngFor="let fn of loggers[l].active.logfiles; let i = index">
-                      <a class="text-shng" [routerLink]="['/logs/display', this.baseName(fn)]">{{ this.baseName(fn) }}</a>
-                      <ng-container *ngIf="fn !== '' && i < loggers[l].active.logfiles.length - 1 && loggers[l].active.logfiles[i+1] !=''">,<br></ng-container>
-                    </ng-container>
-                  </td>
-
-                  <td class="py-1">
-                    <ng-container *ngIf="loggerIsDeletable(l)">
-                      <button name="delete" title="{{ 'LOGGER.DELETE'|translate }}" class="btn btn-outline-danger btn-sm" (click)="deleteLogger(l);"><i class="far fa-trash-alt" aria-hidden="true" style="color: var(--shng-red);"></i></button>
-                    </ng-container>
-                  </td>
+                  <logger-line
+                      [loggerName]=l
+                      [logger]="loggers[l]"
+                      [loggerActive]=plugin_loaded(l)
+                      (levelChange)="levelChanged(l, $event)"
+                      (loggerDelete)="loggerDelete(l)"
+                  ></logger-line>
                 </tr>
               </ng-container>
             </ng-container>
@@ -158,6 +84,7 @@
 
     <tab customClass="tab-shng" heading="{{ 'LOGGERS.ITEMS'|translate }}">
       <div class="tab-content-services">
+        <button pButton type="button" style="margin-left: 0px; margin-top: 5px; font-size: medium;" id="newLoggerButtonI" [disabled]="false" (click)="newItemLogger();" icon="fa fa-plus" label="{{ 'BUTTON.NEW_LOGGER'|translate }}" class="ui-button-success float-sm-left"></button>
         <table class="table table-striped table-hover loggerList">
           <thead border="0">
           <tr class="shng_heading">
@@ -173,35 +100,13 @@
             <ng-container *ngIf="l.startsWith('items.') || l === 'items'">
               <ng-container *ngIf="loggers[l].level !== undefined">
                 <tr>
-                  <td class="py-1">{{ l }}</td>
-                  <td class="py-1">
-                    <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
-                  </td>
-                  <td class="py-1">
-                    <ng-container *ngIf="loggers[l].handlers !== undefined">
-                      <ng-container *ngFor="let h of loggers[l].handlers; let i = index">
-                        <a>{{ h }}</a>
-                        <ng-container *ngIf="h !== '' && i < loggers[l].handlers.length - 1">,<br></ng-container>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="loggers[l].handlers === undefined">
-                      <a>( --> {{ l.split('.')[0] }} )</a>
-                    </ng-container>
-                  </td>
-
-                  <td class="py-1">
-                    <ng-container *ngFor="let ah of loggers[l].active.handlers; let i = index">
-                      <a>{{ ah }}</a>
-                      <ng-container *ngIf="h !== '' && i < loggers[l].active.handlers.length - 1">,<br></ng-container>
-                    </ng-container>
-                  </td>
-
-                  <td class="py-1">
-                    <ng-container *ngFor="let fn of loggers[l].active.logfiles; let i = index">
-                      <a class="text-shng" [routerLink]="['/logs/display', this.baseName(fn)]">{{ this.baseName(fn) }}</a>
-                      <ng-container *ngIf="fn !== '' && i < loggers[l].active.logfiles.length - 1 && loggers[l].active.logfiles[i+1] !=''">,<br></ng-container>
-                    </ng-container>
-                  </td>
+                  <logger-line
+                          [loggerName]=l
+                          [logger]="loggers[l]"
+                          [loggerActive]=true
+                          (levelChange)="levelChanged(l, $event)"
+                          (loggerDelete)="loggerDelete(l)"
+                  ></logger-line>
                 </tr>
               </ng-container>
             </ng-container>
@@ -217,6 +122,7 @@
 
     <tab customClass="tab-shng" heading="{{ 'LOGGERS.ADVANCED'|translate }}">
       <div class="tab-content-services">
+        <button pButton type="button" style="margin-left: 0px; margin-top: 5px; font-size: medium;" id="newLoggerButtonA" [disabled]="false" (click)="newAdvancedLogger();" icon="fa fa-plus" label="{{ 'BUTTON.NEW_LOGGER'|translate }}" class="ui-button-success float-sm-left"></button>
         <table class="table table-striped table-hover loggerList">
         <thead>
           <tr class="shng_heading">
@@ -228,89 +134,39 @@
           </tr>
         </thead>
         <tbody>
-         <ng-container *ngIf="loggers !== undefined">
-            <tr>
-              <td class="py-1"><strong>root</strong></td>
-              <td class="py-1"><strong>{{ loggers['root'].active.level }}</strong></td>
-              <td class="py-1">
-                <ng-container *ngIf="loggers['root'].handlers">
-                  <ng-container *ngFor="let h of loggers['root'].handlers; let i = index">
-                    <a>{{ h }}</a>
-                    <ng-container *ngIf="h !== '' && i < loggers['root'].handlers.length - 1">,<br></ng-container>
-                  </ng-container>
+           <ng-container *ngIf="loggers !== undefined">
+             <tr>
+               <logger-line
+                       [loggerName]="'root'"
+                       [logger]="loggers['root']"
+                       [loggerActive]=true
+                       (levelChange)="levelChanged('root', $event)"
+                       (loggerDelete)="loggerDelete('root')"
+               ></logger-line>
+             </tr>
+            </ng-container>
+
+            <ng-container *ngFor="let l of loggersList">
+              <ng-container *ngIf="l.startsWith('functions.') || l.startsWith('lib.') || l.startsWith('modules.') || l === 'functions' || l === 'lib' || l === 'modules' || l === '__main__'">
+                <ng-container *ngIf="loggers[l].level !== undefined">
+                  <tr>
+                    <logger-line
+                            [loggerName]=l
+                            [logger]="loggers[l]"
+                            [loggerActive]=true
+                            (levelChange)="levelChanged(l, $event)"
+                            (loggerDelete)="loggerDelete(l)"
+                    ></logger-line>
+                  </tr>
                 </ng-container>
-              </td>
-
-              <td class="py-1">
-                <ng-container *ngFor="let ah of loggers['root'].active.handlers; let i = index">
-                  <a>{{ ah }}</a>
-                  <ng-container *ngIf="h !== '' && i < loggers['root'].active.handlers.length - 1">,<br></ng-container>
-                </ng-container>
-              </td>
-
-              <td class="py-1">
-                <ng-container *ngFor="let fn of loggers['root'].active.logfiles; let i = index">
-                  <a class="text-shng" [routerLink]="['/logs/display', this.baseName(fn)]">{{ this.baseName(fn) }}</a>
-                  <ng-container *ngIf="fn !== '' && i < loggers['root'].active.logfiles.length - 1 && loggers['root'].active.logfiles[i+1] !=''">,<br></ng-container>
-                </ng-container>
-              </td>
-            </tr>
-          </ng-container>
-
-          <ng-container *ngFor="let l of loggersList">
-            <ng-container *ngIf="l.startsWith('lib.') || l.startsWith('modules.') || l === 'lib' || l === 'modules' || l === '__main__'">
-              <ng-container *ngIf="loggers[l].level !== undefined">
-                <tr>
-                  <td class="py-1">{{ l }}</td>
-                  <ng-container *ngIf="l !== '__main__'">
-                    <td class="py-1">
-                      <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
-                    </td>
-                  </ng-container>
-                  <ng-container *ngIf="l === '__main__'">
-                    <td class="py-1">{{ loggers[l].active.level }}</td>
-                  </ng-container>
-
-                  <td class="py-1">
-                    <ng-container *ngIf="loggers[l].handlers">
-                      <ng-container *ngFor="let h of loggers[l].handlers; let i = index">
-                        <a>{{ h }}</a>
-                        <ng-container *ngIf="h !== '' && i < loggers[l].handlers.length - 1">,<br></ng-container>
-                      </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="loggers[l].handlers === undefined">
-                      <a>( --> {{ l.split('.')[0] }} )</a>
-                    </ng-container>
-                  </td>
-
-                <td class="py-1">
-                  <ng-container *ngIf="loggers[l].active !== undefined">
-                    <ng-container *ngFor="let ah of loggers[l].active.handlers; let i = index">
-                      <a>{{ ah }}</a>
-                      <ng-container *ngIf="h !== '' && i < loggers[l].active.handlers.length - 1">,<br></ng-container>
-                    </ng-container>
-                  </ng-container>
-                </td>
-
-                <td class="py-1">
-                  <ng-container *ngIf="loggers[l].active !== undefined">
-                    <ng-container *ngFor="let fn of loggers[l].active.logfiles; let i = index">
-                      <a class="text-shng" [routerLink]="['/logs/display', this.baseName(fn)]">{{ this.baseName(fn) }}</a>
-                      <ng-container *ngIf="fn !== '' && i < loggers[l].active.logfiles.length - 1 && loggers[l].active.logfiles[i+1] !=''">,<br></ng-container>
-                      <!--        <a class="text-shng" href="log_view.html?logfile={{ get_basename(fn) }}">{{ fn }}</a>  -->
-                    </ng-container>
-                  </ng-container>
-                </td>
-              </tr>
               </ng-container>
             </ng-container>
-          </ng-container>
 
-        </tbody>
-        <tfoot>
-          <br><br><br><br><br>
-        </tfoot>
-      </table>
+          </tbody>
+          <tfoot>
+            <br><br><br><br><br>
+          </tfoot>
+        </table>
       </div>
     </tab>
 
@@ -328,42 +184,17 @@
         </thead>
         <tbody>
         <ng-container *ngFor="let l of loggersList">
-          <ng-container *ngIf="!(l.startsWith('items.') || l.startsWith('logics.') || l === 'items' || l === 'logics' || l.startsWith('plugins.') || l === 'plugins' || l.startsWith('lib.') || l.startsWith('modules.') || l === 'lib' || l === 'modules' || l === 'root' || l === '__main__' )">
+          <ng-container *ngIf="!(l === 'functions' || l.startsWith('functions.') || l.startsWith('items.') || l.startsWith('logics.') || l === 'items' || l === 'logics' || l.startsWith('plugins.') || l === 'plugins' || l.startsWith('lib.') || l.startsWith('modules.') || l === 'lib' || l === 'modules' || l === 'root' || l === '__main__' )">
             <ng-container *ngIf="loggers[l].level !== undefined">
-            <tr>
-              <td class="py-1">{{ l }}</td>
-              <td class="py-1">
-                <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
-              </td>
-<!--
-              <td class="py-1">
-                <ng-container *ngFor="let f of loggers[l].filters; let i = index">
-                  <a>{{ f }}</a>
-                  <ng-container *ngIf="h !== '' && i < loggers[l].filters.length - 1">,<br></ng-container>
-                </ng-container>
-              </td>
--->
-              <td class="py-1">
-                <ng-container *ngFor="let h of loggers[l].handlers; let i = index">
-                  <a>{{ h }}</a>
-                  <ng-container *ngIf="h !== '' && i < loggers[l].handlers.length - 1">,<br></ng-container>
-                </ng-container>
-              </td>
-
-              <td class="py-1">
-                <ng-container *ngFor="let ah of loggers[l].active.handlers; let i = index">
-                  <a>{{ ah }}</a>
-                  <ng-container *ngIf="h !== '' && i < loggers[l].active.handlers.length - 1">,<br></ng-container>
-                </ng-container>
-              </td>
-
-              <td class="py-1">
-                <ng-container *ngFor="let fn of loggers[l].active.logfiles; let i = index">
-                  <a class="text-shng" [routerLink]="['/logs/display', this.baseName(fn)]">{{ this.baseName(fn) }}</a>
-                  <ng-container *ngIf="fn !== '' && i < loggers[l].active.logfiles.length - 1 && loggers[l].active.logfiles[i+1] !=''">,<br></ng-container>
-                </ng-container>
-              </td>
-            </tr>
+              <tr>
+                <logger-line
+                        [loggerName]=l
+                        [logger]="loggers[l]"
+                        [loggerActive]=true
+                        (levelChange)="levelChanged(l, $event)"
+                        (loggerDelete)="loggerDelete(l)"
+                ></logger-line>
+              </tr>
           </ng-container>
           </ng-container>
         </ng-container>
@@ -381,24 +212,6 @@
   </div>
 -->
 </div>
-
-
-<!--
-  -- Confirm dialog vor configuration deletion
-  -->
-<p-dialog header="" [(visible)]="confirmdelete_display" [modal]="true" blockScroll="true">
-  <p-header>
-    {{'LOGGERS.DELETE_LOGGER'|translate}}
-  </p-header>
-  <br>
-  {{'LOGGERS.DELETE_LOGGER_TEXT'|translate:delete_param}}
-  <br>
-  <br>
-  <p-footer>
-    <button pButton type="button" icon="fa fa-trash-alt" (click)="deleteLoggerConfirm()" label="{{'BUTTON.DELETE'|translate}}" class="ui-button-danger"></button>
-    <button pButton type="button" icon="fa fa-times" (click)="deleteLoggerAbort()" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
-  </p-footer>
-</p-dialog>
 
 
 <!--

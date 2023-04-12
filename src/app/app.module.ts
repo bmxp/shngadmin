@@ -69,6 +69,8 @@ import { SceneConfigurationComponent } from './scenes/scene-configuration/scene-
 import { FunctionConfigurationComponent } from './services/function-configuration/function-configuration.component';
 import { LogicsEditComponent } from './logics/logics-edit/logics-edit.component';
 import { TopNavigationComponent } from './top-navigation/top-navigation.component';
+import { LoggerLineComponent } from './logs/logger-line/logger-line.component';
+import { LoggerTabComponent } from './logs/logger-tab/logger-tab.component';
 
 export function translateHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -101,7 +103,9 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     SceneConfigurationComponent,
     FunctionConfigurationComponent,
     LogicsEditComponent,
-    TopNavigationComponent
+    TopNavigationComponent,
+    LoggerLineComponent,
+    LoggerTabComponent
   ],
   imports: [
     BrowserModule,
