@@ -30,6 +30,9 @@ export interface ItemDetails {
   trigger: string;
   trigger_condition: string;
   trigger_condition_raw: string;
+  hysteresis_input: string;
+  hysteresis_upper_threshold: string;
+  hysteresis_lower_threshold: string;
   on_update: string;
   on_change: string;
   log_change: string;

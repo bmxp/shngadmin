@@ -62,7 +62,7 @@ export class LoggersApiService {
         );
     }
 
-    return this.http.put(url, 'xxx')
+    return this.http.put(url, 'level')
       .pipe(
         map(response => {
           const result = <any>response;
@@ -82,7 +82,52 @@ export class LoggersApiService {
   }
 
 
-    addLogger(logger) {
+  setHandlers(logger, handlerList) {
+    // console.log('LoggersApiService.setHandlers');
+
+    const apiUrl = sessionStorage.getItem('apiUrl');
+    let url = apiUrl + 'loggers/' + logger + '?handlers=' + handlerList;
+    if (apiUrl.includes('localhost')) {
+      url += 'default.txt';
+    }
+
+    if (apiUrl.includes('localhost')) {
+      console.warn('LoggersApiService.setHandlers', 'Cannot set level dev environment\n', '- logger:', logger, 'handlers:', handlerList);
+
+      return this.http.get(url)
+        .pipe(
+          map(response => {
+            const result = response;
+            return result;
+          }),
+          catchError((err: HttpErrorResponse) => {
+            console.error('LoggersApiService.setHandlers: Could not read result data' + ' - ' + err.error.error);
+            return of({});
+          })
+        );
+    }
+
+    return this.http.put(url, 'handlers')
+      .pipe(
+        map(response => {
+          const result = <any>response;
+
+          if (result) {
+            // console.log('ServicesApiService.ConvertToYamlText', '- config:', confText, '\nresult', {result});
+            return result;
+          } else {
+            console.log('LoggersApiService.setHandlers', 'fail: undefined result');
+          }
+        }),
+        catchError((err: HttpErrorResponse) => {
+          console.error('LoggersApiService.setHandlers: Could not set logger level' + ' - ' + err.error.error);
+          return of({});
+        })
+      );
+  }
+
+
+  addLogger(logger) {
         const apiUrl = sessionStorage.getItem('apiUrl');
         let url = apiUrl + 'loggers/' + logger + '/';
         if (apiUrl.includes('localhost')) {

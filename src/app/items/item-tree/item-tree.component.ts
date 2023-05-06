@@ -237,6 +237,11 @@ export class ItemTreeComponent implements OnInit {
             details.previous_value = ItemTreeComponent.htmlDecode(details.previous_value);
 
             details.eval = ItemTreeComponent.htmlDecode(details.eval);
+
+            details.hysteresis_input = ItemTreeComponent.htmlDecode(details.hysteresis_input);
+            details.hysteresis_upper_threshold = ItemTreeComponent.htmlDecode(details.hysteresis_upper_threshold);
+            details.hysteresis_lower_threshold = ItemTreeComponent.htmlDecode(details.hysteresis_lower_threshold);
+
             details.on_change = ItemTreeComponent.htmlDecode(details.on_change);
             details.on_update = ItemTreeComponent.htmlDecode(details.on_update);
             details.crontab = ItemTreeComponent.htmlDecode(details.crontab);

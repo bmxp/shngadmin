@@ -192,24 +192,41 @@
                           <tr><td class="py-1">{{'cache'|translate}}</td><td class="py-1">{{itemdetails.cache}}</td></tr>
                           <tr><td class="py-1">{{'enforce_updates'|translate}}</td><td class="py-1">{{itemdetails.enforce_updates}}</td></tr>
                           <tr><td class="py-1">{{'enforce_change'|translate}}</td><td class="py-1">{{itemdetails.enforce_change}}</td></tr>
-                          <tr><td class="py-1">{{'eval_trigger'|translate}}</td><td class="py-1">{{itemdetails.trigger}}</td></tr>
-                          <tr *ngIf="itemdetails.trigger_condition !== '-'"><td class="py-1">{{'trigger_condition'|translate}}</td><td class="py-1">{{itemdetails.trigger_condition}}</td></tr>
-                          <tr *ngIf="itemdetails.trigger_condition_raw !== ''"><td class="py-1">{{'trigger_condition raw'|translate}}</td><td class="py-1">{{itemdetails.trigger_condition_raw}}</td></tr>
+
+                          <ng-container *ngIf="itemdetails.trigger_condition !== undefined && itemdetails.trigger_condition !== '-'">
+                            <tr><td class="py-1">{{'trigger_condition'|translate}}</td><td class="py-1">{{itemdetails.trigger_condition}}</td></tr>
+                            <tr><td class="py-1">{{'trigger_condition raw'|translate}}</td><td class="py-1">{{itemdetails.trigger_condition_raw}}</td></tr>
+                          </ng-container>
+
                           <tr><td class="py-1">{{'eval'|translate}}</td><td class="py-1">{{itemdetails.eval}}</td></tr>
+                          <tr><td class="py-1">{{'eval_trigger'|translate}}</td><td class="py-1">{{itemdetails.trigger}}</td></tr>
+
+                          <ng-container *ngIf="itemdetails.hysteresis_input !== undefined && itemdetails.hysteresis_input !== '-'">
+                            <tr><td class="py-1">{{'hysteresis_input'|translate}}</td><td class="py-1">{{itemdetails.hysteresis_input}}</td></tr>
+                            <tr><td class="py-1">{{'hysteresis_upper_threshold'|translate}}</td><td class="py-1">{{itemdetails.hysteresis_upper_threshold}}</td></tr>
+                            <tr><td class="py-1">{{'hysteresis_lower_threshold'|translate}}</td><td class="py-1">{{itemdetails.hysteresis_lower_threshold}}</td></tr>
+                          </ng-container>
+
                           <tr><td class="py-1">{{'on_update'|translate}}</td><td class="py-1">{{itemdetails.on_update}}</td></tr>
                           <tr><td class="py-1">{{'on_change'|translate}}</td><td class="py-1">{{itemdetails.on_change}}</td></tr>
-                          <tr><td class="py-1">{{'log_change'|translate}}</td><td class="py-1">{{itemdetails.log_change}}</td></tr>
-                          <tr><td class="py-1">{{'log_level'|translate}}</td><td class="py-1">{{itemdetails.log_level}}</td></tr>
-                          <tr><td class="py-1">{{'log_text'|translate}}</td><td class="py-1">{{itemdetails.log_text}}</td></tr>
-                          <tr><td class="py-1">{{'log_mapping'|translate}}</td><td class="py-1">{{itemdetails.log_mapping}}</td></tr>
-                          <tr><td class="py-1">{{'log_rules'|translate}}</td><td class="py-1">{{itemdetails.log_rules}}</td></tr>
+
+                          <ng-container *ngIf="itemdetails.log_change !== undefined && itemdetails.log_change !== '-'">
+                            <tr><td class="py-1">{{'log_change'|translate}}</td><td class="py-1">{{itemdetails.log_change}}</td></tr>
+                            <tr><td class="py-1">{{'log_level'|translate}}</td><td class="py-1">{{itemdetails.log_level}}</td></tr>
+                            <tr><td class="py-1">{{'log_text'|translate}}</td><td class="py-1">{{itemdetails.log_text}}</td></tr>
+                            <tr><td class="py-1">{{'log_mapping'|translate}}</td><td class="py-1">{{itemdetails.log_mapping}}</td></tr>
+                            <tr><td class="py-1">{{'log_rules'|translate}}</td><td class="py-1">{{itemdetails.log_rules}}</td></tr>
+                          </ng-container>
+
                           <tr><td class="py-1">{{'cycle'|translate}}</td><td class="py-1">{{itemdetails.cycle}}</td></tr>
                           <tr><td class="py-1">{{'crontab'|translate}}</td><td class="py-1">{{itemdetails.crontab}}</td></tr>
                           <tr><td class="py-1">{{'autotimer'|translate }}</td><td class="py-1">{{itemdetails.autotimer}}</td></tr>
-                          <tr><td class="py-1">{{'threshold'|translate}}</td><td class="py-1">{{itemdetails.threshold}}</td></tr>
 
-                          <ng-container *ngIf="itemdetails.threshold_crossed !== ''">
-                            <tr><td class="py-1">{{'threshold crossed'|translate}}</td><td class="py-1">{{itemdetails.threshold_crossed}}</td></tr>
+                          <ng-container *ngIf="itemdetails.threshold !== undefined && itemdetails.threshold !== '-'">
+                            <tr><td class="py-1">{{'threshold'|translate}}</td><td class="py-1">{{itemdetails.threshold}}</td></tr>
+                            <ng-container *ngIf="itemdetails.threshold_crossed !== undefined">
+                              <tr><td class="py-1">{{'threshold crossed'|translate}}</td><td class="py-1">{{itemdetails.threshold_crossed}}</td></tr>
+                            </ng-container>
                           </ng-container>
 
                           <ng-container *ngIf="JSON.stringify(itemdetails.config) !== '{}'">

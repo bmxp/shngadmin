@@ -150,7 +150,7 @@ export class TopNavigationComponent implements OnInit {
 
     this.setMenuEntry(0, this.translate.instant('MENU.SYSTEM'), ['/system/systemproperties']);
     this.setSubmenuEntry(0, 0, this.translate.instant('MENU.SYSTEM_PROPERTIES'), ['/system/systemproperties']);
-    this.setSubmenuEntry(0, 1, this.translate.instant('MENU.CONFIGURATION'), ['/system/config']);
+    this.setSubmenuEntry(0, 1, this.translate.instant('MENU.SYSTEM_CONFIGURATION'), ['/system/config']);
 
     this.setMenuEntry(1, this.translate.instant('MENU.SERVICES'), ['/services']);
     this.setSubmenuEntry(1, 0, this.translate.instant('MENU.SERVICES'), ['/services']);
@@ -173,7 +173,7 @@ export class TopNavigationComponent implements OnInit {
 
     this.setMenuEntry(4, this.translate.instant('MENU.PLUGINS'), ['/plugins_list']);
     this.setSubmenuEntry(4, 0, this.translate.instant('MENU.PLUGINS_LIST'), ['/plugins_list']);
-    this.setSubmenuEntry(4, 1, this.translate.instant('MENU.CONFIGURATION'), ['/plugins/config']);
+    this.setSubmenuEntry(4, 1, this.translate.instant('MENU.PLUGINS_CONFIGURATION'), ['/plugins/config']);
 
     this.setMenuEntry(5, this.translate.instant('MENU.SCENES'), ['/scenes/list']);
     this.setSubmenuEntry(5, 0, this.translate.instant('MENU.SCENE_LIST'), ['/scenes/list']);
@@ -185,8 +185,8 @@ export class TopNavigationComponent implements OnInit {
 
     this.setMenuEntry(7, this.translate.instant('MENU.LOGS'), ['/logs/display']);
     this.setSubmenuEntry(7, 0, this.translate.instant('MENU.LOGS_DISPLAY'), ['/logs/display']);
-    this.setSubmenuEntry(7, 1, this.translate.instant('MENU.LOGGER_LIST'), ['/logs/logger-list']);
-    this.setSubmenuEntry(7, 2, this.translate.instant('MENU.CONFIGURATION'), ['/logs/logging-configuration']);
+    this.setSubmenuEntry(7, 1, this.translate.instant('MENU.LOGGER_CONFIGURATION'), ['/logs/logger-list']);
+    this.setSubmenuEntry(7, 2, this.translate.instant('MENU.LOGGING_CONFIGURATION'), ['/logs/logging-configuration']);
   }
 
   logout() {
