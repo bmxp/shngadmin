@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { BsModalService} from 'ngx-bootstrap/modal';
 
 import {LogicsApiService} from '../../common/services/logics-api.service';
-import {LogicsGroupType, LogicsinfoType} from '../../common/models/logics-info';
+import {LogicsinfoType} from '../../common/models/logics-info';
 import {OlddataService} from '../../common/services/olddata.service';
 import {Log} from '@angular/core/testing/src/logger';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -20,11 +20,8 @@ import {ServerApiService} from '../../common/services/server-api.service';
   styleUrls: ['./logics-list.component.css'],
   providers: [OlddataService]
 })
-export class LogicsListComponent implements OnInit {
+export class LogicsListOldComponent implements OnInit {
 
-  groupdefinitions = {};
-  groupList: LogicsGroupType[];
-  nogroups: boolean;
   logics: LogicsinfoType[];
   userlogics: LogicsinfoType[];
   systemlogics: LogicsinfoType[];
@@ -50,7 +47,6 @@ export class LogicsListComponent implements OnInit {
               private titleService: Title) {
     this.userlogics = [];
     this.systemlogics = [];
-    this.nogroups = true;
   }
 
   public setTitle(newTitle: string) {
@@ -82,78 +78,23 @@ export class LogicsListComponent implements OnInit {
   }
 
 
-  addGroup(name) {
-
-    if (this.groupList.find(g => g.name === name) === undefined) {
-      let title = '';
-      let description = '';
-      if (this.groupdefinitions[name] !== undefined) {
-        title = this.groupdefinitions[name]['title'];
-        description = this.groupdefinitions[name]['description'];
-      }
-      const group: LogicsGroupType = {name: name, title: title, description: description};
-      this.groupList.push(group);
-      if (name !== '') {
-        this.nogroups = false;
-      }
-    }
-  }
-
-
-  sortGroupList() {
-    this.groupList.sort(function (a, b) {
-      return (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 :
-        ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 :
-            0
-        );
-    });
-    if (this.groupList[0].name === '') {
-      // move 'no group' to end of list
-      // this.groupList[0].name = 'keine Gruppe';
-      this.groupList.push(this.groupList[0]);
-      this.groupList.shift();
-    }
-  }
-
-
   getLogics() {
     this.dataService.getLogics()
       .subscribe(
         (response) => {
-          this.groupdefinitions = response['groups'];
           this.logics = <LogicsinfoType[]>response['logics'];
           this.logics.sort(function (a, b) {return (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0); });
           this.userlogics = [];
           this.systemlogics = [];
-          this.groupList = [];
           for (const logic of this.logics) {
             if (logic.userlogic === true) {
-              if (logic.group === undefined || logic.group.length === 0) {
-                logic.group = [''];
-              }
               this.userlogics.push(logic);
-              for (const g in logic.group) {
-                if (logic.group.hasOwnProperty(g)) {
-                  this.addGroup(logic.group[g]);
-                }
-              }
             } else {
               this.systemlogics.push(logic);
             }
           }
-          this.sortGroupList();
-
-          this.userlogics.sort(function (a, b) {
-            return (a.name.toLowerCase() > b.name.toLowerCase()) ?
-              1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ?
-                -1 : 0);
-          });
           this.newlogics = <LogicsinfoType[]>response['logics_new'];
-          this.newlogics.sort(function (a, b) {
-            return (a.name.toLowerCase() > b.name.toLowerCase()) ?
-              1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ?
-                -1 : 0);
-          });
+          this.newlogics.sort(function (a, b) {return (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0); });
         }
       );
   }

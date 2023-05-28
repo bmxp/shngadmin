@@ -64,6 +64,12 @@
 
           <table id="1" class="table table-striped">
             <tr>
+              <td>{{ 'LOGIC_EDIT.GROUP'|translate }}</td>
+              <td colspan="3">
+                <input [(ngModel)]="logic.group" (keyup)="this.logicChanged = hasLogicChanged()"  type="text" pInputText placeholder="" pInputText name="crontab" style="width: 400px" [ngStyle]="{'width': 50}"/>
+              </td>
+            </tr>
+            <tr>
               <td width="15%">{{ 'LOGIC_EDIT.STATUS'|translate }}</td>
               <ng-container *ngIf="logic && logic.enabled">
                 <td width="35%"><span style="color: var(--shng-green);  vertical-align: middle" class="fas fa-play-circle"></span> {{ 'LOGIC_EDIT.ACTIVE'|translate }}</td>

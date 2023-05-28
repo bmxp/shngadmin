@@ -27,6 +27,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
   logic: LogicsinfoType = <any>{};
   wrongWatchItem: boolean;
   logicChanged: boolean;
+  logicGroupOrig: string;
   logicCycleOrig: string;
   logicCrontabOrig: string;
   logicWatchitemOrig: LogicsWatchItem[];
@@ -353,20 +354,28 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
       .subscribe(
         (response) => {
           this.logic = <any>response;
-          // console.warn('LogicsEditComponent.getLogicInfo() this.logic', this.logic);
+          console.warn('LogicsEditComponent.getLogicInfo() this.logic', this.logic);
 
           if (this.logic.enabled === undefined) {
             this.logic.enabled = true;
           }
+
+          if (this.logic.group === undefined) {
+            this.logic.group = null;
+          }
+          console.log('typeof this.logic.group', typeof this.logic.group, this.logic.group);
+          this.logic.group = this.listToString(this.logic.group);
+          console.log('typeof this.logic.group', typeof this.logic.group, this.logic.group);
+
           if (this.logic.cycle === undefined) {
             this.logic.cycle = null;
           }
           if (this.logic.crontab === undefined) {
             this.logic.crontab = null;
           }
-          console.log('typeof this.logic.crontab', typeof this.logic.crontab, this.logic.crontab);
+          // console.log('typeof this.logic.crontab', typeof this.logic.crontab, this.logic.crontab);
           this.logic.crontab = this.listToString(this.logic.crontab);
-          console.log('typeof this.logic.crontab', typeof this.logic.crontab, this.logic.crontab);
+          // console.log('typeof this.logic.crontab', typeof this.logic.crontab, this.logic.crontab);
 
           if (this.myEditFilename === '') {
             if (this.logic.filename !== null && this.logic.filename !== undefined && this.logic.filename !== '') {
@@ -390,6 +399,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
 
           this.getPluginParameterDefinitions();
 
+          this.logicGroupOrig = this.logic.group;
           this.logicCycleOrig = this.logic.cycle;
           this.logicCrontabOrig = this.logic.crontab;
           this.logicWatchitemOrig = [];
@@ -432,6 +442,12 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
     if (this.logic.cycle !== this.logicCycleOrig) {
       if (!(this.logic.cycle === null && this.logicCycleOrig === '')) {
         // console.log('parametersChanged:', 'cycle', this.logic.cycle, ':' + this.logicCycleOrig + ':');
+        return true;
+      }
+    }
+    if (this.logic.group !== this.logicGroupOrig) {
+      if (!(this.logic.group === null && this.logicGroupOrig === '')) {
+        // console.log('parametersChanged:', 'group');
         return true;
       }
     }
@@ -639,6 +655,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
 
   discardChanges() {
     this.myTextarea = this.myTextareaOrig;
+    this.logic.group = this.logicGroupOrig;
     this.logic.cycle = this.logicCycleOrig;
     this.logic.crontab = this.logicCrontabOrig;
     this.logic.watch_item = Array.from(this.logicWatchitemOrig);
@@ -657,6 +674,8 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
     if (!(parseInt(this.logic.cycle, 10) > 0)) {
       this.logic.cycle = null;
     }
+    params['group'] = this.stringToList(this.logic.group);
+    this.logic.group = this.listToString(params['group']);
     params['cycle'] = this.logic.cycle;
     params['crontab'] = this.stringToList(this.logic.crontab);
     this.logic.crontab = this.listToString(params['crontab']);
@@ -685,6 +704,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
       .subscribe(
         (response) => {
           // after saving the parameters, set Orig vars to signal the editor shows "unchanged values"
+          this.logicGroupOrig = this.logic.group;
           this.logicCycleOrig = this.logic.cycle;
           this.logicCrontabOrig = this.logic.crontab;
 

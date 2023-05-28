@@ -42,7 +42,7 @@ const appRoutes: Routes = [
   { path: 'items/struct_config', component: StructConfigurationComponent, canActivate: [AuthGuardService] },
   { path: 'items', component: ItemTreeComponent, canActivate: [AuthGuardService] },
   { path: 'logics/edit/:logicname', component: LogicsEditComponent, canActivate: [AuthGuardService] },
-  { path: 'logics', component: LogicsListComponent, canActivate: [AuthGuardService] },
+  { path: 'logics-list', component: LogicsListComponent, canActivate: [AuthGuardService] },
   { path: 'schedulers', component: SchedulersComponent, canActivate: [AuthGuardService] },
 
   { path: 'plugins/config', component: PluginConfigComponent, canActivate: [AuthGuardService] },
