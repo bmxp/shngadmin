@@ -759,4 +759,29 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
         }
       );
   }
+
+
+  disableLogic(logicName) {
+    // console.log('disableLogic', {logicName});
+    this.dataService.setLogicState(logicName, 'disable')
+      .subscribe(
+        (response) => {
+          // this.getLogics();
+          this.logic.enabled = false;
+        }
+      );
+  }
+
+
+  enableLogic(logicName) {
+    // console.log('enableLogic', {logicName});
+    this.dataService.setLogicState(logicName, 'enable')
+      .subscribe(
+        (response) => {
+          // this.getLogics();
+          this.logic.enabled = true;
+        }
+      );
+  }
+
 }

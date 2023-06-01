@@ -20,10 +20,25 @@
                   </ng-container>
                   {{ 'LOGIC_EDIT.FILENAME'|translate }}: <strong>../logics/{{ myEditFilename }}</strong>
                   <button pButton label="{{ 'BUTTON.SAVE_LOAD'|translate }}" type="button" [disabled]="!this.logicChanged" icon="fa fa-check" style="margin-right: 0px;" (click)="saveLogic(true)" class="float-sm-right ui-button-success"></button>
-                  <button pButton label="{{ 'BUTTON.SAVE'|translate }}" type="button" [disabled]="!this.logicChanged" icon="fa fa-check" style="margin-right: 10px;" (click)="saveLogic()" class="float-sm-right ui-button-success"></button>
-                  <button pButton label="{{ 'BUTTON.DISCARD'|translate }}" type="button" [disabled]="(myEditFilename === '') || (!this.logicChanged)" icon="fa fa-times" style="margin-right: 10px;" (click)="discardChanges();" class="float-sm-right ui-button-secondary"></button>
-                  <button pButton label="{{ 'BUTTON.TRIGGER'|translate }}" type="button" [disabled]="(myEditFilename === '') " icon="fa fa-hand-pointer" style="margin-right: 10px;" (click)="triggerLogic();" class="float-sm-right ui-button-success"></button>
-                  <button pButton label="{{ 'BUTTON.HELP'|translate }}" type="button" [disabled]="false" icon="fa fa-info" style="margin-right: 10px;" (click)="editorHelp_display = true;" class="float-sm-right ui-button-success"></button>
+                  <button pButton label="{{ 'BUTTON.SAVE'|translate }}" type="button" [disabled]="!this.logicChanged" icon="fa fa-check" style="margin-right: 5px;" (click)="saveLogic()" class="float-sm-right ui-button-success"></button>
+                  <button pButton label="{{ 'BUTTON.DISCARD'|translate }}" type="button" [disabled]="(myEditFilename === '') || (!this.logicChanged)" icon="fa fa-times" style="margin-right: 5px;" (click)="discardChanges();" class="float-sm-right ui-button-secondary"></button>
+<!--
+                  <button pButton label="{{ 'BUTTON.TRIGGER'|translate }}" type="button" [disabled]="(myEditFilename === '') " icon="fa fa-hand-pointer" style="margin-right: 5px;" (click)="triggerLogic();" class="float-sm-right ui-button-success"></button>
+-->
+                  <button pButton label="{{ 'BUTTON.HELP'|translate }}" type="button" [disabled]="false" icon="fa fa-info" style="margin-left: 20px; margin-right: 5px;" (click)="editorHelp_display = true;" class="float-sm-right ui-button-success"></button>
+
+                  <ng-container *ngIf="logic.enabled; then logicEnabledActions; else logicDisabledActions"></ng-container>
+                  <ng-template #logicEnabledActions>
+                    <button name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="triggerLogic();"><i class="fas fa-hand-pointer"></i></button>
+                    <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+                    <button name="disable" title="{{ 'LOGICS.DISABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="disableLogic(logic.name);"><i class="fas fa-pause"></i></button>
+                  </ng-template>
+                  <ng-template #logicDisabledActions>
+                    <button disabled="true" name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right"><i class="fas fa-hand-pointer"></i></button>
+                    <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+                    <button name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
+                  </ng-template>
+
                 </div>
               </td>
             </tr>
@@ -56,9 +71,25 @@
             {{ 'LOGIC_EDIT.LOGICNAME'|translate }}: <strong>{{ logic.name }}</strong>
           </ng-container>
           <button pButton label="{{ 'BUTTON.SAVE_LOAD'|translate }}" type="button" [disabled]="!this.logicChanged" icon="fa fa-check" style="margin-right: 0px;" (click)="saveLogic(true)" class="float-sm-right ui-button-success"></button>
-          <button pButton label="{{ 'BUTTON.SAVE'|translate }}" type="button" [disabled]="!this.logicChanged" icon="fa fa-check" style="margin-right: 10px;" (click)="saveLogic()" class="float-sm-right ui-button-success"></button>
-          <button pButton label="{{ 'BUTTON.DISCARD'|translate }}" type="button" [disabled]="(myEditFilename === '') || (!this.logicChanged)" icon="fa fa-times" style="margin-right: 10px;" (click)="discardChanges();" class="float-sm-right ui-button-secondary"></button>
-          <button pButton label="{{ 'BUTTON.HELP'|translate }}" type="button" [disabled]="false" icon="fa fa-info" style="margin-right: 10px;" (click)="parameterHelp_display = true;" class="float-sm-right ui-button-success"></button>
+          <button pButton label="{{ 'BUTTON.SAVE'|translate }}" type="button" [disabled]="!this.logicChanged" icon="fa fa-check" style="margin-right: 5px;" (click)="saveLogic()" class="float-sm-right ui-button-success"></button>
+          <button pButton label="{{ 'BUTTON.DISCARD'|translate }}" type="button" [disabled]="(myEditFilename === '') || (!this.logicChanged)" icon="fa fa-times" style="margin-right: 5px;" (click)="discardChanges();" class="float-sm-right ui-button-secondary"></button>
+          <!--
+                            <button pButton label="{{ 'BUTTON.TRIGGER'|translate }}" type="button" [disabled]="(myEditFilename === '') " icon="fa fa-hand-pointer" style="margin-right: 5px;" (click)="triggerLogic();" class="float-sm-right ui-button-success"></button>
+          -->
+          <button pButton label="{{ 'BUTTON.HELP'|translate }}" type="button" [disabled]="false" icon="fa fa-info" style="margin-left: 20px; margin-right: 5px;" (click)="editorHelp_display = true;" class="float-sm-right ui-button-success"></button>
+
+          <ng-container *ngIf="logic.enabled; then logicEnabledActions; else logicDisabledActions"></ng-container>
+          <ng-template #logicEnabledActions>
+            <button name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="triggerLogic();"><i class="fas fa-hand-pointer"></i></button>
+            <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+            <button name="disable" title="{{ 'LOGICS.DISABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="disableLogic(logic.name);"><i class="fas fa-pause"></i></button>
+          </ng-template>
+          <ng-template #logicDisabledActions>
+            <button disabled="true" name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right"><i class="fas fa-hand-pointer"></i></button>
+            <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+            <button name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
+          </ng-template>
+
         </div>
         <div class="tab-content-parameter">
 
