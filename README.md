@@ -35,6 +35,19 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).\
 Run `npm run e2e` to execute the tests via [Cypress](https://www.cypress.io/.)
 
+## Create a component
+
+Run 'ng generate component new_comp' to create a new component
+
+### --> ng generate component logics/logics-new-comp
+
+
+## Hints
+
+### Re-Render
+
+https://stackoverflow.com/questions/50383003/how-to-re-render-a-component-manually-angular-5
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

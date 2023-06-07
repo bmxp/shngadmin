@@ -1,5 +1,5 @@
 
-import {Component, OnInit, ViewChild, TemplateRef} from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ViewChild, ViewRef, TemplateRef, ViewContainerRef} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
@@ -18,21 +18,28 @@ import { cloneDeep } from 'lodash';
 import { AppComponent } from '../../app.component';
 import { OlddataService } from '../../common/services/olddata.service';
 import { ItemTree } from '../../common/models/item-tree';
+import { WebsocketService } from '../../common/services/websocket.service';
+import { WebsocketPluginService } from '../../common/services/websocket-plugin.service';
 import { SharedService } from '../../common/services/shared.service';
 import {ItemDetails} from '../../common/models/item-details';
 // import {ServerInfo} from '../../common/models/server-info';
 import {ServerApiService} from '../../common/services/server-api.service';
 import {statsToString} from '@angular-devkit/build-angular/src/angular-cli-files/utilities/stats';
 import {Title} from '@angular/platform-browser';
+import {Subscription} from 'rxjs';
 
 
 @Component({
   selector: 'app-items',
   templateUrl: 'item-tree.component.html',
   styleUrls: ['item-tree.component.css'],
-  providers: [AppComponent]
+  providers:  [AppComponent, WebsocketService, WebsocketPluginService ]
 })
-export class ItemTreeComponent implements OnInit {
+export class ItemTreeComponent implements OnDestroy, OnInit, AfterViewInit {
+  @ViewChild('vc', { read: ViewContainerRef }) vc: ViewContainerRef;
+  @ViewChild('tpl', { read: TemplateRef }) tpl: TemplateRef<any>;
+
+  childViewRef: ViewRef;
 
   faSearch = faSearch;
   faCircleNotch = faCircleNotch;
@@ -49,7 +56,7 @@ export class ItemTreeComponent implements OnInit {
   itemdetails: ItemDetails = <ItemDetails>{};
   itemdetailsloaded = false;
 
-  monitoredItems: string[] = [];
+  monitoredItems: any[] = [];
 
   filesTree0: {}[];
   filteredTree: {}[];
@@ -65,21 +72,26 @@ export class ItemTreeComponent implements OnInit {
 
   selectedNode;
 
-
   update_age = '';
   change_age = '';
   previous_update_age = '';
   previous_change_age = '';
+
+  data: any;
+
+  monitoredItemsUpdateSubscription: Subscription = null;
 
   modalRef: BsModalRef;
   constructor(private dataService: OlddataService,
               private dataServiceServer: ServerApiService,
               private appComponent: AppComponent,
               private translate: TranslateService,
+              private websocketPluginService: WebsocketPluginService,
               private modalService: BsModalService,
               public shared: SharedService,
               private titleService: Title) {
   }
+
 
 
   static resizeItemTree() {
@@ -126,12 +138,41 @@ export class ItemTreeComponent implements OnInit {
 
     window.addEventListener('resize', ItemTreeComponent.resizeItemTree, false);
     ItemTreeComponent.resizeItemTree();
+
+    this.websocketPluginService.connect();
   }
+
+
+  ngAfterViewInit() {
+    this.childViewRef = this.tpl.createEmbeddedView(null);
+  }
+
+  insertChildView() {
+    this.vc.insert(this.childViewRef);
+  }
+
+  removeChildView() {
+    this.vc.detach();
+  }
+
+
+  reloadChildView() {
+    this.removeChildView();
+    setTimeout(() =>{
+      this.insertChildView();
+    }, 3000);
+  }
+
 
 
   closeAlert(myalert, item_oldvalue) {
     this.item_val.value = item_oldvalue;
     myalert.hide();
+  }
+
+
+  ngOnDestroy(): void {
+    this.websocketPluginService.disconnect();
   }
 
 
@@ -208,13 +249,75 @@ export class ItemTreeComponent implements OnInit {
   */
 
 
+  sortMonitoredItems() {
+    this.monitoredItems.sort(function (a, b) {
+      return (a[0].toLowerCase() > b[0].toLowerCase()) ? 1 :
+        ((b[0].toLowerCase() > a[0].toLowerCase()) ? -1 :
+            0
+        );
+    });
+  }
+
+
+  updateMonitoredItem(itempath, itemdata) {
+
+    for (let i = 0; i < this.monitoredItems.length; i++) {
+      if (this.monitoredItems[i][0] === itempath) {
+        this.monitoredItems[i][1] = itemdata;
+      }
+    }
+
+  }
+
+
+  remove_none(caller) {
+    const caller_array = caller.split(':');
+    if ((caller_array.length === 1) || (caller_array[1].toLowerCase() === 'none')) {
+      return caller_array[0];
+    }
+    return caller;
+  }
+
+
+  monitoredDataFunction(data) {
+    // Callback function that receives the data from the websocket session
+    this.data = data;
+    const self = this;
+    for (let i = 0; i < data.items.length; i++) {
+      data.items[i][1].last_update_by = this.remove_none(data.items[i][1].last_update_by);
+      data.items[i][1].last_change_by = this.remove_none(data.items[i][1].last_change_by);
+      self.updateMonitoredItem(data.items[i][0], data.items[i][1]);
+    }
+  }
+
+
   monitorItem(path: string, monitorIt: boolean) {
-    // console.log('monitorItem: path=' + path + ', monitorIt=' + String(monitorIt));
+    // path = 'wohnung.buero.schreibtischleuchte.onoff';
+
+    console.log('monitorItem: path=' + path + ', monitorIt=' + String(monitorIt));
     if (monitorIt) {
-      this.monitoredItems.push(path);
+      // start monitoring the item
+
+      // this.getDetails(path);
+
+      const data = {};
+      data['value'] = this.itemdetails.value;
+      data['last_update'] = this.itemdetails.last_update;
+      data['last_change'] = this.itemdetails.last_change;
+      data['last_update_by'] = this.itemdetails.updated_by;
+      data['last_change_by'] = this.itemdetails.changed_by;
+
+      const monItem = [path, data];
+      this.monitoredItems.push(monItem);
+      this.sortMonitoredItems();
+      // bind the callback function to the context of the item-tree component
+      const monitoredDataFunction = this.monitoredDataFunction.bind(this);
+      this.websocketPluginService.getMonitoredItems(this.monitoredItems, monitoredDataFunction);
+      this.getMonitoredValues();
     } else {
+      // stop monitoring the item
       for (let i = this.monitoredItems.length - 1; i >= 0; i--) {
-        if (this.monitoredItems[i] === path) {
+        if (this.monitoredItems[i][0] === path) {
           this.monitoredItems.splice(i, 1);
           // break;       //<-- Uncomment  if only the first term has to be removed
         }
@@ -222,11 +325,32 @@ export class ItemTreeComponent implements OnInit {
     }
 
     // console.log(this.monitoredItems);
+
   }
 
 
+  isItemMonitored(path: string) {
+    for (let i = this.monitoredItems.length - 1; i >= 0; i--) {
+      if (this.monitoredItems[i][0] === path) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  getMonitoredValues() {
+    console.log('getMonitoredValues()');
+    this.monitoredItemsUpdateSubscription = this.websocketPluginService.monitoredItemsUpdate$.subscribe(() => {
+      console.error('monitoredItemsUpdate$');
+      // this.updateChartData(this.chartSystemload, this.chartdataLoad, this.websocketPluginService.monitor.items);
+      console.log(this.websocketPluginService.monitor.items);
+    });
+  }
+
   getDetails(path: string) {
     console.log('ItemTreeComponent.getDetails: ' + path);
+    console.warn('- this', this);
     if ((path !== undefined)) {
       this.dataService.getItemDetails(path)
         .subscribe(
@@ -260,7 +384,6 @@ export class ItemTreeComponent implements OnInit {
     } else {
       this.showDetails();
     }
-
   }
 
 

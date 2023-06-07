@@ -36,7 +36,7 @@
                   <thead>
                   <tr class="shng_heading">
                     <th style="width: 30px; border-top:0;"></th>
-                    <th class="p-1" style="width: 320px; border-top: 0;">{{ 'LOGICS.LOGIC'|translate }}</th>
+                    <th class="p-1" style="width: 320px; border-top: 0;"><strong>{{ 'LOGICS.LOGIC'|translate }}</strong></th>
                     <th class="p-1" style="width: 220px; border-top: 0;">{{ 'LOGICS.NEXT_EXEC'|translate }}</th>
                     <th class="p-1" style="width: 70px;  border-top: 0;">{{ 'LOGICS.CYCLE'|translate }}</th>
                     <th class="p-1" style="width: 150px; border-top: 0;">{{ 'LOGICS.CRONTAB'|translate }}</th>
@@ -56,7 +56,10 @@
                             <ng-container *ngIf="logic.enabled === true, then logicEnabled; else logicDisabled"></ng-container>
                             <ng-template #logicEnabled>
                               <td class="p-1 pl-2"><span style="color: var(--shng-green);" title="{{ 'LOGICS.ENABLED'|translate }}" class="fas fa-play-circle"></span></td>
-                              <td class="p-1">{{ logic.name }}</td>
+                              <td class="p-1">
+                                {{ logic.name }}<br>
+                                <p style="font-size: 12px">{{ logic.description }}</p>
+                              </td>
                               <td class="p-1">{{ logic.next_exec }}</td>
                               <td class="p-1">{{ logic.cycle }}</td>
                               <td class="p-1">{{ logic.crontab }}</td>
@@ -239,21 +242,23 @@
           </div>
           <div  class="tab-content">
             <thead>
-            <tr class="shng_heading">
-              <th style="width: 30px; border-top:0;"></th>
-              <th class="p-1" style="width: 320px; border-top: 0;">{{ 'LOGICS.LOGIC'|translate }}</th>
-              <th class="p-1" style="width: 220px; border-top: 0;">{{ 'LOGICS.NEXT_EXEC'|translate }}</th>
-              <th class="p-1" style="width: 70px;  border-top: 0;">{{ 'LOGICS.CYCLE'|translate }}</th>
-              <th class="p-1" style="width: 150px; border-top: 0;">{{ 'LOGICS.CRONTAB'|translate }}</th>
-              <th class="p-1" style="width: 120px; border-top: 0;">{{ 'LOGICS.WATCH_ITEMS'|translate }}</th>
-              <th class="p-1" style="width: 250px; border-top: 0;">{{ 'LOGICS.FILENAME'|translate }}</th>
-              <th class="p-1" style="width: 260px; border-top: 0;">
-                <div style="width: 200px">
-                  <button pButton type="button" style="margin-left: 0px; margin-top: 5px; font-size: medium;" id="newLogicButton" [disabled]="false" (click)="newLogic();" icon="fa fa-plus" label="{{ 'BUTTON.NEW_LOGIC'|translate }}" class="ui-button-success float-sm-left"></button>
-                  {{ 'LOGICS.ACTIONS'|translate }}
-                </div>
-              </th>
-            </tr>
+            <ng-container *ngIf="userlogics?.length > 0">
+              <tr class="shng_heading">
+                <th style="width: 30px; border-top:0;"></th>
+                <th class="p-1" style="width: 320px; border-top: 0;">{{ 'LOGICS.LOGIC'|translate }}</th>
+                <th class="p-1" style="width: 220px; border-top: 0;">{{ 'LOGICS.NEXT_EXEC'|translate }}</th>
+                <th class="p-1" style="width: 70px;  border-top: 0;">{{ 'LOGICS.CYCLE'|translate }}</th>
+                <th class="p-1" style="width: 150px; border-top: 0;">{{ 'LOGICS.CRONTAB'|translate }}</th>
+                <th class="p-1" style="width: 120px; border-top: 0;">{{ 'LOGICS.WATCH_ITEMS'|translate }}</th>
+                <th class="p-1" style="width: 250px; border-top: 0;">{{ 'LOGICS.FILENAME'|translate }}</th>
+                <th class="p-1" style="width: 260px; border-top: 0;">
+                  <div style="width: 200px">
+                    <button pButton type="button" style="margin-left: 0px; margin-top: 5px; font-size: medium;" id="newLogicButton_ng" [disabled]="false" (click)="newLogic();" icon="fa fa-plus" label="{{ 'BUTTON.NEW_LOGIC'|translate }}" class="ui-button-success float-sm-left"></button>
+                    {{ 'LOGICS.ACTIONS'|translate }}
+                  </div>
+                </th>
+              </tr>
+            </ng-container>
             </thead>
 
             <tbody>
@@ -620,7 +625,8 @@
   <br>
   <br>
   <p-footer>
-    <button pButton type="button" icon="fa fa-trash-alt" (click)="deleteLogicConfirm()" label="{{'BUTTON.DELETE'|translate}}" class="ui-button-danger"></button>
+    <button pButton type="button" icon="fa fa-trash-alt" (click)="deleteLogicConfirm(true)" label="{{'BUTTON.DELETE_WITH_CODE'|translate}}" class="ui-button-danger"></button>
+    <button pButton type="button" icon="fa fa-trash-alt" (click)="deleteLogicConfirm(false)" label="{{'BUTTON.DELETE_CONFIG'|translate}}" class="ui-button-success"></button>
     <button pButton type="button" icon="fa fa-times" (click)="deleteLogicAbort()" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>
@@ -635,6 +641,7 @@
   header=""
   [(visible)]="newlogic_display"
   [modal]="true"
+  [focusOnShow]="true"
   blockScroll="true"
   [closable]="false"
   [maximizable]="false"
@@ -652,19 +659,19 @@
     <label style="display: block;">
       <span style="display: inline-block; width: 80px;">{{ 'LOGICS.LOGIC'|translate }}:</span>
 
-     <input [(ngModel)]="newlogic_name" id="nlog" type="text" (input)="checkNewLogicInput();" pInputText placeholder="" style="position: absolute; margin-left: 100px" [ngStyle]="{'width': 30}" autofocus/>
+     <input [(ngModel)]="newlogic_name" autofocus #newlogicnameInput id="nlog" type="text" (blur)="onBlur()" (input)="checkNewLogicInput();" pInputText placeholder="" style="position: absolute; margin-left: 100px" [ngStyle]="{'width': 30}"/>
     </label>
 
   <label style="display: block;">
     <span style="display: inline-block; width: 80px;">{{ 'LOGICS.FILENAME'|translate }}:</span>
-    <input [(ngModel)]="newlogic_filename" id="nfn" type="text" (input)="checkNewLogicInput();" pInputText placeholder="" style="position: absolute; margin-left: 100px" [ngStyle]="{'width': 30}" autofocus/>
+    <input [(ngModel)]="newlogic_filename" id="nfn" type="text" (focus)="onFocus();" (input)="checkNewLogicInput();" pInputText placeholder="" style="position: absolute; margin-left: 100px" [ngStyle]="{'width': 30}" autofocus/>
   </label>
   <br>
   <alert *ngIf="this.wrongNewLogicName" type="danger" [dismissible]="true" (onClosed)="this.wrongNewLogicName=''" class="mt-2" id="newLogicsAlert">
     {{ this.wrongNewLogicName|translate }}
   </alert>
   <p-footer>
-    <button pButton type="button" id="createLogicsButton" icon="pi pi-check" (click)="this.wrongNewLogicName=''; this.createLogic()" [(disabled)]="!newlogic_add_enabled" label="{{'BUTTON.CREATE'|translate}}" class="ui-button-success" autofocus></button>
+    <button pButton type="button" id="createLogicsButton" icon="pi pi-check" (click)="this.wrongNewLogicName=''; this.createLogic()" [(disabled)]="!newlogic_add_enabled" label="{{'BUTTON.CREATE'|translate}}" class="ui-button-success"></button>
     <button pButton type="button" id="cancleCreateLogicsButton" icon="pi pi-times" (click)="this.wrongNewLogicName=''; newlogic_display=false" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>

@@ -14,6 +14,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+// import { NgxRerenderModule } from 'ngx-rerender';
 
 import { TreeModule } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
@@ -72,6 +73,7 @@ import { LogicsEditComponent } from './logics/logics-edit/logics-edit.component'
 import { TopNavigationComponent } from './top-navigation/top-navigation.component';
 import { LoggerLineComponent } from './logs/logger-line/logger-line.component';
 import { LoggerTabComponent } from './logs/logger-tab/logger-tab.component';
+import { LogicsGroupsComponent } from './logics/logics-groups/logics-groups.component';
 
 export function translateHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -106,7 +108,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     LogicsEditComponent,
     TopNavigationComponent,
     LoggerLineComponent,
-    LoggerTabComponent
+    LoggerTabComponent,
+    LogicsGroupsComponent
   ],
   imports: [
     BrowserModule,
@@ -127,6 +130,9 @@ export function translateHttpLoaderFactory(http: HttpClient) {
 
     BrowserAnimationsModule,
 
+    CodemirrorModule,
+//    NgxRerenderModule,
+
     TreeModule,
     TableModule,
     TreeTableModule,
@@ -146,8 +152,6 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     CheckboxModule,
     ListboxModule,
     FileUploadModule,
-
-    CodemirrorModule,
 
     TabsModule.forRoot(),
     AlertModule.forRoot(),

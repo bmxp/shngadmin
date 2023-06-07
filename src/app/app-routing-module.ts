@@ -11,6 +11,7 @@ import { ItemConfiguration2Component } from './items/item-configuration2/item-co
 import { StructsComponent } from './items/structs/structs.component';
 import { StructConfigurationComponent } from './items/struct-configuration/struct-configuration.component';
 import { LogicsListComponent } from './logics/logics-list/logics-list.component';
+import { LogicsGroupsComponent } from './logics/logics-groups/logics-groups.component';
 import { SchedulersComponent } from './schedulers/schedulers/schedulers.component';
 import { PluginsComponent } from './plugins/plugin-list/plugins.component';
 import { PluginConfigComponent } from './plugins/config/plugin-config.component';
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
   { path: 'items', component: ItemTreeComponent, canActivate: [AuthGuardService] },
   { path: 'logics/edit/:logicname', component: LogicsEditComponent, canActivate: [AuthGuardService] },
   { path: 'logics-list', component: LogicsListComponent, canActivate: [AuthGuardService] },
+  { path: 'logics-groups', component: LogicsGroupsComponent, canActivate: [AuthGuardService] },
   { path: 'schedulers', component: SchedulersComponent, canActivate: [AuthGuardService] },
 
   { path: 'plugins/config', component: PluginConfigComponent, canActivate: [AuthGuardService] },

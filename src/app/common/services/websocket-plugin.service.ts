@@ -13,8 +13,6 @@ import { SharedService } from './shared.service';
 import {OlddataService} from './olddata.service';
 
 
-// const PLUGIN_URL = 'ws://smarthomeng.fritz.box:2424/';
-
 
 export interface Message {
   cmd: string;
@@ -49,6 +47,13 @@ export class WebsocketPluginService implements OnInit {
 
   wsService: any;
   subject: any;
+
+  monitorCallbackFunction = undefined;
+
+  private msgMonitorItems = <Message> {
+    'cmd': 'monitor',
+    'items': []
+  };
 
   private msgListenSeriesLoad = <Message> {
     'cmd': 'series',
@@ -124,6 +129,12 @@ export class WebsocketPluginService implements OnInit {
   };
 
 
+  monitor = {
+    'items': [['x', false]],
+    'cmd': 'item'
+  };
+
+
   systemload = {
     'series': [],
     'tsdiff': 0,
@@ -169,6 +180,9 @@ export class WebsocketPluginService implements OnInit {
     'tsdiff': 0,
   };
 
+
+  private monitoredItems = new Subject<void>();
+  public monitoredItemsUpdate$ = this.monitoredItems.asObservable();
 
   private systemloadSource = new Subject<void>();
   public systemloadUpdate$ = this.systemloadSource.asObservable();
@@ -229,14 +243,15 @@ export class WebsocketPluginService implements OnInit {
     const hostip = sessionStorage.getItem('hostip');
     const wsHost = sessionStorage.getItem('wsHost');
     const wsPort = sessionStorage.getItem('wsPort');
-    const plugin_url = 'ws://' + wsHost + ':' + wsPort;
+    const adm_url = 'ws://' + wsHost + ':' + wsPort + '/adm';
 
     if (hostip === 'localhost' || hostip === null) {
-      console.log({plugin_url}, '\nFür mockup Environment in \n\'testdata/api/server/info/default.json\' anpassen');
+      console.log({adm_url}, 'Für mockup Environment ip und port in \'testdata/api/server/info/default.json\' anpassen');
     }
     this.wsService = new WebsocketService();
-    this.subject = this.wsService.connect(plugin_url);
+    this.subject = this.wsService.connect(adm_url);
     this.subject.subscribe(msg => {
+        console.warn('connect', msg.data);
         const data = JSON.parse(msg.data);
         if (data.cmd === 'item') {
           this.handleResponseItem(data);
@@ -272,8 +287,9 @@ export class WebsocketPluginService implements OnInit {
 
 
   handleResponseItem(data) {
-    console.log('message received (item):');
-    console.log(data);
+    // console.log('message received (item):');
+    // console.log(data);
+    this.monitorCallbackFunction(data);
   }
 
 
@@ -286,6 +302,23 @@ export class WebsocketPluginService implements OnInit {
         this.wsService.sendMessage(message);
       });
     }
+  }
+
+
+
+  // ------------------------------------------------------------------
+  // requests monitorig of items
+  //
+
+  getMonitoredItems(itemList = [], callback) {
+    this.monitorCallbackFunction = callback;
+
+    const monitorItems = [];
+    for (let i = 0; i < itemList.length; i++) {
+      monitorItems.push(itemList[i][0]);
+    }
+    this.msgMonitorItems.items = monitorItems;
+    this.sendMessage(this.msgMonitorItems);
   }
 
 

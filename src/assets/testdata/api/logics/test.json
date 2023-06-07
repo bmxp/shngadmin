@@ -4,6 +4,7 @@
   "filename": "test.py",
   "group": ["test", "Group 2"],
   "name": "test",
+  "logic_description": "Dieses ist die Beschreibung der Funktion der Logik 'test'",
   "watch_item": [],
   "next_exec": "2019-05-04 16:37:01+0200"
 }

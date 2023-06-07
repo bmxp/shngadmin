@@ -95,9 +95,15 @@
 
           <table id="1" class="table table-striped">
             <tr>
+              <td>{{ 'LOGIC_EDIT.DESCRIPTION'|translate }}</td>
+              <td colspan="3">
+                <input [(ngModel)]="logic.logic_description" (keyup)="this.logicChanged = hasLogicChanged()"  type="text" pInputText placeholder="" pInputText name="description" style="width: 100%" [ngStyle]="{'width': 50}"/>
+              </td>
+            </tr>
+            <tr>
               <td>{{ 'LOGIC_EDIT.GROUP'|translate }}</td>
               <td colspan="3">
-                <input [(ngModel)]="logic.group" (keyup)="this.logicChanged = hasLogicChanged()"  type="text" pInputText placeholder="" pInputText name="crontab" style="width: 400px" [ngStyle]="{'width': 50}"/>
+                <input [(ngModel)]="logic.group" (keyup)="this.logicChanged = hasLogicChanged()"  type="text" pInputText placeholder="" pInputText name="group" style="width: 400px" [ngStyle]="{'width': 50}"/>
               </td>
             </tr>
             <tr>

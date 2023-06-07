@@ -1,5 +1,7 @@
 
-import { Component, OnInit } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, Renderer, OnInit } from '@angular/core';
+
 import { TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -47,7 +49,8 @@ export class LogicsListComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private translate: TranslateService,
-              private titleService: Title) {
+              private titleService: Title,
+              private renderer: Renderer) {
     this.userlogics = [];
     this.systemlogics = [];
     this.nogroups = true;
@@ -230,7 +233,27 @@ export class LogicsListComponent implements OnInit {
     this.newlogic_name = '';
     this.newlogic_filename = '';
     this.newlogic_add_enabled = false;
+
     this.newlogic_display = true;
+  }
+
+
+  onShow() {
+    console.warn('onShow');
+  }
+
+  onBlur() {
+    console.warn('onBlur');
+  }
+
+  onFocus() {
+    console.warn('onFocus');
+    if (this.newlogic_filename === '') {
+      this.newlogic_filename = this.newlogic_name;
+      if (this.newlogic_name !== '') {
+        this.newlogic_add_enabled = true;
+      }
+    }
   }
 
 
@@ -294,11 +317,16 @@ export class LogicsListComponent implements OnInit {
   }
 
 
-  deleteLogicConfirm() {
+  deleteLogicConfirm(with_code) {
     // console.log('deleteLogicConfirm', this.logicToDelete);
     this.confirmdelete_display = false;
 
-    this.dataService.setLogicState(this.logicToDelete, 'delete')
+    let action = 'delete';
+    if (with_code === true) {
+      action = 'delete_with_code';
+    }
+
+    this.dataService.setLogicState(this.logicToDelete, action)
       .subscribe(
         (response) => {
           this.getLogics();

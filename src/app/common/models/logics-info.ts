@@ -13,6 +13,7 @@ export interface LogicsinfoType {
   logictype: string;
   group?: any;
   name: string;
+  logic_description?: string;
   next_exec: string;
   pathname: string;
   userlogic: boolean;

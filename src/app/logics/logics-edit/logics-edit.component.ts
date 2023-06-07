@@ -27,6 +27,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
   logic: LogicsinfoType = <any>{};
   wrongWatchItem: boolean;
   logicChanged: boolean;
+  logicDescriptionOrig: string;
   logicGroupOrig: string;
   logicCycleOrig: string;
   logicCrontabOrig: string;
@@ -360,8 +361,11 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
             this.logic.enabled = true;
           }
 
+          if (this.logic.logic_description === undefined) {
+            this.logic.logic_description = null;
+          }
           if (this.logic.group === undefined) {
-            this.logic.group = null;
+            this.logic.group = '';
           }
           console.log('typeof this.logic.group', typeof this.logic.group, this.logic.group);
           this.logic.group = this.listToString(this.logic.group);
@@ -371,7 +375,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
             this.logic.cycle = null;
           }
           if (this.logic.crontab === undefined) {
-            this.logic.crontab = null;
+            this.logic.crontab = '';
           }
           // console.log('typeof this.logic.crontab', typeof this.logic.crontab, this.logic.crontab);
           this.logic.crontab = this.listToString(this.logic.crontab);
@@ -399,6 +403,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
 
           this.getPluginParameterDefinitions();
 
+          this.logicDescriptionOrig = this.logic.logic_description;
           this.logicGroupOrig = this.logic.group;
           this.logicCycleOrig = this.logic.cycle;
           this.logicCrontabOrig = this.logic.crontab;
@@ -445,6 +450,12 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
         return true;
       }
     }
+    if (this.logic.logic_description !== this.logicDescriptionOrig) {
+      if (!(this.logic.logic_description === null && this.logicDescriptionOrig === '')) {
+        // console.log('parametersChanged:', 'logic_description');
+        return true;
+      }
+    }
     if (this.logic.group !== this.logicGroupOrig) {
       if (!(this.logic.group === null && this.logicGroupOrig === '')) {
         // console.log('parametersChanged:', 'group');
@@ -453,7 +464,6 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
     }
     if (this.logic.crontab !== this.logicCrontabOrig) {
       if (!(this.logic.crontab === null && this.logicCrontabOrig === '')) {
-        // console.log('parametersChanged:', 'crontab');
         return true;
       }
     }
@@ -655,6 +665,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
 
   discardChanges() {
     this.myTextarea = this.myTextareaOrig;
+    this.logic.logic_description = this.logicDescriptionOrig;
     this.logic.group = this.logicGroupOrig;
     this.logic.cycle = this.logicCycleOrig;
     this.logic.crontab = this.logicCrontabOrig;
@@ -674,6 +685,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
     if (!(parseInt(this.logic.cycle, 10) > 0)) {
       this.logic.cycle = null;
     }
+    params['logic_description'] = this.logic.logic_description;
     params['group'] = this.stringToList(this.logic.group);
     this.logic.group = this.listToString(params['group']);
     params['cycle'] = this.logic.cycle;
@@ -704,6 +716,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
       .subscribe(
         (response) => {
           // after saving the parameters, set Orig vars to signal the editor shows "unchanged values"
+          this.logicDescriptionOrig = this.logic.logic_description;
           this.logicGroupOrig = this.logic.group;
           this.logicCycleOrig = this.logic.cycle;
           this.logicCrontabOrig = this.logic.crontab;

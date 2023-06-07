@@ -105,8 +105,10 @@ export class OlddataService implements OnInit {
 
     const url = url_start + 'item_detail_json.html?item_path=' + itempath;
     console.log('getItemDetails: url: ' + url);
+    console.log('getItemDetails: itempath: ' + itempath);
     if (host_ip === 'localhost:4200') {
-      if (itempath === 'beoremote.beo4command') {
+      if (itempath === 'beoremote.beo4command' || itempath === 'beoremote.beo4commandnum' ||
+          itempath === 'test.string' || itempath === 'test.number') {
       } else {
         console.log('getItemDetails: url: <' + itempath + '>');
         return itempath;
