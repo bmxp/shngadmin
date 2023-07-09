@@ -12,6 +12,11 @@ import {of} from 'rxjs';
 })
 export class LogicsApiService {
 
+  // Das Array groupExpanded dient dazu, den Auf-/Zuklapp Zustand des Accordeon-Tabs zu speichern,
+  // während im Browser auf andere Komponenten gewechselt wird.
+  groupExpanded: number[] = [];
+
+
   constructor(private http: HttpClient) { }
 
 

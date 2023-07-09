@@ -147,7 +147,7 @@ export class LoggerListComponent implements OnInit {
       return true;
     }
     if (logger.startsWith('plugins.')) {
-      if (this.active_plugins.includes(logger.slice(8))) {
+      if (this.active_plugins.includes(logger.slice(8).split('.')[0])) {
         return true;
       }
     }

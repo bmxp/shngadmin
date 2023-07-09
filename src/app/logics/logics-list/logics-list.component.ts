@@ -26,6 +26,8 @@ export class LogicsListComponent implements OnInit {
 
   groupdefinitions = {};
   groupList: LogicsGroupType[];
+  groupExpandedOnStart: number[] = [];
+  groupExpanded: number[] = [];
   nogroups: boolean;
   logics: LogicsinfoType[];
   userlogics: LogicsinfoType[];
@@ -64,6 +66,10 @@ export class LogicsListComponent implements OnInit {
   ngOnInit() {
     console.log('LogicsListComponent.ngOnInit');
 
+    console.warn('logics-list:ngOnInit');
+    this.groupExpandedOnStart = this.dataService.groupExpanded;
+    this.groupExpanded = this.dataService.groupExpanded;
+
     this.dataServiceServer.getServerinfo()
         .subscribe(
             (response) => {
@@ -100,6 +106,37 @@ export class LogicsListComponent implements OnInit {
         this.nogroups = false;
       }
     }
+  }
+
+
+  groupOpened(event) {
+    const index = event['index'];
+    console.warn( 'groupOpened', {index});
+
+    console.log('this.groupExpanded', this.groupExpanded);
+    console.log('this.groupExpandedOnStart', this.groupExpandedOnStart);
+
+    if (this.groupExpanded.indexOf(index) === -1) {
+      this.groupExpanded.push(index);
+      this.dataService.groupExpanded = this.groupExpanded;
+    }
+    console.log('this.groupExpanded', this.groupExpanded);
+  }
+
+
+  groupClosed(event) {
+    const index = event['index'];
+    console.warn( 'groupClosed', {index});
+    if (this.groupExpanded === undefined) {
+      this.groupExpanded = [];
+    }
+    console.log('this.groupExpanded', this.groupExpanded);
+
+    if (this.groupExpanded.indexOf(index) > -1) {
+      this.groupExpanded.splice(this.groupExpanded.indexOf(index), 1);
+      this.dataService.groupExpanded = this.groupExpanded;
+    }
+    console.log('this.groupExpanded', this.groupExpanded);
   }
 
 

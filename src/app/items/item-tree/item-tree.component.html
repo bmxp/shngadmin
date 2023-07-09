@@ -123,6 +123,9 @@
                           <tr><td class="py-1">{{'ITEMS.PATH'|translate}}</td><td class="py-1">{{itemdetails.path}}</td></tr>
                           <tr><td class="py-1">{{'ITEMS.NAME'|translate}}</td><td class="py-1">{{itemdetails.name}}</td></tr>
                           <tr><td class="py-1">{{'ITEMS.TYPE'|translate}}</td><td class="py-1">{{itemdetails.type}}</td></tr>
+                          <ng-container *ngIf="itemdetails.description !== undefined && itemdetails.description !== ''">
+                            <tr><td class="py-1">{{'ITEMS.DESCRIPTION'|translate}}</td><td class="py-1">{{itemdetails.description}}</td></tr>
+                          </ng-container>
                           <ng-container *ngIf="itemdetails.struct !== undefined">
                             <tr><td class="py-1">{{'ITEMS.STRUCT'|translate}}</td><td class="py-1">{{itemdetails.struct}}</td></tr>
                           </ng-container>
