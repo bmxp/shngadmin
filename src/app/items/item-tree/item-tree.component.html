@@ -242,7 +242,10 @@
                           <ng-container *ngIf="itemdetails.logics && itemdetails.logics.length > 0">
                             <tr class="shng_heading"><th class="py-1" colspan="2" style="height: 45px; vertical-align: bottom">{{ 'ITEMS.CONNECTED LOGICS'|translate }}:</th></tr>
                             <ng-container *ngFor="let logic of itemdetails.logics">
-                              <tr><td class="py-1" colspan="2" > <a class="text-shng" [routerLink]="['/logics/edit', logic]">{{logic}}</a></td></tr>
+                              <tr>
+                                <td class="py-1"> <a class="text-shng" [routerLink]="['/logics/edit', logic.name]">{{logic.name}}</a></td>
+                                <td class="py-1" style="font-size: 12px">{{logic.description}}</td>
+                              </tr>
                             </ng-container>
                           </ng-container>
 

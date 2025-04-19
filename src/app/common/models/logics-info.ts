@@ -23,6 +23,6 @@ export interface LogicsinfoType {
 
 export interface LogicsGroupType {
   name?: string;
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
 }

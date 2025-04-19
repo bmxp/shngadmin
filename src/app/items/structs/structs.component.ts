@@ -137,7 +137,7 @@ export class StructsComponent implements OnInit {
         if (Array.isArray(subtree)) {
           displayNode['label'] = '- ' + subtree[key];
         } else {
-          if (typeof subtree[key] === 'string') {
+          if (typeof subtree[key] === 'string' || typeof subtree[key] === 'number' || typeof subtree[key] === 'boolean') {
             displayNode['label'] = key + ': ' + subtree[key];
           } else {
             displayNode['label'] = key;

@@ -47,7 +47,10 @@ export interface ItemDetails {
   threshold: string;
   threshold_crossed: string;
   config: {};
-  logics: string;
+  logics: {
+    name: string;
+    description: string;
+  }[];
   triggers: string;
   filename: string;
 }

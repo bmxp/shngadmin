@@ -17,7 +17,30 @@ export class LogicsApiService {
   groupExpanded: number[] = [];
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
+
+
+  getGroupsInfo() {
+    const apiUrl = sessionStorage.getItem('apiUrl');
+    let url = apiUrl + 'logics/' + '?infotype=groups';
+    if (apiUrl.includes('localhost')) {
+      // url += '.json';
+      url = apiUrl + 'logics/groups.json';
+    }
+    return this.http.get(url)
+      .pipe(
+        map(response => {
+          const result = response;
+          // console.warn('LogicsApiService.getGroupsInfo(): ', result);
+          return result;
+        }),
+        catchError((err: HttpErrorResponse) => {
+          console.error('LogicsApiService.getGroupsInfo(): Could not read groups data' + ' - ' + err.error.error);
+          return of({});
+        })
+      );
+  }
 
 
   getLogics() {
@@ -60,6 +83,27 @@ export class LogicsApiService {
   }
 
 
+  getLogicState(logicname) {
+    const apiUrl = sessionStorage.getItem('apiUrl');
+    let url = apiUrl + 'logics/' + logicname + '?infotype=status';
+    if (apiUrl.includes('localhost')) {
+      url += '.json';
+    }
+    return this.http.get(url)
+      .pipe(
+        map(response => {
+          const result = response;
+          // console.warn('LogicsApiService.getLogicState(' + logicname + '): ', result);
+          return result;
+        }),
+        catchError((err: HttpErrorResponse) => {
+          console.error('LogicsApiService.getLogicState(' + logicname + '): Could not read logics data' + ' - ' + err.error.error);
+          return of({});
+        })
+      );
+  }
+
+
   setLogicState(logicName, action, filename = '') {
     // valid actions are: 'trigger', 'enable', 'disable', 'load', 'unload', 'reload', 'delete', 'create'
     action = action.toLowerCase();
@@ -86,13 +130,13 @@ export class LogicsApiService {
               // console.log('LogicsApiService.setLogicState', 'success');
               return true;
             } else {
-              console.log('LogicsApiService.setLogicState', 'fail');
-              alert('LogicsApiService.setLogicState:\n' + result.result + '\n' + result.description);
+              console.log('LogicsApiService.setLogicState', 'failed');
+              alert('LogicsApiService.setLogicState:\n\n' + result.result + ': ' + result.description);
               return false;
             }
 
           } else {
-            console.log('LogicsApiService.setLogicState', 'fail: undefined result');
+            console.log('LogicsApiService.setLogicState', 'failed: Undefined result');
           }
         }),
         catchError((err: HttpErrorResponse) => {
@@ -145,6 +189,79 @@ export class LogicsApiService {
   }
 
 
+  saveLogicGroup(groupName, group) {
+
+    const apiUrl = sessionStorage.getItem('apiUrl');
+    const url = apiUrl + 'logics/' + groupName + '?action=' + 'savegroup';
+    if (apiUrl.includes('localhost')) {
+      console.warn('LogicsApiService.saveLogicGroup', 'Cannot simulate saving group in dev environment\n', '- group', groupName, ', data', group);
+      return of(true);
+    }
+
+    return this.http.put(url, JSON.stringify(group))
+      .pipe(
+        map(response => {
+          const result = <any>response;
+
+          if (result) {
+            console.log('LogicsApiService.saveLogicGroup', '- group', groupName, '\nresult', {result});
+            if (result.result === 'ok') {
+              console.log('LogicsApiService.saveLogicGroup', 'success');
+              return true;
+            } else {
+              console.log('LogicsApiService.saveLogicGroup', 'fail');
+              alert('LogicsApiService.saveLogicGroup:\n' + result.result + '\n' + result.description);
+              return false;
+            }
+
+          } else {
+            console.log('LogicsApiService.saveLogicGroup', 'fail: undefined result');
+          }
+        }),
+        catchError((err: HttpErrorResponse) => {
+          console.error('LogicsApiService.saveLogicGroup: Could not save logic group' + ' - ' + err.error.error);
+          return of({});
+        })
+      );
+
+  }
+
+
+  deleteLogicGroup(groupName) {
+
+    const apiUrl = sessionStorage.getItem('apiUrl');
+    const url = apiUrl + 'logics/' + groupName + '?action=' + 'deletegroup';
+    if (apiUrl.includes('localhost')) {
+      console.warn('LogicsApiService.deleteLogicGroup', 'Cannot simulate deleting group in dev environment\n', '- group', groupName);
+      return of(true);
+    }
+
+    return this.http.put(url, JSON.stringify(''))
+      .pipe(
+        map(response => {
+          const result = <any>response;
+
+          if (result) {
+            console.log('LogicsApiService.deleteLogicGroup', '- group', groupName, '\nresult', {result});
+            if (result.result === 'ok') {
+              console.log('LogicsApiService.deleteLogicGroup', 'success');
+              return true;
+            } else {
+              console.log('LogicsApiService.deleteLogicGroup', 'fail');
+              alert('LogicsApiService.deleteLogicGroup:\n' + result.result + '\n' + result.description);
+              return false;
+            }
+
+          } else {
+            console.log('LogicsApiService.deleteLogicGroup', 'fail: undefined result');
+          }
+        }),
+        catchError((err: HttpErrorResponse) => {
+          console.error('LogicsApiService.deleteLogicGroup: Could not delete logic group' + ' - ' + err.error.error);
+          return of({});
+        })
+      );
+
+  }
+
 }
-
-

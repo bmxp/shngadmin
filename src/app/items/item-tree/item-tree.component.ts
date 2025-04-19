@@ -374,7 +374,9 @@ export class ItemTreeComponent implements OnDestroy, OnInit, AfterViewInit {
               details.value = (details.value.toLowerCase() === 'true');
             }
             this.showDetails(details);
-            },
+
+            console.warn('getDetails', details.logics);
+          },
           (error) => {
             console.log('ERROR: ItemsComponent: dataService.getItemDetails():');
             console.log(error);

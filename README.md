@@ -7,6 +7,12 @@ Admin interface for SmartHomeNG - EXPERIMENTAL - Source code for the Angular App
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.1.
 
+### --> The installed/used version of node.js is v12.20.0 (check with 'nvm current' command)
+
+If the actually used version of node does not match the requirements, change it
+with the 'nvm use <version>' command -> 'nvm use 12'
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

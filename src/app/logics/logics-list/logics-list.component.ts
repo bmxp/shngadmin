@@ -210,17 +210,6 @@ export class LogicsListComponent implements OnInit {
   }
 
 
-  reloadLogic(logicName) {
-    // console.log('reloadLogic', {logicName});
-    this.dataService.setLogicState(logicName, 'reload')
-      .subscribe(
-        (response) => {
-          this.getLogics();
-        }
-      );
-  }
-
-
   disableLogic(logicName) {
     // console.log('disableLogic', {logicName});
     this.dataService.setLogicState(logicName, 'disable')
@@ -246,6 +235,17 @@ export class LogicsListComponent implements OnInit {
   unloadLogic(logicName) {
     // console.log('unloadLogic', {logicName});
     this.dataService.setLogicState(logicName, 'unload')
+      .subscribe(
+        (response) => {
+          this.getLogics();
+        }
+      );
+  }
+
+
+  reloadLogic(logicName) {
+    // console.log('reloadLogic', {logicName});
+    this.dataService.setLogicState(logicName, 'reload')
       .subscribe(
         (response) => {
           this.getLogics();

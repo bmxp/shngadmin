@@ -12,10 +12,10 @@
             <tr>
               <td>
                 <div style="font-weight: normal; padding-top: 10px; padding-left: 10px; padding-right: 5px">
-                  <ng-container *ngIf="logic && logic.enabled">
+                  <ng-container *ngIf="logic && logic.enabled && myLogicIsLoaded">
                     <span style="color: var(--shng-green);" class="fas fa-play-circle" title="{{ 'LOGIC_EDIT.ACTIVE'|translate }}"></span>
                   </ng-container>
-                  <ng-container *ngIf="logic && !logic.enabled">
+                  <ng-container *ngIf="logic && (!logic.enabled  || !myLogicIsLoaded)">
                     <span style="color: var(--shng-red);" class="fas fa-pause-circle" title="{{ 'LOGIC_EDIT.INACTIVE'|translate }}"></span>
                   </ng-container>
                   {{ 'LOGIC_EDIT.FILENAME'|translate }}: <strong>../logics/{{ myEditFilename }}</strong>
@@ -27,15 +27,23 @@
 -->
                   <button pButton label="{{ 'BUTTON.HELP'|translate }}" type="button" [disabled]="false" icon="fa fa-info" style="margin-left: 20px; margin-right: 5px;" (click)="editorHelp_display = true;" class="float-sm-right ui-button-success"></button>
 
-                  <ng-container *ngIf="logic.enabled; then logicEnabledActions; else logicDisabledActions"></ng-container>
-                  <ng-template #logicEnabledActions>
-                    <button name="disable" title="{{ 'LOGICS.DISABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="disableLogic(logic.name);"><i class="fas fa-pause"></i></button>
-                    <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
-                    <button name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="triggerLogic();"><i class="fas fa-hand-pointer"></i></button>
+                  <ng-container *ngIf="this.myLogicIsLoaded; then logicIsLoaded; else logicIsNotLoaded"></ng-container>
+                  <ng-template #logicIsLoaded>
+                    <ng-container *ngIf="logic.enabled; then logicEnabledActions; else logicDisabledActions"></ng-container>
+                    <ng-template #logicEnabledActions>
+                      <button name="disable" title="{{ 'LOGICS.DISABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="disableLogic(logic.name);"><i class="fas fa-pause"></i></button>
+                      <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+                      <button name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="triggerLogic();"><i class="fas fa-hand-pointer"></i></button>
+                    </ng-template>
+                    <ng-template #logicDisabledActions>
+                      <button name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
+                      <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+                      <button disabled="true" name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right"><i class="fas fa-hand-pointer"></i></button>
+                    </ng-template>
                   </ng-template>
-                  <ng-template #logicDisabledActions>
-                    <button name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
-                    <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+                  <ng-template #logicIsNotLoaded>
+                    <button disabled="true" name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
+                    <button disabled="true" name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
                     <button disabled="true" name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right"><i class="fas fa-hand-pointer"></i></button>
                   </ng-template>
 
@@ -78,16 +86,25 @@
           -->
           <button pButton label="{{ 'BUTTON.HELP'|translate }}" type="button" [disabled]="false" icon="fa fa-info" style="margin-left: 20px; margin-right: 5px;" (click)="editorHelp_display = true;" class="float-sm-right ui-button-success"></button>
 
-          <ng-container *ngIf="logic.enabled; then logicEnabledActions; else logicDisabledActions"></ng-container>
-          <ng-template #logicEnabledActions>
-            <button name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="triggerLogic();"><i class="fas fa-hand-pointer"></i></button>
-            <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
-            <button name="disable" title="{{ 'LOGICS.DISABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="disableLogic(logic.name);"><i class="fas fa-pause"></i></button>
+
+          <ng-container *ngIf="this.myLogicIsLoaded; then logicIsLoaded; else logicIsNotLoaded"></ng-container>
+          <ng-template #logicIsLoaded>
+            <ng-container *ngIf="logic.enabled; then logicEnabledActions; else logicDisabledActions"></ng-container>
+            <ng-template #logicEnabledActions>
+              <button name="disable" title="{{ 'LOGICS.DISABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="disableLogic(logic.name);"><i class="fas fa-pause"></i></button>
+              <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+              <button name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="triggerLogic();"><i class="fas fa-hand-pointer"></i></button>
+            </ng-template>
+            <ng-template #logicDisabledActions>
+              <button name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
+              <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
+              <button disabled="true" name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right"><i class="fas fa-hand-pointer"></i></button>
+            </ng-template>
           </ng-template>
-          <ng-template #logicDisabledActions>
+          <ng-template #logicIsNotLoaded>
+            <button disabled="true" name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
+            <button disabled="true" name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
             <button disabled="true" name="trigger" title="{{ 'LOGICS.TRIGGER'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right"><i class="fas fa-hand-pointer"></i></button>
-            <button name="reload"  title="{{ 'LOGICS.RELOAD'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="reloadLogic(logic.name);"><i class="fas fa-sync"></i></button>
-            <button name="enable"  title="{{ 'LOGICS.ENABLE'|translate }}" class="btn btn-outline-dark btn-sm mr-1 float-sm-right" (click)="enableLogic(logic.name);"><i class="fas fa-play"></i></button>
           </ng-template>
 
         </div>

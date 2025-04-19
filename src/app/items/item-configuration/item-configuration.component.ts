@@ -244,7 +244,7 @@ export class ItemConfigurationComponent implements AfterViewChecked, OnInit {
   itemFileSelected() {
     let filename = this.selectedItemfile.value;
     if (filename.toLowerCase().endsWith('.yaml')) {
-      filename = filename.slice(0, -5)
+      filename = filename.slice(0, -5);
       // console.log('itemFileSelected()' , {filename});
       this.getItemFile(filename);
     } else {

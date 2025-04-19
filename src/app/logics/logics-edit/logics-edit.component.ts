@@ -61,6 +61,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
   @ViewChild('watchitems') private codeEditorWatchItems;
   myEditFilename: string;
   myLogicName: string;
+  myLogicIsLoaded = false;
   autocomplete_list: {}[] = [];
   full_autocomplete_list: {}[] = [];
   valid_item_list: {}[] = [];
@@ -355,14 +356,14 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
       .subscribe(
         (response) => {
           this.logic = <any>response;
-          console.warn('LogicsEditComponent.getLogicInfo() this.logic', this.logic);
+          // console.warn('LogicsEditComponent.getLogicInfo() this.logic', this.logic);
 
           if (this.logic.enabled === undefined) {
             this.logic.enabled = true;
           }
 
           if (this.logic.logic_description === undefined) {
-            this.logic.logic_description = null;
+            this.logic.logic_description = '';
           }
           if (this.logic.group === undefined) {
             this.logic.group = '';
@@ -419,8 +420,22 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
             this.logic.watch_item = [];
             this.logicWatchitemOrig = [];
           }
-        }
-      );
+        });
+
+        console.warn('getLogicInfo *3', this.logic);
+        this.dataService.getLogicState(logicname)
+          .subscribe(
+            (response) => {
+              if (response['watch_item'] !== undefined) {
+                // assign only if valid data is returned (do not assigen in localhost test mode)
+                this.logic = <any>response;
+              }
+              console.warn('getLogicInfo *4', this.logic, response);
+              this.myLogicIsLoaded = response['is_loaded'];
+              // console.warn('LogicsEditComponent.getLogicInfo() state isLoaded', response['is_loaded']);
+            }
+
+          );
   }
 
 
@@ -657,7 +672,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
           this.myTextareaOrig = this.myTextarea;
           this.logicChanged = this.hasLogicChanged();
           if (reload) {
-            this.reloadLogic(this.logic.name);
+            this.loadLogic(this.logic.name);    // reloadLogic
           }
         }
       );
@@ -726,7 +741,7 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
           this.logicChanged = this.hasLogicChanged();
 
           if (reload) {
-            this.reloadLogic(this.logic.name);
+            this.loadLogic(this.logic.name); // reloadLogic
           }
         }
       );
@@ -764,10 +779,34 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
 
 
   reloadLogic(logicName) {
-    // console.log('reloadLogic', {logicName});
+    console.log('reloadLogic', {logicName});
+
+    if (logicName === undefined) {
+      logicName = this.myLogicName;
+    }
     this.dataService.setLogicState(logicName, 'reload')
       .subscribe(
         (response) => {
+          // console.warn('reloadLogic: setLogicState response', response);
+          this.myLogicIsLoaded = response !== false;
+          // this.getLogics();
+        }
+      );
+  }
+
+
+  loadLogic(logicName) {
+    console.log('loadLogic', {logicName});
+    // console.warn('myLogicName', this.myLogicName, 'myEditFilename', this.myEditFilename);
+
+    if (logicName === undefined) {
+      logicName = this.myLogicName;
+    }
+    this.dataService.setLogicState(logicName, 'load')
+      .subscribe(
+        (response) => {
+          // console.warn('loadLogic: setLogicState response', response);
+          this.myLogicIsLoaded = response !== false;
           // this.getLogics();
         }
       );
