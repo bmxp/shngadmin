@@ -42,7 +42,6 @@
     "loadash": "^1.0.0",
     "moment": "^2.24.0",
     "ngx-bootstrap": "^3.1.4",
-    "ngx-rerender": "^1.2.0",
     "npm": "^6.14.6",
     "popper.js": "^1.14.6",
     "primeicons": "^1.0.0",
