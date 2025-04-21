@@ -57,8 +57,8 @@ export class LogicsEditComponent implements AfterViewChecked, OnInit {
   // -----------------------------------------------------
   //  Vars for the YAML syntax checker
   //
-  @ViewChild('codeeditor') private codeEditor;
-  @ViewChild('watchitems') private codeEditorWatchItems;
+  @ViewChild('codeeditor', { static: true }) private codeEditor;
+  @ViewChild('watchitems', { static: true }) private codeEditorWatchItems;
   myEditFilename: string;
   myLogicName: string;
   myLogicIsLoaded = false;

@@ -28,7 +28,7 @@ export class LogicsGroupsComponent implements OnInit {
   // -----------------------------------------------------
   //  Vars for the YAML syntax checker
   //
-  @ViewChild('codeeditor') private codeEditor;
+  @ViewChild('codeeditor', { static: false }) private codeEditor;
 
   logicGroups: LogicsGroupType[];         // filelist: string[];
   groupList: string[];

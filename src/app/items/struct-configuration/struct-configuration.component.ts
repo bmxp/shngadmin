@@ -28,7 +28,7 @@ export class StructConfigurationComponent implements AfterViewChecked, OnInit {
   // -----------------------------------------------------
   //  Vars for the YAML syntax checker
   //
-  @ViewChild('codeeditor') private codeEditor;
+  @ViewChild('codeeditor', { static: true }) private codeEditor;
 
   myEditFilename: string;
   myTextarea = '';

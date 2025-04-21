@@ -32,7 +32,7 @@ export class FunctionConfigurationComponent implements AfterViewChecked, OnInit 
   // -----------------------------------------------------
   //  Vars for the YAML syntax checker
   //
-  @ViewChild('codeeditor') private codeEditor;
+  @ViewChild('codeeditor', { static: true }) private codeEditor;
 
   filelist: string[];
   functionFiles: SelectItem[];

@@ -36,8 +36,8 @@ import {Subscription} from 'rxjs';
   providers:  [AppComponent, WebsocketService, WebsocketPluginService ]
 })
 export class ItemTreeComponent implements OnDestroy, OnInit, AfterViewInit {
-  @ViewChild('vc', { read: ViewContainerRef }) vc: ViewContainerRef;
-  @ViewChild('tpl', { read: TemplateRef }) tpl: TemplateRef<any>;
+  @ViewChild('vc', { read: ViewContainerRef, static: true }) vc: ViewContainerRef;
+  @ViewChild('tpl', { read: TemplateRef, static: true }) tpl: TemplateRef<any>;
 
   childViewRef: ViewRef;
 
