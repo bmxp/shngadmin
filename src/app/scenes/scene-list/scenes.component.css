@@ -4,7 +4,7 @@
   color:rgb(160, 160, 160);
 }
 
-:host /deep/ .ui-accordion .ui-accordion-header:hover a{
+:host ::ng-deep .ui-accordion .ui-accordion-header:hover a{
   text-decoration: none;
 }
 
