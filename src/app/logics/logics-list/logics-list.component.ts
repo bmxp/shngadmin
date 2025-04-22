@@ -1,6 +1,6 @@
 
 // import { Component, OnInit } from '@angular/core';
-import { Component, ElementRef, ViewChild, Renderer, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, Renderer2 } from '@angular/core';
 
 import { TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -52,7 +52,7 @@ export class LogicsListComponent implements OnInit {
               private route: ActivatedRoute,
               private translate: TranslateService,
               private titleService: Title,
-              private renderer: Renderer) {
+              private renderer: Renderer2) {
     this.userlogics = [];
     this.systemlogics = [];
     this.nogroups = true;
