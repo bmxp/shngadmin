@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
-import { UIChart } from 'primeng/primeng';
+import { UIChart } from 'primeng/chart';
 
 import * as $ from 'jquery';
 
