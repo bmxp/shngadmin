@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { parse } from 'url';
 import { ServerInfo } from '../models/server-info';
-import {SharedService} from './shared.service';
+import { SharedService } from './shared.service';
 
 
 
@@ -19,6 +19,7 @@ let host_ip = '';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ServerApiService {
 // export class ThreadsApiService {
 
@@ -31,7 +32,7 @@ export class ServerApiService {
               private shared: SharedService,
               @Inject('BASE_URL') baseUrl: string) {
 
-    // console.log('ServerApiService.constructor:');
+    console.log('ServerApiService.constructor für baseUrl', baseUrl);
 
     this.baseUrl = baseUrl;
 
@@ -73,23 +74,29 @@ export class ServerApiService {
 
   getServerBasicinfo() {
     const apiUrl = sessionStorage.getItem('apiUrl');
+    if (!apiUrl) {
+      console.error('sessionStorage has no Item apiUrl');
+      return of({});
+    }
     let url = apiUrl + 'server/';
     if (apiUrl.includes('localhost')) {
       url += 'default.json';
     }
+    console.log('getServerBasicinfo using url',url);
     return this.http.get(url)
       .pipe(
         map(response => {
-          this.shng_serverinfo = <ServerInfo>response;
-          const result = <ServerInfo>response;
+          console.log('map => response');
+          this.shng_serverinfo = response as ServerInfo;
+          const result = response as ServerInfo;
           let lang = sessionStorage.getItem('default_language');
-          // console.warn({lang});
           if (lang === null) {
+            console.log('default_language from sessionStorage was null');
             sessionStorage.setItem('default_language', this.shng_serverinfo.default_language);
             const fallback = this.shng_serverinfo.fallback_language_order;
             lang = sessionStorage.getItem('default_language');
             this.translate.setDefaultLang(this.shared.getFallbackLanguage());
-            // console.log('getServerBasicinfo', {lang}, {fallback}, this.shared.getFallbackLanguage());
+            console.log('getServerBasicinfo', {lang}, {fallback}, this.shared.getFallbackLanguage());
             this.shared.setGuiLanguage();
           }
           sessionStorage.setItem('client_ip', this.shng_serverinfo.client_ip);
@@ -111,14 +118,14 @@ export class ServerApiService {
           return result;
         }),
         catchError((err: HttpErrorResponse) => {
-          console.error('ServerApiService (getServerinfo): Could not read serverinfo data' + ' - ' + err.error.error);
+          console.error('ServerApiService (getServerinfo): Could not read serverinfo data' + ' - ' + err?.error?.error || err.message || err);
           return of({});
         })
       );
   }
 
   getServerinfo() {
-    // console.log('ServerApiService.getServerinfo');
+    console.log('ServerApiService.getServerinfo');
     const apiUrl = sessionStorage.getItem('apiUrl');
     let url = apiUrl + 'server/info/';
     if (apiUrl.includes('localhost')) {
@@ -127,7 +134,7 @@ export class ServerApiService {
     return this.http.get(url)
       .pipe(
         map(response => {
-          // console.log('getServerinfo(): map');
+          console.log('getServerinfo(): map');
           this.shng_serverinfo = <ServerInfo> response;
           const result = response;
           let lang = sessionStorage.getItem('default_language');
@@ -138,7 +145,7 @@ export class ServerApiService {
             lang = sessionStorage.getItem('default_language');
           }
           this.translate.setDefaultLang(this.shared.getFallbackLanguage());
-          // console.log('getServerinfo', {lang}, {fallback});
+          console.log('getServerinfo', {lang}, {fallback});
           sessionStorage.setItem('client_ip', this.shng_serverinfo.client_ip);
           sessionStorage.setItem('tz', this.shng_serverinfo.tz);
           sessionStorage.setItem('tzname', this.shng_serverinfo.tzname);
@@ -165,7 +172,7 @@ export class ServerApiService {
           return result;
         }),
         catchError((err: HttpErrorResponse) => {
-          console.error('ServerApiService (getServerinfo): Could not read serverinfo data' + ' - ' + err.error.error);
+          console.error('ServerApiService (getServerinfo): Could not read serverinfo data' + ' - ' + err?.error?.error || err.message || err);
           return of({});
         })
       );
@@ -175,7 +182,7 @@ export class ServerApiService {
 
   // get Status of shNG software
   getShngServerStatus() {
-    // console.log('getShngServerStatus')
+    console.log('getShngServerStatus')
     const apiUrl = sessionStorage.getItem('apiUrl');
     let url = apiUrl + 'server/status/';
     if (apiUrl.includes('localhost')) {
@@ -188,7 +195,7 @@ export class ServerApiService {
         }),
         catchError((err: HttpErrorResponse) => {
           if (err.error.error !== undefined) {
-            console.error('ServerApiService (getShngServerStatus): Could not read server status' + ' - ' + err.error.error);
+            console.error('ServerApiService (getShngServerStatus): Could not read server status' + ' - ' + err?.error?.error || err.message || err);
 //          } else {
 //            console.warn('ServerApiService (getShngServerStatus): SmartHomeNG is not running');
           }
@@ -200,7 +207,7 @@ export class ServerApiService {
 
   // restart shNG software
   restartShngServer() {
-    // console.log('restartShngServer')
+    console.log('restartShngServer')
     const apiUrl = sessionStorage.getItem('apiUrl');
     let url = apiUrl + 'server/restart/';
     if (apiUrl.includes('localhost')) {
@@ -212,7 +219,7 @@ export class ServerApiService {
           return response;
         }),
         catchError((err: HttpErrorResponse) => {
-          console.error('ServerApiService (RestartShngServer): Could not restart server' + ' - ' + err.error.error);
+          console.error('ServerApiService (RestartShngServer): Could not restart server' + ' - ' + err?.error?.error || err.message || err);
           return of({});
         })
       );
@@ -222,7 +229,7 @@ export class ServerApiService {
   // Download config files as a zip archive
 
   downloadConfigBackup() {
-    // console.log('restartShngServer')
+    console.log('downloadConfigBackup')
     const apiUrl = sessionStorage.getItem('apiUrl');
     let url = apiUrl + 'files/backup/';
     if (apiUrl.includes('localhost')) {
@@ -234,7 +241,7 @@ export class ServerApiService {
           return response;
         }),
         catchError((err: HttpErrorResponse) => {
-          console.error('ServerApiService (downloadConfigBackup): Could not download backup data' + ' - ' + err.error.error);
+          console.error('ServerApiService (downloadConfigBackup): Could not download backup data' + ' - ' + err?.error?.error || err.message || err);
           return of({});
         })
       );
