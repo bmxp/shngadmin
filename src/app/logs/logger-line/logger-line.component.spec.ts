@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { LoggerLineComponent } from './logger-line.component';
 
@@ -6,7 +6,7 @@ describe('LoggerLineComponent', () => {
   let component: LoggerLineComponent;
   let fixture: ComponentFixture<LoggerLineComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LoggerLineComponent ]
     })
