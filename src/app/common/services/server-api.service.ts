@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 
 
 import { TranslateService } from '@ngx-translate/core';
-import { parse } from 'url';
+//import { parse } from 'url';
 import { ServerInfo } from '../models/server-info';
 import { SharedService } from './shared.service';
 
@@ -36,7 +36,8 @@ export class ServerApiService {
 
     this.baseUrl = baseUrl;
 
-    const parsedUrl = parse(baseUrl);
+    //const parsedUrl = parse(baseUrl);
+    const parsedUrl = new URL(baseUrl);
     let apiUrl = '/api/';
 
     if (host_ip === '') {
