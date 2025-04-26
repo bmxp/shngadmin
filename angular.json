@@ -60,7 +60,11 @@
               "codemirror/addon/search/search",
               "codemirror/addon/scroll/annotatescrollbar",
               "codemirror/addon/search/matchesonscrollbar",
-              "codemirror/addon/search/jump-to-line"
+              "codemirror/addon/search/jump-to-line",
+              "lodash",
+              "jquery",
+              "file-saver",
+              "js-sha512"
             ]
           },
           "configurations": {

@@ -24,7 +24,7 @@ import { SharedService } from '../../common/services/shared.service';
 import {ItemDetails} from '../../common/models/item-details';
 // import {ServerInfo} from '../../common/models/server-info';
 import {ServerApiService} from '../../common/services/server-api.service';
-import {statsToString} from '@angular-devkit/build-angular/src/angular-cli-files/utilities/stats';
+
 import {Title} from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
 
