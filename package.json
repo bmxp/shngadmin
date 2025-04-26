@@ -20,7 +20,7 @@
     "@angular/router": "^10.2.5",
     "@auth0/angular-jwt": "5.0.0",
     "@ctrl/ngx-codemirror": "^4.1.1",
-    "@fortawesome/angular-fontawesome": "^0.6.1",
+    "@fortawesome/angular-fontawesome": "^0.7.0",
     "@fortawesome/fontawesome-free": "^5.6.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.12",
     "@fortawesome/free-solid-svg-icons": "^5.6.3",
