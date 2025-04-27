@@ -148,7 +148,7 @@
   height: calc(100vh - 60px - 41px - 50px - 10px);
   border: 1px solid #dee2e6;
   border-top: 0;
-//overflow: auto;
+/*overflow: auto;*/
 
   display: grid;
   grid-template-rows: 50px auto 50px;

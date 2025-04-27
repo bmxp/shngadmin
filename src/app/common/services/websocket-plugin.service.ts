@@ -231,11 +231,17 @@ export class WebsocketPluginService implements OnInit {
   ngOnInit() {
   }
 
-
+/*
   async delay(ms: number, msg: string) {
     await new Promise(resolve => setTimeout(() => resolve(), ms)).then( () => {
 //      console.log('fired ' + msg)
     });
+  }
+*/
+
+  async delay(ms: number, msg: string) {
+    await new Promise(resolve => setTimeout(resolve, ms));
+    // console.log('fired ' + msg);
   }
 
 

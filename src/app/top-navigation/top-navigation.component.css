@@ -1,7 +1,7 @@
 
 body {
   margin:0px;
-  //font-family:Arial;
+/*font-family:Arial;*/
 }
 
 /* Global styles for the navbar */
@@ -33,8 +33,8 @@ body {
 
 .topnav {
   overflow: hidden;
-  //height: 52px;
-  //border-bottom: 1px solid #ddd;
+/*height: 52px;*/
+/*border-bottom: 1px solid #ddd;*/
   background-color: var(--menu-background-color);
   width: 100%;
 }

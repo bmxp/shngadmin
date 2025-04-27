@@ -28,8 +28,8 @@
 {
   min-height: 55px;
   padding: 12px 0;
-  //align-self: stretch;
-  //border-bottom: 1px solid #ddd;
+  /* align-self: stretch; */
+  /* border-bottom: 1px solid #ddd; */
   background: #ddffee;
   background: #eee;
 }

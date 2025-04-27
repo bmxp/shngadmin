@@ -6,7 +6,7 @@ import { LogsType, LogsInfoDict } from '../../common/models/logfiles-info';
 import { LogsApiService } from '../../common/services/logs-api.service';
 import { TranslateService } from '@ngx-translate/core';
 
-import {$NBSP} from 'codelyzer/angular/styles/chars';
+//import {$NBSP} from 'codelyzer/angular/styles/chars';
 import {Title} from '@angular/platform-browser';
 import {ServerApiService} from '../../common/services/server-api.service';
 

@@ -106,7 +106,7 @@ export class StructsComponent implements OnInit {
           });
 
           this.structsGroups = [];
-          // tslint:disable-next-line:forin
+          // eslint-disable-next-line guard-for-in
           for (const s in this.structsList) {
             let prefix = this.structsList[s].split('.')[0];
             if (this.structsList[s].split('.').length === 1) {
@@ -167,7 +167,7 @@ export class StructsComponent implements OnInit {
 
   getStructListByGroup(group) {
     const structSublist = [];
-    // tslint:disable-next-line:forin
+    // eslint-disable-next-line guard-for-in
     for (const entry in this.structsList) {
       if ((group === 'my') && (this.structsList[entry].split('.').length === 1)) {
         structSublist.push(this.structsList[entry]);

@@ -4,8 +4,8 @@
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 100vh;
-    //overflow: hidden;
-    //height: calc(100vh - 55px);
+    REMARK overflow: hidden;
+    REMARK height: calc(100vh - 55px);
   */
 
   margin-left: 10px;
