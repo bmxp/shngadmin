@@ -2,7 +2,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { map, catchError } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 
@@ -86,6 +86,7 @@ export class ServerApiService {
     console.log('getServerBasicinfo using url',url);
     return this.http.get(url)
       .pipe(
+        tap(response => console.log('this.http.get(url) results in: ',response)),
         map(response => {
           console.log('map => response');
           this.shng_serverinfo = response as ServerInfo;
@@ -134,6 +135,7 @@ export class ServerApiService {
     }
     return this.http.get(url)
       .pipe(
+        tap(response => console.log('this.http.get(url) results in: ',response)),
         map(response => {
           console.log('getServerinfo(): map');
           this.shng_serverinfo = <ServerInfo> response;
