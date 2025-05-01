@@ -89,16 +89,25 @@ Tells it needs Node.js >= 18
 
 ## Angular 14
 
+``ng update ngx-bootstrap@9``
+
 ## Angular 15
 
+``ng update ngx-bootstrap@10``
 
 ## Angular 16
 
+``ng update ngx-bootstrap@11``
+
 ## Angular 17
+
+``ng update ngx-bootstrap@12``
 
 ## Angular 18
 
+``ng update ngx-bootstrap@18``
+
 ## Angular 19
 
-
+``ng update ngx-bootstrap@19``
 
