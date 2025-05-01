@@ -106,9 +106,6 @@ Angular 16 will wither need both with version 16 or version 15 and 8 with adapti
 ``ng update @angular/cdk@14 primeng@14``
 ``ng update ngx-bootstrap@9``
 
-===============================
-**Aktueller Stand der Updates**
-===============================
 
 ## Angular 15
 
@@ -118,6 +115,11 @@ See official update guide at https://angular.dev/update-guide?v=14.0-15.0&l=1
 - needs typescript 4.8 or later
 
 ``ng update @angular/core@15 @angular/cli@15 @angular-eslint/schematics@15``
+
+===============================
+**Aktueller Stand der Updates**
+===============================
+
 ``ng update @angular/cdk@14 primeng@14``
 ``ng update ngx-bootstrap@10``
 
