@@ -136,11 +136,12 @@ Fix would be to update rxjs to ^7.4.0
 ``ng update @ngx-translate/core@16 @ngx-translate/http-loader@16``
 ``ng update @ctrl/ngx-codemirror@^7.0.0`` Needs also codemirror@5 but it was at ^5.43.0 anyway in package.json and installed as 5.65.19 (latest 5.x)
 
+
+## Angular 17
+
 ===============================
 **Aktueller Stand der Updates**
 ===============================
-
-## Angular 17
 
 - Needs Node 18 or later
 - needs typescript >= 5.2 < 5.5.0
