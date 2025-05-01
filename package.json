@@ -19,7 +19,7 @@
     "@angular/platform-browser-dynamic": "^16.2.12",
     "@angular/router": "^16.2.12",
     "@auth0/angular-jwt": "5.1.0",
-    "@ctrl/ngx-codemirror": "^6.1.0",
+    "@ctrl/ngx-codemirror": "^7.0.0",
     "@fortawesome/angular-fontawesome": "0.12.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
