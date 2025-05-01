@@ -96,16 +96,16 @@ Angular 16 will wither need both with version 16 or version 15 and 8 with adapti
 
 ``ng update @ctrl/ngx-codemirror@^5.1.1``
 
-===============================
-**Aktueller Stand der Updates**
-===============================
-
 
 ## Angular 14
 
 - Needs Node 14.15.0 or later
 
 ``ng update @angular/core@14 @angular/cli@14 @angular-eslint/schematics@14``
+
+===============================
+**Aktueller Stand der Updates**
+===============================
 
 ``ng update @angular/cdk@14 primeng@14``
 ``ng update ngx-bootstrap@9``
