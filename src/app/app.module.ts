@@ -1,7 +1,7 @@
 // import { BrowserModule } from '@angular/platform-browser';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -79,104 +79,93 @@ export function translateHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    SystemComponent,
-    ServicesComponent,
-    ItemTreeComponent,
-    LogicsListComponent,
-    SchedulersComponent,
-    PluginsComponent,
-    ScenesComponent,
-    ThreadsComponent,
-    LogDisplayComponent,
-    HeaderComponent,
-    PluginConfigComponent,
-    LoggerListComponent,
-    LoggingConfigurationComponent,
-    NotFoundComponent,
-    LoginComponent,
-    NoAccessComponent,
-    SystemConfigComponent,
-    StructsComponent,
-    ItemConfigurationComponent,
-    ItemConfiguration2Component,
-    StructConfigurationComponent,
-    SceneConfigurationComponent,
-    FunctionConfigurationComponent,
-    LogicsEditComponent,
-    TopNavigationComponent,
-    LoggerLineComponent,
-    LoggerTabComponent,
-    LogicsGroupsComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    // Jwt Token Injection
-    JwtModule.forRoot({
-      config: {
-        throwNoTokenError: false
-      },
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: jwtOptionsFactory,
-        deps: [AuthService]
-      }
-    }),
-
-    BrowserAnimationsModule,
-
-    CodemirrorModule,
-//    NgxRerenderModule,
-
-    TreeModule,
-    TableModule,
-    TreeTableModule,
-    AccordionModule,
-    TooltipModule,
-    MenubarModule,
-    DialogModule,
-    ButtonModule,
-    InputTextModule,
-    ToggleButtonModule,
-    DropdownModule,
-    ChartModule,
-    InputSwitchModule,
-    TabViewModule,
-    TriStateCheckboxModule,
-    ProgressSpinnerModule,
-    CheckboxModule,
-    ListboxModule,
-    FileUploadModule,
-
-    TabsModule.forRoot(),
-    AlertModule.forRoot(),
-    ModalModule.forRoot(),
-
-    FontAwesomeModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
-//        useFactory: translateHttpLoaderFactory,
-
-  ],
-  providers: [
-    { provide: 'BASE_URL', useFactory: getBaseUrl },
-    OlddataService,
-    WebsocketPluginService,
-    TranslateService,
-    JwtModule
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        SystemComponent,
+        ServicesComponent,
+        ItemTreeComponent,
+        LogicsListComponent,
+        SchedulersComponent,
+        PluginsComponent,
+        ScenesComponent,
+        ThreadsComponent,
+        LogDisplayComponent,
+        HeaderComponent,
+        PluginConfigComponent,
+        LoggerListComponent,
+        LoggingConfigurationComponent,
+        NotFoundComponent,
+        LoginComponent,
+        NoAccessComponent,
+        SystemConfigComponent,
+        StructsComponent,
+        ItemConfigurationComponent,
+        ItemConfiguration2Component,
+        StructConfigurationComponent,
+        SceneConfigurationComponent,
+        FunctionConfigurationComponent,
+        LogicsEditComponent,
+        TopNavigationComponent,
+        LoggerLineComponent,
+        LoggerTabComponent,
+        LogicsGroupsComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        // Jwt Token Injection
+        JwtModule.forRoot({
+            config: {
+                throwNoTokenError: false
+            },
+            jwtOptionsProvider: {
+                provide: JWT_OPTIONS,
+                useFactory: jwtOptionsFactory,
+                deps: [AuthService]
+            }
+        }),
+        BrowserAnimationsModule,
+        CodemirrorModule,
+        //    NgxRerenderModule,
+        TreeModule,
+        TableModule,
+        TreeTableModule,
+        AccordionModule,
+        TooltipModule,
+        MenubarModule,
+        DialogModule,
+        ButtonModule,
+        InputTextModule,
+        ToggleButtonModule,
+        DropdownModule,
+        ChartModule,
+        InputSwitchModule,
+        TabViewModule,
+        TriStateCheckboxModule,
+        ProgressSpinnerModule,
+        CheckboxModule,
+        ListboxModule,
+        FileUploadModule,
+        TabsModule.forRoot(),
+        AlertModule.forRoot(),
+        ModalModule.forRoot(),
+        FontAwesomeModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
+        //        useFactory: translateHttpLoaderFactory,
+    ], providers: [
+        { provide: 'BASE_URL', useFactory: getBaseUrl },
+        OlddataService,
+        WebsocketPluginService,
+        TranslateService,
+        JwtModule,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 
 
 export class AppModule { }

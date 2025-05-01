@@ -5,7 +5,7 @@ import {AppComponent} from '../app.component';
 import {ServerApiService} from '../common/services/server-api.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../common/services/auth.service';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {SharedService} from '../common/services/shared.service';
 import {Title} from '@angular/platform-browser';
 

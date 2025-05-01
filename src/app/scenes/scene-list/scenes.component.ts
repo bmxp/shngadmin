@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
