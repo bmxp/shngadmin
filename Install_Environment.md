@@ -47,7 +47,7 @@ This runs a server with test data on ``http://localhost:4200``
 # Build a distribution of shngadmin
 
 
-``NODE_OPTIONS="--trace-deprecation" ng build --configuration production --aot --base-href /admin/``
+``NODE_OPTIONS="--trace-deprecation --trace-warnings" ng build --configuration production --aot --base-href /admin/``
 
 To be used with SmartHomeNG, shngadmin needs to be included in the **static** folder of the module **admin**
 copy the contents of the newly created ``dist`` folder to the **static** folder of module **admin**
@@ -61,11 +61,44 @@ Different versions of Node can be changedwith the Node Version Manager nvm.
 
 ``nvm use 12`` will switch current used Node version to 12.
 
-# Angular 12
-
-Tells it needs Node.js >= 18
-
 # Updating to the next Angular version
 
 **primeng** will change with every Angular version so it needs to be checked and updated always.
+**ngx-bootstrap** see required versions at https://github.com/valor-software/ngx-bootstrap/blob/development/README.md
+**@fortawesome/angular-fontawesome** see required versiobs at https://www.npmjs.com/package/@fortawesome/angular-fontawesome
+
+Update **version** of shngadmin in both ``.\package.json`` and also ``.\src\app\app.component.ts``
+
+
+## Angular 12
+
+Tells it needs Node.js >= 18
+
+## Angular 13
+
+``ng update @angular/core@13 @angular/cli@13 @angular-eslint/schematics@13``
+``ng update @angular/cdk@13 primeng@13``
+``ng update ngx-bootstrap@8``
+
+===============================
+**Aktueller Stand der Updates**
+===============================
+
+``ng update @ngx-translate/core@14``
+
+
+## Angular 14
+
+## Angular 15
+
+
+## Angular 16
+
+## Angular 17
+
+## Angular 18
+
+## Angular 19
+
+
 

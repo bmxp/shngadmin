@@ -6,7 +6,6 @@ import {ItemDetails} from '../models/item-details';
 import {TranslateService} from '@ngx-translate/core';
 import {SystemInfo} from '../models/system-info';
 import {ServerInfo} from '../models/server-info';
-import {parse} from 'url';
 
 let url_start = 'http://';
 let host_ip = '';

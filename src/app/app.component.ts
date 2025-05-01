@@ -26,7 +26,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 export class AppComponent implements OnInit {
 
   public APP_NAME = 'shngAdmin';
-  public APP_VERSION = '0.9.12';
+  public APP_VERSION = '0.9.13';
 
   title = 'app';
 

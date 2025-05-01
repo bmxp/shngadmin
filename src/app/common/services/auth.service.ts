@@ -4,7 +4,6 @@ import {Inject, Injectable} from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs';
-import {parse} from 'url';
 
 import {sha512} from 'js-sha512';
 
