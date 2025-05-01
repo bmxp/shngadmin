@@ -103,12 +103,12 @@ Angular 16 will wither need both with version 16 or version 15 and 8 with adapti
 
 ``ng update @angular/core@14 @angular/cli@14 @angular-eslint/schematics@14``
 
+``ng update @angular/cdk@14 primeng@14``
+``ng update ngx-bootstrap@9``
+
 ===============================
 **Aktueller Stand der Updates**
 ===============================
-
-``ng update @angular/cdk@14 primeng@14``
-``ng update ngx-bootstrap@9``
 
 ## Angular 15
 
