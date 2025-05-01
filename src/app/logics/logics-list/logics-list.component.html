@@ -682,7 +682,7 @@
     {{ this.wrongNewLogicName|translate }}
   </alert>
   <p-footer>
-    <button pButton type="button" id="createLogicsButton" icon="pi pi-check" (click)="this.wrongNewLogicName=''; this.createLogic()" [(disabled)]="!newlogic_add_enabled" label="{{'BUTTON.CREATE'|translate}}" class="ui-button-success"></button>
+    <button pButton type="button" id="createLogicsButton" icon="pi pi-check" (click)="this.wrongNewLogicName=''; this.createLogic()" [disabled]="!newlogic_add_enabled" (disabledChange)="newlogic_add_enabled = $event" label="{{'BUTTON.CREATE'|translate}}" class="ui-button-success"></button>
     <button pButton type="button" id="cancleCreateLogicsButton" icon="pi pi-times" (click)="this.wrongNewLogicName=''; newlogic_display=false" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>

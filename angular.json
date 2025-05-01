@@ -101,18 +101,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "shngadmin:build"
+            "buildTarget": "shngadmin:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "shngadmin:build:production"
+              "buildTarget": "shngadmin:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "shngadmin:build"
+            "buildTarget": "shngadmin:build"
           }
         },
         "test": {

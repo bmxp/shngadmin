@@ -263,7 +263,7 @@
     {{ 'LOGGERS.NO_LOGGER_TO_ADD'|translate }}
   </alert>
   <p-footer>
-    <button pButton type="button" id="createLoggerButton" icon="pi pi-check" (click)="this.createLogger()" [(disabled)]="!newlogger_add_enabled" label="{{'BUTTON.CREATE'|translate}}" class="ui-button-success" autofocus></button>
+    <button pButton type="button" id="createLoggerButton" icon="pi pi-check" (click)="this.createLogger()" [disabled]="!newlogger_add_enabled" (disabledChange)="newlogger_add_enabled = $event" label="{{'BUTTON.CREATE'|translate}}" class="ui-button-success" autofocus></button>
     <button pButton type="button" id="cancleCreateLoggerButton" icon="pi pi-times" (click)="newlogger_display=false" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>

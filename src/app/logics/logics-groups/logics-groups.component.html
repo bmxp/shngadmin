@@ -98,7 +98,7 @@
   <br>
   <br>
   <p-footer>
-    <button pButton type="button" icon="pi pi-check" (click)="this.addGroup()" [(disabled)]="!this.add_enabled" label="{{'BUTTON.ADD'|translate}}" class="ui-button-success" autofocus></button>
+    <button pButton type="button" icon="pi pi-check" (click)="this.addGroup()" [disabled]="!this.add_enabled" (disabledChange)="this.add_enabled = $event" label="{{'BUTTON.ADD'|translate}}" class="ui-button-success" autofocus></button>
     <button pButton type="button" icon="pi pi-times" (click)="this.newGroupAbort()" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>
