@@ -155,14 +155,14 @@ from package.json temporarily
 ``ng update @fortawesome/angular-fontawesome@^0.14.0``
 ``npm i primeng@17``
 ``npm i primeicons``
-
 ``npm uninstall @biesbjerg/ngx-translate-extract``
 ``npm install @vendure/ngx-translate-extract --save-dev``
+
 added scripts to package.json as stated in https://github.com/vendure-ecommerce/ngx-translate-extract
 
-===============================
-**Aktueller Stand der Updates**
-===============================
+============================
+** Current update progess **
+============================
 
 ## Angular 18
 
