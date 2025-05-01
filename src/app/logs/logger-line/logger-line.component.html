@@ -175,7 +175,7 @@
 
     <p-footer>
 
-        <button pButton type="button" id="modifyHandlersButton" icon="pi pi-check" (click)="this.doModifyHandlers()" [(disabled)]="false && !handlersChangeEnabed" label="{{'BUTTON.CHANGE'|translate}}" class="ui-button-success" autofocus></button>
+        <button pButton type="button" id="modifyHandlersButton" icon="pi pi-check" (click)="this.doModifyHandlers()" [(disabled)]="!handlersChangeEnabled" label="{{'BUTTON.CHANGE'|translate}}" class="ui-button-success" autofocus></button>
 
         <button pButton type="button" id="cancelChooseHandlersButton" icon="pi pi-times" (click)="chooseHandlers_display=false;" label="{{'BUTTON.ABORT'|translate}}" class="ui-button-secondary"></button>
     </p-footer>

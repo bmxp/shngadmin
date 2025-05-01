@@ -40,7 +40,7 @@ export class LoggerLineComponent implements OnInit {
   choosableHandlers = [];
   choosableHandlers1 = [];
   choosableHandlers2 = [];
-  handlersChangeEnabed = false;
+  handlersChangeEnabled = false;
 
   constructor() {
   }

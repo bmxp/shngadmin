@@ -139,17 +139,30 @@ Fix would be to update rxjs to ^7.4.0
 
 ## Angular 17
 
-===============================
-**Aktueller Stand der Updates**
-===============================
-
 - Needs Node 18 or later
 - needs typescript >= 5.2 < 5.5.0
 
+``ng update @fortawesome/angular-fontawesome@^0.13.0``
+
+Remove 
+    "primeicons": "^6.0.1",
+    "primeng": "^16.9.1",
+from package.json temporarily
+
 ``ng update @angular/core@17 @angular/cli@17 @angular-eslint/schematics@17``
+``ng update @angular/cdk@17``
 ``ng update ngx-bootstrap@12``
-``ng update @angular/cdk@17 primeng@17``
-``ng update @ngx-translate/core@17 @ngx-translate/http-loader@17``
+``ng update @fortawesome/angular-fontawesome@^0.14.0``
+``npm i primeng@17``
+``npm i primeicons``
+
+``npm uninstall @biesbjerg/ngx-translate-extract``
+``npm install @vendure/ngx-translate-extract --save-dev``
+added scripts to package.json as stated in https://github.com/vendure-ecommerce/ngx-translate-extract
+
+===============================
+**Aktueller Stand der Updates**
+===============================
 
 ## Angular 18
 
