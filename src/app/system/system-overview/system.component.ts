@@ -11,7 +11,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { UIChart } from 'primeng/chart';
 
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 
 import { OlddataService } from '../../common/services/olddata.service';
 import { SystemInfo } from '../../common/models/system-info';
@@ -204,22 +204,28 @@ export class SystemComponent implements OnDestroy, OnInit {
 
     let filepath = '/3rdpartylicenses.txt';
     const hostip = sessionStorage.getItem('hostIp');
+    const disclosureText = document.getElementById('disclosuretext');
     if (hostip !== 'localhost') {
       filepath = '/admin' + filepath;
       this.http.get(filepath, {responseType: 'text'})
         .subscribe(
           response => {
             const message = response.toString();
-            $('#disclosuretext').text(message);
+            if (disclosureText) {
+              disclosureText.textContent = message;
+            }
           },
           error => {
-            $('#disclosuretext').text( '\nERROR ' + error.status + ':\n\n    ' + error.url + '   ' + error.statusText);
+            if (disclosureText) {
+              disclosureText.textContent = '\nERROR ' + error.status + ':\n\n    ' + error.url + '   ' + error.statusText;
+            }
           });
 
     } else {
-      $('#disclosuretext').text("\nYou are in develop mode: \n\nThe file '3dpartylicenses.txt' is created only in production mode. In develop mode the file does not exist.");
+      if (disclosureText) {
+        disclosureText.textContent = "\nYou are in develop mode: \n\nThe file '3dpartylicenses.txt' is created only in production mode. In develop mode the file does not exist.";
+      }
     }
-
   }
 
 

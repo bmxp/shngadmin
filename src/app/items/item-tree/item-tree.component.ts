@@ -10,7 +10,6 @@ import { faSearch, faCircleNotch, faFolder, faFolderOpen } from '@fortawesome/fr
 import { faSync, faList, faStop, faTrashAlt, faThumbtack } from '@fortawesome/free-solid-svg-icons';
 // import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
-import * as $ from 'jquery';
 import { TreeNode } from 'primeng/api';
 
 import { cloneDeep } from 'lodash';
@@ -97,8 +96,8 @@ export class ItemTreeComponent implements OnDestroy, OnInit, AfterViewInit {
   static resizeItemTree() {
     const browserHeight = window.innerHeight;
 //    console.log({browserHeight});
-    const tree = $('#tree');
-    const treeDetail = $('#tree_detail');
+    const tree = document.getElementById('tree');
+    const treeDetail = document.getElementById('tree_detail');
 
     // const offsetTopDetail = treeDetail.offset().top;
     // initially offsetTop is off by a number of pixels. Correction: a fixed offset
@@ -106,12 +105,13 @@ export class ItemTreeComponent implements OnDestroy, OnInit, AfterViewInit {
     const offsetTopDetail = 200;
     const height = String(Math.round((-1) * (offsetTop) - 35 + browserHeight) + 'px');
     const heightDetail = String(Math.round((-1) * (offsetTopDetail) - 35 + browserHeight) + 'px');
-    tree.css('height', height);
-    tree.css('maxHeight', height);
-    treeDetail.css('height', heightDetail);
-    treeDetail.css('maxHeight', heightDetail);
+    if (tree && treeDetail) {
+      tree.style.height = height;
+      tree.style.maxHeight = height;
+      treeDetail.style.height = heightDetail;
+      treeDetail.style.maxHeight = heightDetail;
+    }
   }
-
 
   static htmlDecode(input) {
     const e = document.createElement('div');

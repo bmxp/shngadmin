@@ -58,7 +58,10 @@ export class LogicsGroupsComponent implements OnInit {
   ngOnInit() {
 
     this.group = {'title': '', 'description': ''};
-    $('#group-desc').text(this.group.description);
+    const groupDesc = document.getElementById('group-desc');
+          if (groupDesc) {
+            groupDesc.textContent = this.group.description;
+          }
 
     this.dataService.getGroupsInfo()
       .subscribe(
@@ -85,8 +88,8 @@ export class LogicsGroupsComponent implements OnInit {
 
 
   hasGroupChanged() {
-    const desc = $('#group-desc').text();
-    const descHtml = $('#group-desc').html();
+    const desc = document.getElementById('group-desc')?.textContent || '';
+    const descHtml = document.getElementById('group-desc')?.innerHTML || '';
     console.log('hasGroupChanged: descHtml', descHtml);
 
     if (this.groupTitleOrig !== this.group['title'] ) {
@@ -139,7 +142,10 @@ export class LogicsGroupsComponent implements OnInit {
 
             this.myEditGroup = '';
             this.group = {'title': '', 'description': ''};
-            $('#group-desc').text(this.group.description);
+            const groupDesc = document.getElementById('group-desc');
+            if (groupDesc) {
+              groupDesc.textContent = this.group.description;
+            }
 
           }
         }
@@ -180,7 +186,11 @@ export class LogicsGroupsComponent implements OnInit {
     this.add_enabled = false;
     this.newgroup_display = false;
 
-    $('#group-desc').text(this.group.description);
+    const groupDesc = document.getElementById('group-desc');
+      if (groupDesc) {
+        groupDesc.textContent = this.group.description;
+      }
+
     this.selectedGroup = {'label': this.myEditGroup, 'value': this.myEditGroup};
   }
 
@@ -204,7 +214,10 @@ export class LogicsGroupsComponent implements OnInit {
           if (this.myEditGroup !== '') {
             this.logicGroups[this.myEditGroup] = newGroup;
             this.group = this.logicGroups[this.myEditGroup];
-            $('#group-desc').html(this.group.description + '<br><br><br>');
+            const groupDesc = document.getElementById('group-desc');
+              if (groupDesc) {
+                groupDesc.innerHTML = this.group.description + '<br><br><br>';
+              }
           }
           this.groupChanged = false;
 
@@ -229,7 +242,10 @@ export class LogicsGroupsComponent implements OnInit {
     if (group === '') {
       this.myEditGroup = '';
       this.group = {'title': '', 'description': ''};
-      $('#group-desc').text(this.group.description);
+      const groupDesc = document.getElementById('group-desc');
+          if (groupDesc) {
+            groupDesc.textContent = this.group.description;
+          }
       console.log('groupSelected() *2' , {group});
       // this.myTextarea = '';
       // this.cmOptions.readOnly = true;
@@ -239,7 +255,10 @@ export class LogicsGroupsComponent implements OnInit {
       if (this.group.description === undefined) {
         this.group.description = '';
       }
-      $('#group-desc').html(this.group.description + '<br><br><br>');
+      const groupDesc = document.getElementById('group-desc');
+      if (groupDesc) {
+        groupDesc.innerHTML = this.group.description + '<br><br><br>';
+      }
       this.groupTitleOrig = this.logicGroups[group]['title'];
       this.groupDescriptionOrig = this.logicGroups[group]['description'];
       console.log('groupSelected()' , {group}, this.group);
@@ -249,12 +268,15 @@ export class LogicsGroupsComponent implements OnInit {
 
 
   discardChanges() {
-    const desc = $('#group-desc').text();
+    const desc = document.getElementById('group-desc')?.textContent || '';
     console.log('discardChanges', {desc});
 
     this.group.title = this.groupTitleOrig;
     this.group.description = this.groupDescriptionOrig;
-    $('#group-desc').text(this.group.description);
+    const groupDesc = document.getElementById('group-desc');
+    if (groupDesc) {
+      groupDesc.textContent = this.group.description;
+    }
     this.groupChanged = false;
     console.log('this.group.description', this.group.description);
 
@@ -263,7 +285,7 @@ export class LogicsGroupsComponent implements OnInit {
   saveGroup() {
     console.log('LoggingConfigurationComponent.saveGroup');
 
-    const desc = $('#group-desc').text();
+    const desc = document.getElementById('group-desc')?.textContent || '';
     console.log('saveGroup', {desc});
     this.group['description'] = desc.trim();
 
@@ -274,7 +296,10 @@ export class LogicsGroupsComponent implements OnInit {
           this.groupDescriptionOrig = this.group['description'];
 
           this.logicGroups[this.myEditGroup] = this.group;
-          $('#group-desc').text(this.group.description);
+          const groupDesc = document.getElementById('group-desc');
+          if (groupDesc) {
+            groupDesc.textContent = this.group.description;
+          }
           this.groupChanged = false;
         }
       );
