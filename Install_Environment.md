@@ -118,7 +118,7 @@ See official update guide at https://angular.dev/update-guide?v=14.0-15.0&l=1
 - needs typescript 4.8 or later
 
 ``ng update @angular/core@15 @angular/cli@15 @angular-eslint/schematics@15``
-
+``ng update @angular/cdk@14 primeng@14``
 ``ng update ngx-bootstrap@10``
 
 ``ng update @ctrl/ngx-codemirror@^6.1.0``
