@@ -125,31 +125,30 @@ Fix would be to update rxjs to ^7.4.0
 ``ng update rxjs@^7.4.0``
 ``ng update @fortawesome/angular-fontawesome@0.12.1 @fortawesome/fontawesome-free@5.15.4 @fortawesome/fontawesome-svg-core@1.2.36 @fortawesome/free-solid-svg-icons@5.15.4``
 
-===============================
-**Aktueller Stand der Updates**
-===============================
-
 ## Angular 16
 
 - Needs Node 16 or 18 later
 - needs typescript 4.9.3 or later
 
-
+``ng update @angular/core@16 @angular/cli@16 @angular-eslint/schematics@16``
 ``ng update ngx-bootstrap@11``
-
-**Watchout!!!!**
-These two packages need an update
+``ng update @angular/cdk@16 primeng@16``
 ``ng update @ngx-translate/core@16 @ngx-translate/http-loader@16``
-            or 
-``ng update @ngx-translate/core@15 @ngx-translate/http-loader@8``
-Angular 16 will wither need both with version 16 or version 15 and 8 with adaptions. 
+``ng update @ctrl/ngx-codemirror@^7.0.0`` Needs also codemirror@5 but it was at ^5.43.0 anyway in package.json and installed as 5.65.19 (latest 5.x)
 
-``ng update @ctrl/ngx-codemirror@^7.0.0``
-Needs also codemirror@5 but it was at ^5.43.0 anyway in package.json and installed as 5.65.19 (latest 5.x)
+===============================
+**Aktueller Stand der Updates**
+===============================
 
 ## Angular 17
 
+- Needs Node 18 or later
+- needs typescript >= 5.2 < 5.5.0
+
+``ng update @angular/core@17 @angular/cli@17 @angular-eslint/schematics@17``
 ``ng update ngx-bootstrap@12``
+``ng update @angular/cdk@17 primeng@17``
+``ng update @ngx-translate/core@17 @ngx-translate/http-loader@17``
 
 ## Angular 18
 
@@ -159,3 +158,8 @@ Needs also codemirror@5 but it was at ^5.43.0 anyway in package.json and install
 
 ``ng update ngx-bootstrap@19``
 
+# TODO
+
+- ng serve funktioniert beim build Prozess aber im Browser werden Fehler gemeldet. Vermutung: Es hängt mit Websockets/jwt/authentification zusammen
+- Verwendung der Dateien mit SmartHomeNG 1.11 funktioniert beim ersten Aufruf, ein Refresh wirft einen Fehler im Cherrypy. Vermutung: Sessions? Oder Routing kaputt?
+- Tests wieder einrichten auf Basis von cypress (protractor ist deprecated seit Angular 15)
