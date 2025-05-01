@@ -61,11 +61,17 @@ Different versions of Node can be changedwith the Node Version Manager nvm.
 
 ``nvm use 12`` will switch current used Node version to 12.
 
+## ng update <package>
+
+This command will update the given packages and usually scans if some changes are to be done within the code. It is highly advised to upgrade packages together that also are dependent on each other. 
+E.g. ``ng update @ngx-translate/core@14 @ngx-translate/http-loader@7``
+
 # Updating to the next Angular version
 
 **primeng** will change with every Angular version so it needs to be checked and updated always.
 **ngx-bootstrap** see required versions at https://github.com/valor-software/ngx-bootstrap/blob/development/README.md
 **@fortawesome/angular-fontawesome** see required versiobs at https://www.npmjs.com/package/@fortawesome/angular-fontawesome
+**@ngx-translate/core** + **@ngx-translate/http-loader** compatability table found at https://github.com/ngx-translate/core#installation
 
 Update **version** of shngadmin in both ``.\package.json`` and also ``.\src\app\app.component.ts``
 
@@ -80,24 +86,47 @@ Tells it needs Node.js >= 18
 ``ng update @angular/cdk@13 primeng@13``
 ``ng update ngx-bootstrap@8``
 
+The two packages are valid up and including until Angular 15.
+``ng update @ngx-translate/core@14``
+``ng update @ngx-translate/http-loader@7``
+Angular 16 will wither need both with version 16 or version 15 and 8 with adaptions. 
+**Watchout!!!!**
+
 ===============================
 **Aktueller Stand der Updates**
 ===============================
 
-``ng update @ngx-translate/core@14``
-
 
 ## Angular 14
 
+- Needs Node 14.15.0 or later
+
+``ng update @angular/core@14 @angular/cli@14 @angular-eslint/schematics@14``
+
+``ng update @angular/cdk@14 primeng@14``
 ``ng update ngx-bootstrap@9``
 
 ## Angular 15
+
+See official update guide at https://angular.dev/update-guide?v=14.0-15.0&l=1
+
+- Needs Node 14.20.0 or later
+- needs typescript 4.8 or later
+
+``ng update @angular/core@15 @angular/cli@15 @angular-eslint/schematics@15``
 
 ``ng update ngx-bootstrap@10``
 
 ## Angular 16
 
 ``ng update ngx-bootstrap@11``
+
+**Watchout!!!!**
+These two packages need an update
+``ng update @ngx-translate/core@16 @ngx-translate/http-loader@16``
+            or 
+``ng update @ngx-translate/core@15 @ngx-translate/http-loader@8``
+Angular 16 will wither need both with version 16 or version 15 and 8 with adaptions. 
 
 ## Angular 17
 
