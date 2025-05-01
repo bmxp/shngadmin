@@ -119,11 +119,21 @@ See official update guide at https://angular.dev/update-guide?v=14.0-15.0&l=1
 ``ng update ngx-bootstrap@10``
 ``ng update @ctrl/ngx-codemirror@^6.1.0``
 
+First build raises error with primeng-menubar.mjs:467:46-54 - Error: export 'debounce' (imported as 'debounce') was not found in 'rxjs' 
+Fix would be to update rxjs to ^7.4.0
+
+``ng update rxjs@^7.4.0``
+``ng update @fortawesome/angular-fontawesome@0.12.1 @fortawesome/fontawesome-free@5.15.4 @fortawesome/fontawesome-svg-core@1.2.36 @fortawesome/free-solid-svg-icons@5.15.4``
+
 ===============================
 **Aktueller Stand der Updates**
 ===============================
 
 ## Angular 16
+
+- Needs Node 16 or 18 later
+- needs typescript 4.9.3 or later
+
 
 ``ng update ngx-bootstrap@11``
 
