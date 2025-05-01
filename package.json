@@ -33,7 +33,7 @@
     "core-js": "^3.41.0",
     "file-saver": "^2.0.5",
     "js-sha512": "^0.8.0",
-    "ngx-bootstrap": "^8.0.0",
+    "ngx-bootstrap": "^9.0.0",
     "popper.js": "^1.16.1",
     "primeicons": "^6.0.1",
     "primeng": "^14.2.3",
