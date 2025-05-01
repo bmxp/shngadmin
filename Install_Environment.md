@@ -116,12 +116,11 @@ See official update guide at https://angular.dev/update-guide?v=14.0-15.0&l=1
 
 ``ng update @angular/core@15 @angular/cli@15 @angular-eslint/schematics@15``
 ``ng update @angular/cdk@15 primeng@15``
+``ng update ngx-bootstrap@10``
 
 ===============================
 **Aktueller Stand der Updates**
 ===============================
-
-``ng update ngx-bootstrap@10``
 
 ``ng update @ctrl/ngx-codemirror@^6.1.0``
 
