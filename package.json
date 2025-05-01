@@ -1,6 +1,6 @@
 {
   "name": "shngadmin",
-  "version": "0.9.17",
+  "version": "0.9.18",
   "scripts": {
     "e2e": "cypress open",
     "extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template-{de,en,fr}.json --clean --format namespaced-json",
