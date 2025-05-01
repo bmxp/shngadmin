@@ -80,6 +80,8 @@ Update **version** of shngadmin in both ``.\package.json`` and also ``.\src\app\
 
 Tells it needs Node.js >= 18
 
+Should have been updated @ctrl/ngx-codemirror@^5.1.1 for Angular 12.x-14.x --> 
+
 ## Angular 13
 
 ``ng update @angular/core@13 @angular/cli@13 @angular-eslint/schematics@13``
@@ -91,6 +93,8 @@ The two packages are valid up and including until Angular 15.
 ``ng update @ngx-translate/http-loader@7``
 Angular 16 will wither need both with version 16 or version 15 and 8 with adaptions. 
 **Watchout!!!!**
+
+``ng update @ctrl/ngx-codemirror@^5.1.1``
 
 ===============================
 **Aktueller Stand der Updates**
@@ -117,6 +121,9 @@ See official update guide at https://angular.dev/update-guide?v=14.0-15.0&l=1
 
 ``ng update ngx-bootstrap@10``
 
+``ng update @ctrl/ngx-codemirror@^6.1.0``
+
+
 ## Angular 16
 
 ``ng update ngx-bootstrap@11``
@@ -127,6 +134,9 @@ These two packages need an update
             or 
 ``ng update @ngx-translate/core@15 @ngx-translate/http-loader@8``
 Angular 16 will wither need both with version 16 or version 15 and 8 with adaptions. 
+
+``ng update @ctrl/ngx-codemirror@^7.0.0``
+Needs also codemirror@5 but it was at ^5.43.0 anyway in package.json and installed as 5.65.19 (latest 5.x)
 
 ## Angular 17
 
