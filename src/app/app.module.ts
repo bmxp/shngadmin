@@ -1,6 +1,6 @@
-// import { BrowserModule } from '@angular/platform-browser';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';  //newly integrated
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -14,13 +14,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-// import { NgxRerenderModule } from 'ngx-rerender';
 
+// UI from primeng
 import { TreeModule } from 'primeng/tree';
 import { TreeNode } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { TreeTableModule } from 'primeng/treetable';
-import { AccordionModule } from 'primeng/accordion';
+import { AccordionModule } from 'primeng/accordion';        // deprecated --> AccordionHeader and AccordionContent components
 import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
@@ -28,11 +28,11 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownModule } from 'primeng/dropdown';          // deprecated --> Select
 import { ChartModule } from 'primeng/chart';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { TabViewModule } from 'primeng/tabview';
-import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { InputSwitchModule } from 'primeng/inputswitch';    // deprecated --> ToggleSwitch
+import { TabViewModule } from 'primeng/tabview';            //
+// import { TriStateCheckboxModule } from 'primeng/tristatecheckbox'; // removed in primeng v18, use Checkbox with indeterminate option
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ListboxModule } from 'primeng/listbox';
@@ -110,9 +110,11 @@ export function translateHttpLoaderFactory(http: HttpClient) {
         LoggerTabComponent,
         LogicsGroupsComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent], 
+    imports: [BrowserModule,
         FormsModule,
         AppRoutingModule,
+        // RouterModule.forRoot([]),
         // Jwt Token Injection
         JwtModule.forRoot({
             config: {
@@ -137,11 +139,11 @@ export function translateHttpLoaderFactory(http: HttpClient) {
         ButtonModule,
         InputTextModule,
         ToggleButtonModule,
-        DropdownModule,
+        // DropdownModule, --> Select
         ChartModule,
         InputSwitchModule,
         TabViewModule,
-        TriStateCheckboxModule,
+        // TriStateCheckboxModule, --> Use Checkbox with indeterminate option
         ProgressSpinnerModule,
         CheckboxModule,
         ListboxModule,
@@ -169,7 +171,6 @@ export function translateHttpLoaderFactory(http: HttpClient) {
 
 
 export class AppModule { }
-
 
 export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
