@@ -160,13 +160,35 @@ from package.json temporarily
 
 added scripts to package.json as stated in https://github.com/vendure-ecommerce/ngx-translate-extract
 
+## Angular 17 with Bootstrap 5
+
+remove ``package-lock.json`` and ``node_modules/``, executing ``nvm use 18`` and ``npm install`` afterwards to update everything
+remove ``node_modules/jquery/dist/jquery.min.js`` from ``angular.json`` at ``options -> scripts``
+get rif of popper.js with ``npm uninstall popper.js``
+remove ``node_modules/popper.js/dist/umd/popper.min.js`` from ``angular.json`` at ``options -> scripts``
+``npm install @popperjs/core@^2.11.8`` in case Bootstrap 5 uses it internally
+
 ============================
 ** Current update progess **
 ============================
 
+
 ## Angular 18
 
+- Needs Node 18.19 or later
+- needs typescript >= 5.4
+
+!!! WARNING !!!
+===============
+
+==>>> primeng has a new styling system, the nova theme is gone (as omega did previously) there is a whole bunch of work to do when doing the move
+
+
+``ng update @angular/core@18 @angular/cli@18 @angular-eslint/schematics@18``
+``ng update @angular/cdk@18 primeng@18``
 ``ng update ngx-bootstrap@18``
+``ng update tslib@2.6.2``
+``ng update bootstrap@^4.6.2``
 
 ## Angular 19
 
@@ -174,6 +196,8 @@ added scripts to package.json as stated in https://github.com/vendure-ecommerce/
 
 # TODO
 
-- ng serve funktioniert beim build Prozess aber im Browser werden Fehler gemeldet. Vermutung: Es hängt mit Websockets/jwt/authentification zusammen
-- Verwendung der Dateien mit SmartHomeNG 1.11 funktioniert beim ersten Aufruf, ein Refresh wirft einen Fehler im Cherrypy. Vermutung: Sessions? Oder Routing kaputt?
-- Tests wieder einrichten auf Basis von cypress (protractor ist deprecated seit Angular 15)
+- ng serve works for local build but one only gets an empty page. Guess: websockets/jwt/authentification is malfunctioning
+- created shngadmin static files work with SmartHomeNG 1.11 at first show in browser, a refresh however raises and error in Cherrypy. Guess: Sessions? Or Routing damaged?
+
+- setup tests on basis of cypress (protractor is deprecated since Angular 15)
+- migrate to new build system, see at https://angular.dev/tools/cli/build-system-migration
