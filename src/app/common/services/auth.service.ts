@@ -1,17 +1,16 @@
 
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {map} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 import {sha512} from 'js-sha512';
-
-import {OlddataService} from './olddata.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   currentUser: any;
   helper: any;
@@ -27,7 +26,6 @@ export class AuthService {
   logTimestamp: number = 0;
 
   constructor(private http: HttpClient,
-              private dataService: OlddataService,
               public jwtHelper: JwtHelperService) {
 
 
@@ -49,16 +47,12 @@ export class AuthService {
 
 
   login(credentials) {
-    console.log('authService.login()');
+    console.log('authService.login() entering');
     this.logTimestamp = this.getTimestamp();
     // console.log('timestamp', this.logTimestamp);
     // this.logTimestamp += 500;
 
     const send_hash = 'shNG0160$';
-    // const hostip = this.dataService.getHostIp();
-    const hostip = sessionStorage.getItem('hostIp');
-
-
     const send_credentials = <any>{};
 
     send_credentials.username = '';
@@ -71,10 +65,30 @@ export class AuthService {
       send_credentials.password = sha512(sha512(credentials.password) + send_hash);
     }
 
+    const hostip = sessionStorage.getItem('hostIp');
+
     if (hostip === 'localhost') {
-      if (credentials.username === '') { return of(false); }
+      console.log('authService.login() entering special case',{hostip});
+      if (credentials.username === '') { 
+        return of(false);
+      }
 
       // After login:
+      /** the following token includes:
+       * eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9 ==>
+       * {
+       *   "alg": "HS256",
+       *   "typ": "JWT"
+       * }
+       * eyJuYW1lIjoiQXV0b2xvZ2luIiwiYWRtaW4iOnRydWUsImV4cCI6MTU0NjIzOTAyMiwiaWF0IjoxNTE2MjM5MDIyfQ ==>
+       * {
+       *   "name": "Autologin",
+       *   "admin": true,
+       *   "exp": 1546239022, // expiration date 31.12.2018 7:50:22 GMT+0100  (MEZ)
+       *   "iat": 1516239022  // issued at 31.01.2018 2:30:22 GMT+0100  (MEZ)
+       * }
+       * GpSSzk5SicKgGttwiVFq5xdOK7SM8KHU9992RBDUETU ==> secret
+       */
       localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQXV0b2xvZ2luIiwiYWRtaW4iOnRydWUsImV4cCI6MTU0NjIzOTAyMiwiaWF0IjoxNTE2MjM5MDIyfQ.GpSSzk5SicKgGttwiVFq5xdOK7SM8KHU9992RBDUETU');
 
       this.currentUser = this.jwtHelper.decodeToken(localStorage.getItem('token'));
@@ -88,6 +102,7 @@ export class AuthService {
       // if login succeeds with an empty username, no login is required
       this.isLoginRequired = !(credentials.username === '');
       this.expiredLogin = false;
+      console.log('authService.login() leaving special case',{hostip});
 
       return of(true);
     }
@@ -155,24 +170,23 @@ export class AuthService {
       .pipe(map(response => {
         const result = <any>response;
         return result.token;
-
       }));
   }
 
 
   renewToken() {
-    // console.warn('authService.renewToken()');
+    console.warn('authService.renewToken()');
 
     if (this.isRenewing) {
-      // console.warn('renewToken: Already renewing');
+      console.warn('renewToken: Already renewing');
       return;
     }
 
     this.logTimestamp = this.getTimestamp();
-    const oldToken = localStorage.getItem('token');
-    const hostip = sessionStorage.getItem('hostIp');
+    const oldToken: string = localStorage.getItem('token');
+    const hostip: string = sessionStorage.getItem('hostIp');
 
-    let newToken = oldToken;
+    let newToken: string = oldToken;
     if (hostip === 'localhost') {
       console.error('localhost -> Token renewal is disabled');
     } else {
@@ -204,10 +218,13 @@ export class AuthService {
 
 
   isLoggedIn(): boolean {
+    console.log('AuthService.isLoggedIn() entered')
     const token = localStorage.getItem('token');
-    if (token === null) { return false; }
+    if (token === null) { 
+      console.log('AuthService.isLoggedIn() localStorage token is null --> leaving');
+      return false; }
 
-    const decodedToken = this.jwtHelper.decodeToken(localStorage.getItem('token'));
+    const decodedToken = this.jwtHelper.decodeToken(token);
     const timestamp = this.getTimestamp();
     if (this.ttl === 0) {
       this.ttl = Math.round((decodedToken.exp - decodedToken.iat) / 60 / 60 * 100) / 100;
@@ -231,9 +248,9 @@ export class AuthService {
     }
 
     if (decodedToken.exp !== null) {
-
       const hostip = sessionStorage.getItem('hostIp');
       if (hostip === 'localhost') {
+        console.log('AuthService.isLoggedIn() hostip is localhost --> return true')
         return true;
       }
       if (!this.expiredLogin) {
@@ -242,17 +259,20 @@ export class AuthService {
           console.warn('Token expired', {decodedToken});
         }
       } else {
-        // console.warn('Token already expired');
+        console.warn('Token already expired');
       }
 
       if (this.tokenRenewal && loggedIn && this.renewAfter < timestamp) {
         this.renewToken();
       }
-
+      console.log('AuthService.isLoggedIn() return ', {loggedIn})
       return loggedIn;
     }
 
-    if (token === null || decodedToken.iat === null) { return false; }
+    if (token === null || decodedToken.iat === null) { 
+      console.log('AuthService.isLoggedIn() token and decodedToken.iat are both null --> return false')
+      return false; 
+    }
 
     return true;
   }

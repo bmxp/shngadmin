@@ -1,5 +1,6 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Injector } from '@angular/core';
 import { RouterModule } from '@angular/router';  //newly integrated
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,17 +25,19 @@ import { AccordionModule } from 'primeng/accordion';        // deprecated --> Ac
 import { TooltipModule } from 'primeng/tooltip';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
-import { DialogModule } from 'primeng/dialog';
+import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { DropdownModule } from 'primeng/dropdown';          // deprecated --> Select
+import { Select } from 'primeng/select';          // DropdownModule was deprecated in primeng 18 --> Select
 import { ChartModule } from 'primeng/chart';
-import { InputSwitchModule } from 'primeng/inputswitch';    // deprecated --> ToggleSwitch
+import { ToggleSwitch } from 'primeng/toggleswitch';    // deprecated --> ToggleSwitch
+//import { InputSwitchModule } from 'primeng/inputswitch';    // deprecated --> ToggleSwitch
 import { TabViewModule } from 'primeng/tabview';            //
-// import { TriStateCheckboxModule } from 'primeng/tristatecheckbox'; // removed in primeng v18, use Checkbox with indeterminate option
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { CheckboxModule } from 'primeng/checkbox';
+//import { CheckboxModule } from 'primeng/checkbox';
+import { Checkbox } from 'primeng/checkbox';
+// import { TriStateCheckboxModule } from 'primeng/tristatecheckbox'; // removed in primeng v18, use Checkbox with indeterminate option
 import { ListboxModule } from 'primeng/listbox';
 import { FileUploadModule } from 'primeng/fileupload';
 
@@ -123,7 +126,7 @@ export function translateHttpLoaderFactory(http: HttpClient) {
             jwtOptionsProvider: {
                 provide: JWT_OPTIONS,
                 useFactory: jwtOptionsFactory,
-                deps: [AuthService]
+                deps: [Injector]                // deps: [AuthService]
             }
         }),
         BrowserAnimationsModule,
@@ -135,17 +138,20 @@ export function translateHttpLoaderFactory(http: HttpClient) {
         AccordionModule,
         TooltipModule,
         MenubarModule,
-        DialogModule,
+        Dialog,
         ButtonModule,
         InputTextModule,
         ToggleButtonModule,
-        // DropdownModule, --> Select
+        // DropdownModule was deprecated in primeng 18, --> Select
+        Select,
         ChartModule,
-        InputSwitchModule,
+        // deprecated: InputSwitchModule,  --> // deprecated --> ToggleSwitch
         TabViewModule,
-        // TriStateCheckboxModule, --> Use Checkbox with indeterminate option
+        // TriStateCheckboxModule was deprecated in primeng 18, --> Use Checkbox with indeterminate option
+        Checkbox,
         ProgressSpinnerModule,
-        CheckboxModule,
+        //CheckboxModule,
+        Checkbox,
         ListboxModule,
         FileUploadModule,
         TabsModule.forRoot(),
@@ -176,13 +182,22 @@ export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
 }
 
-export function jwtOptionsFactory(authService) {
+// export function jwtOptionsFactory(authService) {
+//   return {
+//     tokenGetter: () => {
+//       if (authService !== undefined) {
+//         return authService.getToken();
+//       }
+//       return '';
+//     },
+//   };
+// }
+
+export function jwtOptionsFactory(injector: Injector) {
   return {
     tokenGetter: () => {
-      if (authService !== undefined) {
-        return authService.getToken();
-      }
-      return '';
-    },
+      const authService = injector.get(AuthService);
+      return authService.getToken();
+    }
   };
 }

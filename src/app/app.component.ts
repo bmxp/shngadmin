@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { HttpClient } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {HttpClient} from '@angular/common/http';
 
-import { TranslateService } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ServerApiService } from './common/services/server-api.service';
-import { AuthService } from './common/services/auth.service';
-import { ServerInfo } from './common/models/server-info';
+import {TranslateService} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {ServerApiService} from './common/services/server-api.service';
+import {AuthService} from './common/services/auth.service';
+import {ServerInfo} from './common/models/server-info';
 import {SharedService} from './common/services/shared.service';
-
-
 
 
 // Allow ngx-translate to find translation files on other path than /assets/i18n/...
@@ -28,7 +26,7 @@ export class AppComponent implements OnInit {
   public APP_NAME = 'shngAdmin';
   public APP_VERSION = '0.9.18';
 
-  title = 'app';
+  title = 'shngadmin';
 
   constructor(private http: HttpClient,
               private dataService: ServerApiService,
@@ -67,6 +65,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log('AppComponent was loaded');
   }
 
 }

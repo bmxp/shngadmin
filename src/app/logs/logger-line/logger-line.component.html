@@ -4,7 +4,7 @@
 
     <td class="py-1">
         <ng-container *ngIf="loggerName !== 'root'">
-            <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="logger.active.level" (ngModelChange)="levelChanged(loggerName, $event)"></p-dropdown>
+            <p-select [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="logger.active.level" (ngModelChange)="levelChanged(loggerName, $event)"></p-select>
         </ng-container>
         <ng-container *ngIf="loggerName === 'root'">
             <a><b>{{ logger.active.level }}</b></a>
@@ -43,7 +43,7 @@
     <td class="py-1" style="color:darkgrey">
         <a>{{ logger.active.level }}</a>
         <!--
-        <p-dropdown [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-dropdown>
+        <p-select [options]="levelOptions" [showClear]="false" placeholder="{{levelDefault}}" [(ngModel)]="loggers[l].active.level" (ngModelChange)="levelChanged(l, $event)"></p-select>
         -->
     </td>
 

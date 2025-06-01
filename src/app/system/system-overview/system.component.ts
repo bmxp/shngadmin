@@ -1,4 +1,3 @@
-
 import { Component, OnInit, OnDestroy, ViewChildren, EventEmitter } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
@@ -72,15 +71,15 @@ export class SystemComponent implements OnDestroy, OnInit {
   loadData: any;
   varChartSystemload: any;
 
-  systemloadUpdateSubscription: Subscription = null;
-  systemmemoryUpdateSubscription: Subscription = null;
-  systemswapUpdateSubscription: Subscription = null;
-  memoryUpdateSubscription: Subscription = null;
-  threadsUpdateSubscription: Subscription = null;
-  workerThreadsUpdateSubscription: Subscription = null;
-  idleWorkerThreadsUpdateSubscription: Subscription = null;
-  activeWorkerThreadsUpdateSubscription: Subscription = null;
-  diskUpdateSubscription: Subscription = null;
+  systemloadUpdateSubscription: Subscription | null = null;
+  systemmemoryUpdateSubscription: Subscription | null = null;
+  systemswapUpdateSubscription: Subscription | null = null;
+  memoryUpdateSubscription: Subscription | null = null;
+  threadsUpdateSubscription: Subscription | null = null;
+  workerThreadsUpdateSubscription: Subscription | null = null;
+  idleWorkerThreadsUpdateSubscription: Subscription | null = null;
+  activeWorkerThreadsUpdateSubscription: Subscription | null = null;
+  diskUpdateSubscription: Subscription | null = null;
 
 
   constructor(private http: HttpClient,
@@ -105,7 +104,7 @@ export class SystemComponent implements OnDestroy, OnInit {
 
     // this.setTitle(this.translate.instant('System Eigenschaften'));
 
-    this.dataServiceServer.getServerinfo()
+    this.dataServiceServer!.getServerinfo()
       .subscribe(
         (response) => {
           this.setTitle(this.translate.instant('MENU.SYSTEM_PROPERTIES'));

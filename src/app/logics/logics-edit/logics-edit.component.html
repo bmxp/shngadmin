@@ -216,7 +216,7 @@
 
                   <ng-container *ngIf="col.field === 'value'">
                     <ng-container *ngIf="rowData.valid_list.length > 0">
-                      <p-dropdown [options]="rowData.valid_list" (onChange)="this.logicChanged = hasLogicChanged()" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event"></p-dropdown>
+                      <p-select [options]="rowData.valid_list" (onChange)="this.logicChanged = hasLogicChanged()" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event"></p-select>
                     </ng-container>
 
                     <ng-container *ngIf="(['int','num','float','scene'].indexOf(rowData.type) > -1) && rowData.valid_list.length === 0">

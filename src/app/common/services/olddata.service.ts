@@ -1,14 +1,14 @@
 
-import {APP_BASE_HREF} from '@angular/common';
+//import {APP_BASE_HREF} from '@angular/common';
 import {Inject, Injectable, OnInit} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ItemDetails} from '../models/item-details';
 import {TranslateService} from '@ngx-translate/core';
-import {SystemInfo} from '../models/system-info';
+//import {SystemInfo} from '../models/system-info';
 import {ServerInfo} from '../models/server-info';
 
-let url_start = 'http://';
-let host_ip = '';
+let url_start : string = 'http://';
+let host_ip : string = '';
 // let shng_serverinfo: ServerInfo = <ServerInfo>{'itemtree_fullpath': true};
 
 
@@ -25,37 +25,36 @@ export class OlddataService implements OnInit {
 
   constructor(private http: HttpClient, private translate: TranslateService, @Inject('BASE_URL') baseUrl: string) {
 
-
     console.log('OlddataService.constructor:');
 
     // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang('en');
 
-    // console.log(baseUrl);
+    console.log('OlddataService.constructor using ', {baseUrl});
     this.baseUrl = baseUrl;
+
     if (host_ip === '') {
       host_ip = location.host;
       if (host_ip === 'localhost:4200') {
-        url_start = baseUrl + '/assets/testdata/';
+        //url_start = (baseUrl + '/assets/testdata/').replace(/\/+/g, '/');  // replace double slashes from pathes;
+        url_start = new URL('/assets/testdata/', baseUrl).toString();
       } else {
-        url_start = baseUrl;
+        url_start = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
       }
-      // console.log({host_ip});
-
+      console.log('OlddataService.constructor ', {url_start}, {host_ip});
     }
-
   }
 
 
   ngOnInit() {
-//    console.log('OlddataService.ngOnInit:');
+    console.log('OlddataService.ngOnInit:');
   }
 
 
   getconfigDefaultLanguage() {
 //    console.log('getconfigDefaultLanguage: default_language=' + shng_serverinfo.default_language);
     if (this.shng_serverinfo.default_language === undefined) {
-      console.warn('getconfigDefaultLanguage: is undefined! (en used)');
+      console.warn('OlddataService.getconfigDefaultLanguage: is undefined! (en used)');
       return 'en';
     }
     const result = sessionStorage.getItem('default_language');
@@ -68,7 +67,7 @@ export class OlddataService implements OnInit {
 
   getconfig(key) {
     if (this.shng_serverinfo[key] === undefined) {
-      console.log('getconfig: key ' + key + ' is undefined!');
+      console.log('OlddataService.getconfig: key ' + key + ' is undefined!');
     }
     return this.shng_serverinfo[key];
   }
@@ -78,14 +77,14 @@ export class OlddataService implements OnInit {
 
   getSysteminfo() {
     const url = url_start + 'systeminfo.json\\';
-    // console.log('getSysteminfo: url: ' + url);
+    console.log('OlddataService.getSysteminfo: url: ' + url);
     return this.http.get(url);
   }
 
 
   getPypiinfo() {
     const url = url_start + 'pypi.json\\';
-    // console.log('getPypiinfo: url: ' + url);
+    console.log('OlddataService.getPypiinfo: url: ' + url);
     return this.http.get(url);
   }
 
@@ -93,7 +92,7 @@ export class OlddataService implements OnInit {
 
   getItemtree() {
     const url = url_start + 'items.json\\';
-    // console.log('getItemtree: url: ' + url);
+    console.log('OlddataService.getItemtree: url: ' + url);
     return this.http.get(url);
   }
 
@@ -103,8 +102,8 @@ export class OlddataService implements OnInit {
 //    const url = 'http://10.0.0.174:1234/admin/item_detail_json.html?item_path=beoremote';
 
     const url = url_start + 'item_detail_json.html?item_path=' + itempath;
-    console.log('getItemDetails: url: ' + url);
-    console.log('getItemDetails: itempath: ' + itempath);
+    console.log('OlddataService.getItemDetails: url: ' + url);
+    console.log('OlddataService.getItemDetails: itempath: ' + itempath);
     if (host_ip === 'localhost:4200') {
       if (itempath === 'beoremote.beo4command' || itempath === 'beoremote.beo4commandnum' ||
           itempath === 'test.string' || itempath === 'test.number') {
@@ -123,7 +122,7 @@ export class OlddataService implements OnInit {
   //
   changeItemValue(itempath, value) {
     const url = url_start + 'item_change_value.html?item_path=' + itempath + '&value=' + encodeURIComponent(value);
-    console.log('changeItemValue: url: ' + url);
+    console.log('OlddataService.changeItemValue: url: ' + url);
     if (host_ip === 'localhost:4200') {
       alert('changeItemValue ' + itempath + ': Value not set, because running on localhost');
     } else {
@@ -134,7 +133,7 @@ export class OlddataService implements OnInit {
             console.log({response});
           },
           (error) => {
-            console.log('ERROR: dataService.updateValue():');
+            console.log('ERROR: OlddataServicechangeItemValue(',{itempath}, ',',{value},')');
             console.log(error);
           }
         );

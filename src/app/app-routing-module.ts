@@ -1,28 +1,28 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
-import { SystemComponent } from './system/system-overview/system.component';
-import { SystemConfigComponent } from './system/system-config/system-config.component';
-import { ServicesComponent } from './services/services.component';
-import { FunctionConfigurationComponent } from './services/function-configuration/function-configuration.component';
-import { ItemTreeComponent } from './items/item-tree/item-tree.component';
-import { ItemConfigurationComponent } from './items/item-configuration/item-configuration.component';
-import { ItemConfiguration2Component } from './items/item-configuration2/item-configuration2.component';
-import { StructsComponent } from './items/structs/structs.component';
-import { StructConfigurationComponent } from './items/struct-configuration/struct-configuration.component';
-import { LogicsListComponent } from './logics/logics-list/logics-list.component';
-import { LogicsGroupsComponent } from './logics/logics-groups/logics-groups.component';
-import { SchedulersComponent } from './schedulers/schedulers/schedulers.component';
-import { PluginsComponent } from './plugins/plugin-list/plugins.component';
-import { PluginConfigComponent } from './plugins/config/plugin-config.component';
-import { ScenesComponent } from './scenes/scene-list/scenes.component';
-import { ThreadsComponent } from './schedulers/threads/threads.component';
-import { LogDisplayComponent } from './logs/log-display/log-display.component';
-import { LoggerListComponent } from './logs/logger-list/logger-list.component';
-import { LoggingConfigurationComponent } from './logs/logging-configuration/logging-configuration.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { LoginComponent } from './login/login.component';
-import { AuthGuardService } from './common/services/auth-guard.service';
+import {SystemComponent} from './system/system-overview/system.component';
+import {SystemConfigComponent} from './system/system-config/system-config.component';
+import {ServicesComponent} from './services/services.component';
+import {FunctionConfigurationComponent} from './services/function-configuration/function-configuration.component';
+import {ItemTreeComponent} from './items/item-tree/item-tree.component';
+import {ItemConfigurationComponent} from './items/item-configuration/item-configuration.component';
+import {ItemConfiguration2Component} from './items/item-configuration2/item-configuration2.component';
+import {StructsComponent} from './items/structs/structs.component';
+import {StructConfigurationComponent} from './items/struct-configuration/struct-configuration.component';
+import {LogicsListComponent} from './logics/logics-list/logics-list.component';
+import {LogicsGroupsComponent} from './logics/logics-groups/logics-groups.component';
+import {SchedulersComponent} from './schedulers/schedulers/schedulers.component';
+import {PluginsComponent} from './plugins/plugin-list/plugins.component';
+import {PluginConfigComponent} from './plugins/config/plugin-config.component';
+import {ScenesComponent} from './scenes/scene-list/scenes.component';
+import {ThreadsComponent} from './schedulers/threads/threads.component';
+import {LogDisplayComponent} from './logs/log-display/log-display.component';
+import {LoggerListComponent} from './logs/logger-list/logger-list.component';
+import {LoggingConfigurationComponent} from './logs/logging-configuration/logging-configuration.component';
+import {NotFoundComponent} from './not-found/not-found.component';
+import {LoginComponent} from './login/login.component';
+import {AuthGuardService} from './common/services/auth-guard.service';
 import {SceneConfigurationComponent} from './scenes/scene-configuration/scene-configuration.component';
 import {LogicsEditComponent} from './logics/logics-edit/logics-edit.component';
 
@@ -70,6 +70,7 @@ const appRoutes: Routes = [
   imports: [RouterModule.forRoot(appRoutes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule {
 
 }

@@ -2,20 +2,19 @@
 import { Injectable } from '@angular/core';
 
 import {TranslateService} from '@ngx-translate/core';
-import {OlddataService} from './olddata.service';
 import {ServerInfo} from '../models/server-info';
-import {ServerApiService} from './server-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class SharedService {
 
-  fallback_language_order: string[];
+  fallback_language_order: string[] | null;
 
-
-  constructor(private translate: TranslateService,
-              private dataService: OlddataService) { }
+  constructor(private translate: TranslateService) { 
+    console.log('SharedService constructor called')
+  }
 
 
   ageToString(age: number) {
@@ -76,29 +75,37 @@ export class SharedService {
   }
 
 
-  isDST(d) {
-    const year = d.split('-')[0];
-    const tzOffset = d.split('+')[1];
+  isDST(d: string) {
+    const year : number = parseInt(d.split('-')[0]);
+    const tzOffset : number = parseInt(d.split('+')[1]);
     const jan = new Date(year, 0, 1).getTimezoneOffset();
     const jul = new Date(year, 6, 1).getTimezoneOffset();
-    return Math.max(jan, jul) !== -60 * parseInt(tzOffset, 10);
+    return Math.max(jan, jul) !== -60 * tzOffset;
   }
 
-  // ---------------------------------------------------------
-  // Returns a displayable string for a given datetime
-  //
-  displayDateTime(datetime) {
+  /**
+   * Returns a displayable string for a given datetime
+   * 
+   * @param datetime in form of 2025-03-01 10:36:52.201055+02:00
+   * @returns 
+   */
+  displayDateTime(datetime: string) {
     if (datetime) {
-      let datew = datetime.split(' ')[0];
+      let datestring: string = datetime.split(' ')[0];
       const is_dst = this.isDST(datetime);
-      datew = datew.split('-');
-      const date = datew[2] + '.' + datew[1] + '.' + datew[0];
+      let dateparts: string[] = datestring.split('-');
+      const date = dateparts[2] + '.' + dateparts[1] + '.' + dateparts[0];
+
       const time = datetime.split(' ')[1].split('.')[0];
-      let tz = '';
+      let tz: string | null = '';
       if (is_dst) {
         tz = sessionStorage.getItem('tznameDST');
       } else {
         tz = sessionStorage.getItem('tzname');
+      }
+      if (tz === null) {
+        console.warn('SharedService.displayDateTime tz could not be read')
+        tz = 'unknown';
       }
       return date + ' ' + time + ' ' + tz;
     } else {
@@ -109,7 +116,7 @@ export class SharedService {
 
   // ---------------------------------------------------------
 
-  isInt(value) {
+  isInt(value: any) {
     return /^-{0,1}\d+$/.test(value);
   }
 
@@ -123,7 +130,7 @@ export class SharedService {
   //    middle group (0-7 = 3 bits)
   //    subgroup (0-255 = 8 bits)
   //
-  is_knx_groupaddress(groupaddress) {
+  is_knx_groupaddress(groupaddress: string) {
     if (groupaddress === undefined || groupaddress === '') {
       return true;
     }
@@ -150,7 +157,7 @@ export class SharedService {
   // ---------------------------------------------------------
   // Checks if the passed string is a valid mac address
   //
-  is_mac(mac) {
+  is_mac(mac: any) {
     mac = String(mac);
     const MACRegex = new RegExp('"^([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])$');
     return MACRegex.test(mac);
@@ -160,7 +167,7 @@ export class SharedService {
   // ---------------------------------------------------------
   // Checks if the passed string is a valid hostname
   //
-  is_hostname(str) {
+  is_hostname(str: string) {
 //    const pattern = new RegExp('(([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|', 'i');
     const pattern = new RegExp('^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$', 'gm');
     return pattern.test(str);
@@ -170,7 +177,7 @@ export class SharedService {
   // ---------------------------------------------------------
   // Checks if the passed string is a valid ipv4 address
   //
-  is_ipv4(ipaddress) {
+  is_ipv4(ipaddress: string) {
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
       return true;
     }
@@ -182,10 +189,10 @@ export class SharedService {
 // ---------------------------------------------------------
 // Checks if the passed string is a valid ipv6 address
 //
-  is_ipv6(value) {
+  is_ipv6(value: string) {
     // See https://blogs.msdn.microsoft.com/oldnewthing/20060522-08/?p=31113 and
     // https://4sysops.com/archives/ipv6-tutorial-part-4-ipv6-address-syntax/
-    const components = value.split(':');
+    const components: string[] = value.split(':');
     if (components.length < 2 || components.length > 8) {
       return false;
     }
@@ -223,17 +230,16 @@ export class SharedService {
 //
 // call: obj = getTimeStamp(new Date(timestamp_as_number))
 //
-  private zFill(str) {
-    if ( Number(str) < 10 ) {
-      str = '0' + str;
-    }
-    return str;
+  
+/** Add a leading zero if parameter just has one digit */
+  private zFill(str: string): string {
+    return Number(str) < 10 ? '0' + str : str;
   }
 
-  getTimeStamp(timestamp: Date) {
-    const date: Array<String> = [ String(timestamp.getDate()), String(timestamp.getMonth() + 1), String(timestamp.getFullYear()) ];
+    getTimeStamp(timestamp: Date) {
+    const date: string[] = [ String(timestamp.getDate()), String(timestamp.getMonth() + 1), String(timestamp.getFullYear()) ];
     // Create an array with the current hour, minute and second
-    const time: Array<String> = [ String(timestamp.getHours()), String(timestamp.getMinutes()), String(timestamp.getSeconds())];
+    const time: string[] = [ String(timestamp.getHours()), String(timestamp.getMinutes()), String(timestamp.getSeconds())];
     // If seconds and minutes are less than 10, add a zero
     time[1] = this.zFill(time[1]);
     time[2] = this.zFill(time[2]);
@@ -287,9 +293,18 @@ export class SharedService {
   // getFallbackLanguage() returns the fallback language
   // (must be 'en' or 'de' (because only those translations
   // have to exist
-  getFallbackLanguage(index = 0) {
-    this.fallback_language_order = JSON.parse(sessionStorage.getItem('fallback_language_order'));
-    // console.log('SharedService.getFallbackLanguage: this.fallback_language_order set to', this.fallback_language_order);
+  getFallbackLanguage(index: number = 0): string {
+    console.log('SharedService.getFallbackLanguage() entered');
+    let fallback_language_order: string | null = sessionStorage.getItem('fallback_language_order');
+    if (fallback_language_order === null) {
+      console.error('SharedService.getFallbackLanguage SessionStorage fallback_language_order is null')
+      this.fallback_language_order = null;
+    } else {
+      console.log('SharedService.getFallbackLanguage() ', fallback_language_order);
+      this.fallback_language_order = JSON.parse(fallback_language_order);
+    }
+    
+    console.log('SharedService.getFallbackLanguage: this.fallback_language_order set to', this.fallback_language_order);
     if (this.fallback_language_order === null) {
       const private_fallback_language_order = ['en', 'de', 'xx'];
       console.warn('SharedService.getFallbackLanguage: private_fallback_language_order, set to', private_fallback_language_order);
@@ -299,12 +314,19 @@ export class SharedService {
   }
 
   // ---------------------------------------------------------
-  // getDescription(descriptionDict) returns the desciption
+  // getDescription(descriptionDict) returns the description
   // (if neccesary in the fallback language)
   getDescription(descriptionDict) {
     let desc = '';
     if (descriptionDict !== undefined && descriptionDict !== null) {
-      desc = descriptionDict[sessionStorage.getItem('default_language')];
+      let default_language = sessionStorage.getItem('default_language');
+      if (default_language===null) {
+        console.warn('SharedService.getDescription sessionStorage', {default_language});
+        desc = '';
+      }
+      else {
+        desc = descriptionDict[default_language];
+      }
 
       if (desc === undefined || desc === '') {
         // if description in selected language is undefined, use fallback language

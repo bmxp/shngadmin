@@ -160,13 +160,23 @@ from package.json temporarily
 
 added scripts to package.json as stated in https://github.com/vendure-ecommerce/ngx-translate-extract
 
-============================
-** Current update progess **
-============================
-
 ## Angular 18
 
+Beim Entwickeln ist es unter Umständen wichtig zunächst die Version von Node auf einen Minimalstand zu setzen:
+``nvm use 18``
+
+Oder z.B um Version 18 auf default zu setzen:
+``nvm alias default 18``
+
+
 ``ng update ngx-bootstrap@18``
+``ng update @fortawesome/angular-fontawesome@^0.15.0``
+``npm install @primeng/themes -save``
+
+=============================
+** Current update progress **
+=============================
+
 
 ## Angular 19
 

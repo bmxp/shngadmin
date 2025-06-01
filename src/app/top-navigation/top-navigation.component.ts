@@ -5,7 +5,7 @@ import {AppComponent} from '../app.component';
 import {ServerApiService} from '../common/services/server-api.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../common/services/auth.service';
-import { HttpClient } from '@angular/common/http';
+//import { HttpClient } from '@angular/common/http';
 import {SharedService} from '../common/services/shared.service';
 import {Title} from '@angular/platform-browser';
 
@@ -33,7 +33,7 @@ export class TopNavigationComponent implements OnInit {
   loggedIn = false;
 
   developerMode = false;
-  lastLanguage = '-';
+  lastLanguage : string = '-';
   isTouchDevice = false;
 
 
@@ -55,15 +55,16 @@ export class TopNavigationComponent implements OnInit {
       this.lastLanguage = sessionStorage.getItem('default_language');
     }
     this.loggedIn = this.authService.isLoggedIn();
+    console.log('TopNavigationComponent.ngDoCheck() this.loggedIn=', this.loggedIn );
   }
 
   public setTitle(newTitle: string) {
     this.titleService.setTitle(newTitle);
   }
   ngOnInit() {
-    console.log('TopNavigationComponent - ngOnInit()');
+    console.log('TopNavigationComponent.ngOnInit() entered');
 
-    this.dataServiceServer.getServerinfo()
+    this.dataServiceServer!.getServerinfo()
       .subscribe(
         (response) => {
           this.developerMode = (sessionStorage.getItem('developer_mode') === 'true');
@@ -77,28 +78,30 @@ export class TopNavigationComponent implements OnInit {
           this.translate.use('de');
           this.translate.setDefaultLang('de');
           this.shared.setGuiLanguage();
-          console.log('TopNavigationComponent.ngOnInit: getDefaultLang()', this.translate.getDefaultLang());
+          console.log('TopNavigationComponent.ngOnInit: getDefaultLang() =', this.translate.getDefaultLang());
 
           this.buildMenu();
 
           this.setTitle(this.translate.instant('SmartHomeNG'));
 
           const credentials = {'username': '', 'password': ''};
-          // console.log('signIn', {credentials});
+          console.log('signIn', {credentials});
           this.authService.login(credentials)
             .subscribe((result: boolean) => {
-              // console.log('Anonymous login:', {result});
+              console.log('Anonymous login:', {result});
               this.buildMenu();
             });
 
         }
       );
-
+    console.log('TopNavigationComponent.ngOnInit() leaving');
   }
 
   toggleResponsiveMenu() {
-    console.log('toggleResponsiveMenu');
+    console.log('TopNavigationComponent.toggleResponsiveMenu');
     const x = document.getElementById('myTopnav');
+    if (x === null) return;
+
     if (x.className === 'topnav') {
       x.className += ' responsive';
     } else {
@@ -114,20 +117,23 @@ export class TopNavigationComponent implements OnInit {
     }
   }
 
-  disableResponsiveMenu(menuEntry, hideDropdown= true) {
+  disableResponsiveMenu(menuEntry, hideDropdown: boolean = true) {
 
     // disable dropped down menu if in mobile mode
     const m = document.getElementById('myTopnav');
+    if (m === null) return;
+
     m.className = 'topnav';
 
-    // hide dromdown after clicking on it (for menu in desktop mode)
+    // hide dropdown after clicking on it (for menu in desktop mode)
     if (hideDropdown) {
       const x = document.getElementById('menu-' + menuEntry.label);
+      if (x === null) return;
       x.className = 'dropdown-content-hidden';
     }
   }
 
-  setMenuEntry(menu, label, routerLink = [], visible = true) {
+  setMenuEntry(menu: number, label: string, routerLink: string[] = [], visible: boolean = true) {
     while (this.menu.length < menu + 1) {
       this.menu.push({label: 'dummy', visible: visible, items: []});
     }
@@ -136,7 +142,7 @@ export class TopNavigationComponent implements OnInit {
     this.menu[menu].visible = visible;
   }
 
-  setSubmenuEntry(menu, submenu, label, routerLink) {
+  setSubmenuEntry(menu: number, submenu: number, label: string, routerLink: string[]) {
     while (this.menu[menu].items.length < submenu + 1) {
       this.menu[menu].items.push({label: 'dummy'});
     }
@@ -145,8 +151,8 @@ export class TopNavigationComponent implements OnInit {
   }
 
   buildMenu() {
-
-    console.log('TopNavigationComponent.buildMenu: default_language', sessionStorage.getItem('default_language'));
+    console.log('TopNavigationComponent.buildMenu entering');
+    console.log('TopNavigationComponent.buildMenu: default_language=', sessionStorage.getItem('default_language'));
 
     this.setMenuEntry(0, this.translate.instant('MENU.SYSTEM'), ['/system/systemproperties']);
     this.setSubmenuEntry(0, 0, this.translate.instant('MENU.SYSTEM_PROPERTIES'), ['/system/systemproperties']);
@@ -189,6 +195,7 @@ export class TopNavigationComponent implements OnInit {
     this.setSubmenuEntry(7, 0, this.translate.instant('MENU.LOGS_DISPLAY'), ['/logs/display']);
     this.setSubmenuEntry(7, 1, this.translate.instant('MENU.LOGGER_CONFIGURATION'), ['/logs/logger-list']);
     this.setSubmenuEntry(7, 2, this.translate.instant('MENU.LOGGING_CONFIGURATION'), ['/logs/logging-configuration']);
+    console.log('TopNavigationComponent.buildMenu leaving');
   }
 
   logout() {

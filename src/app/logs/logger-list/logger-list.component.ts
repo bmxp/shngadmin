@@ -57,12 +57,12 @@ export class LoggerListComponent implements OnInit {
               this.dataService.getLoggers()
                   .subscribe(
                       (response2: LoggersType) => {
-                        this.loggers = response2.loggers;
-                        this.active_plugins = response2.active_plugins;
-                        this.active_logics = response2.active_logics;
-                        this.loggersList = Object.keys(response2.loggers);
+                        this.loggers = response2['loggers'];
+                        this.active_plugins = response2['active_plugins'];
+                        this.active_logics = response2['active_logics'];
+                        this.loggersList = Object.keys(response2['loggers']);
                         this.loggersList = this.loggersList.sort();
-                        this.definedHandlers = response2.defined_handlers;
+                        this.definedHandlers = response2['defined_handlers'];
                         console.log('ngOnInit: response2', response2);
                       }
                   );
@@ -266,10 +266,10 @@ export class LoggerListComponent implements OnInit {
                 this.dataService.getLoggers()
                     .subscribe(
                         (response2: LoggersType) => {
-                          this.loggers = response2.loggers;
-                          this.active_plugins = response2.active_plugins;
-                          this.active_logics = response2.active_logics;
-                          this.loggersList = Object.keys(response2.loggers);
+                          this.loggers = response2['loggers'];
+                          this.active_plugins = response2['active_plugins'];
+                          this.active_logics = response2['active_logics'];
+                          this.loggersList = Object.keys(response2['loggers']);
                           this.loggersList = this.loggersList.sort();
                         }
                     );
@@ -296,12 +296,12 @@ export class LoggerListComponent implements OnInit {
             this.dataService.getLoggers()
               .subscribe(
                 (response2: LoggersType) => {
-                  this.loggers = response2.loggers;
-                  this.active_plugins = response2.active_plugins;
-                  this.active_logics = response2.active_logics;
-                  this.loggersList = Object.keys(response2.loggers);
+                  this.loggers = response2['loggers'];
+                  this.active_plugins = response2['active_plugins'];
+                  this.active_logics = response2['active_logics'];
+                  this.loggersList = Object.keys(response2['loggers']);
                   this.loggersList = this.loggersList.sort();
-                  this.definedHandlers = response2.defined_handlers;
+                  this.definedHandlers = response2['defined_handlers'];
                   console.log('loggerDelete: response2', response2);
                 }
               );
@@ -329,12 +329,12 @@ export class LoggerListComponent implements OnInit {
             this.dataService.getLoggers()
               .subscribe(
                 (response2: LoggersType) => {
-                  this.loggers = response2.loggers;
-                  this.active_plugins = response2.active_plugins;
-                  this.active_logics = response2.active_logics;
-                  this.loggersList = Object.keys(response2.loggers);
+                  this.loggers = response2['loggers'];
+                  this.active_plugins = response2['active_plugins'];
+                  this.active_logics = response2['active_logics'];
+                  this.loggersList = Object.keys(response2['loggers']);
                   this.loggersList = this.loggersList.sort();
-                  this.definedHandlers = response2.defined_handlers;
+                  this.definedHandlers = response2['defined_handlers'];
                   console.log('loggerDelete: response2', response2);
                 }
               );

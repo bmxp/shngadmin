@@ -30,7 +30,7 @@
 
                 <ng-container *ngIf="dialog_readonly === false && col.field === 'value'">
                   <ng-container *ngIf="rowData.valid_list.length > 0">
-                    <p-dropdown [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-dropdown>
+                    <p-select [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-select>
                   </ng-container>
 
                   <ng-container *ngIf="(['int','num','float','scene'].indexOf(rowData.type) > -1) && rowData.valid_list.length === 0">
@@ -83,7 +83,7 @@
 
                 <ng-container *ngIf="dialog_readonly === false && col.field === 'value'">
                   <ng-container *ngIf="rowData.valid_list.length > 0">
-                    <p-dropdown [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-dropdown>
+                    <p-select [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-select>
                   </ng-container>
 
                   <ng-container *ngIf="(['int','num','float','scene'].indexOf(rowData.type) > -1) && rowData.valid_list.length === 0">
@@ -144,7 +144,7 @@
 
                   <ng-container *ngIf="dialog_readonly === false && col.field === 'value'">
                     <ng-container *ngIf="rowData.valid_list.length > 0">
-                      <p-dropdown [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-dropdown>
+                      <p-select [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-select>
                     </ng-container>
 
                     <ng-container *ngIf="(['int','num','float','scene'].indexOf(rowData.type) > -1) && rowData.valid_list.length === 0">
@@ -205,7 +205,7 @@
 
                 <ng-container *ngIf="dialog_readonly === false && col.field === 'value'">
                   <ng-container *ngIf="rowData.valid_list.length > 0">
-                    <p-dropdown [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-dropdown>
+                    <p-select [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-select>
                   </ng-container>
 
                   <ng-container *ngIf="(['int','num','float','scene'].indexOf(rowData.type) > -1) && rowData.valid_list.length === 0">
@@ -257,7 +257,7 @@
 
                 <ng-container *ngIf="dialog_readonly === false && col.field === 'value'">
                   <ng-container *ngIf="rowData.valid_list.length > 0">
-                    <p-dropdown [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-dropdown>
+                    <p-select [options]="rowData.valid_list" [showClear]="true" placeholder="{{rowData.default}}" [(ngModel)]="rowData[col.field]" (ngModelChange)="rowData[col.field] = $event; check_values()"></p-select>
                   </ng-container>
 
                   <ng-container *ngIf="(['int','num','float','scene'].indexOf(rowData.type) > -1) && rowData.valid_list.length === 0">

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import {SelectItem} from 'primeng/api';
 
 import {FilesApiService} from '../../common/services/files-api.service';
-import {ServerInfo} from '../../common/models/server-info';
+//import {ServerInfo} from '../../common/models/server-info';
 import {ServicesApiService} from '../../common/services/services-api.service';
 import {Title} from '@angular/platform-browser';
 import {ServerApiService} from '../../common/services/server-api.service';
@@ -131,19 +131,11 @@ export class ItemConfigurationComponent implements AfterViewChecked, OnInit {
                   );
             }
         );
-
-
-
-
-
     // this.getItemFile('q21_09Bad');
-
-
   }
 
 
   ngAfterViewChecked() {
-
     const editor1 = this.codeEditor.codeMirror;
 
     if (editor1.getOption('fullScreen')) {

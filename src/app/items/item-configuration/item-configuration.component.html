@@ -24,7 +24,7 @@
                [disabled]="!((myEditFilename === '') || (myTextarea === myTextareaOrig))"
                (onChange)="itemFileSelected()" optionLabel="label"
                [style]="{'width':'100%'}"
-               [listStyle]="{'height': 'calc(100vh - 253px)', 'min-height':'200px'}">
+               [listStyle]="{'height': 'calc(100vh - 253px)', 'min-height':'200px', 'max-height': 'none'}">
     </p-listbox>
   </div>
 

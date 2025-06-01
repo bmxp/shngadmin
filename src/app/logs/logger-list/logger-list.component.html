@@ -249,7 +249,7 @@
   <label style="display: block;">
     <span style="display: inline-block; width: 120px;">{{ 'LOGGERS.LOGGER_NAME'|translate }}:</span>
 
-    <p-dropdown [options]="loggerOptions" [showClear]="false" placeholder="{{'none selected'}}" [(ngModel)]="this.newlogger_name" (ngModelChange)="newLoggerSelected($event)"></p-dropdown>
+    <p-select [options]="loggerOptions" [showClear]="false" placeholder="{{'none selected'}}" [(ngModel)]="this.newlogger_name" (ngModelChange)="newLoggerSelected($event)"></p-select>
 <!--
     <input [(ngModel)]="newlogger_name" id="nlog" type="text" (input)="checkNewLogicInput();" pInputText placeholder="" style="position: absolute; margin-left: 60px; width: 250px" [ngStyle]="{'width': 30}" autofocus/>
 -->

@@ -37,17 +37,20 @@ export class LogsApiService {
       );
   }
 
-  readLogfile(filename, chunk = null) {
+  readLogfile(filename: string, chunk = null) {
     const apiUrl = sessionStorage.getItem('apiUrl');
     let url = apiUrl + 'logs/' + filename;
+    let part = 0;
+    if (apiUrl === null) {
+      console.error('readLogfile for '+filename+' had an empty apiUrl');
+      return;
+    }
 
-    if (chunk === null) { chunk = 1; }
-    if (chunk !== null) {
-      if (apiUrl.includes('localhost')) {
-        url += '_chunk' + String(chunk);
-      } else {
-        url += '?chunk=' + String(chunk);
-      }
+    if (chunk === null) { part = 1; }
+    if (apiUrl.includes('localhost')) {
+      url += '_chunk' + String(part);
+    } else {
+      url += '?chunk=' + String(part);
     }
 
     // return this.http.get(url, { responseType: 'text' })
